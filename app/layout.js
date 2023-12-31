@@ -1,7 +1,14 @@
-import { Inter } from 'next/font/google'
+import { Frank_Ruhl_Libre } from 'next/font/google'
 import './globals.css'
+import ThemeProvider, { ThemeContext } from '@/contexts/themeContext'
+import ThemeWrapper from './components/ThemeWrapper'
 
-const inter = Inter({ subsets: ['latin'] })
+const FONT = Frank_Ruhl_Libre({
+  style: 'normal',
+  weight: ['400', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+})
 
 export const metadata = {
   title: 'Create Next App',
@@ -10,8 +17,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ThemeProvider>
+      <html lang="en">
+        <body className={FONT.className}>
+          <ThemeWrapper>{children}</ThemeWrapper>
+        </body>
+      </html>
+    </ThemeProvider>
   )
 }
