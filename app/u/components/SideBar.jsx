@@ -31,8 +31,8 @@ export default function Sidebar({ children }) {
   const { user, isLoading } = useAuth();
 
   return (
-    <aside className="h-screen overflow-y-scroll overflow-x-hidden w-fit">
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+    <aside className="h-screen overflow-y-scroll overflow-x-hidden w-fit whitespace-nowrap ">
+      <nav className="h-full flex flex-col w-full bg-white dark:bg-gray-800 border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <div className="flex items-center gap-2 font-bold text-[#009ed9] text-3xl">
             <img
@@ -79,10 +79,10 @@ export default function Sidebar({ children }) {
           `}
           >
             <div className="leading-4 hover:cursor-pointer">
-              <h4 className="font-semibold">
+              <h4 className="font-semibold dark:text-white">
                 {isLoading ? "Loading..." : user?.displayName ?? ""}
               </h4>
-              <span className="text-xs text-gray-600">
+              <span className="text-xs dark:textgr text-gray-600">
                 {isLoading ? "Loading..." : user?.email ?? ""}
               </span>
             </div>
@@ -103,12 +103,12 @@ export function SidebarItem({ icon, text, active, alert, link }) {
       <li
         className={`
         relative flex items-center py-2 px-3 my-1
-        font-medium rounded-md cursor-pointer
-        transition-colors group
+         rounded-md cursor-pointer
+        transition-colors group font-semibold
         ${
           active
-            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-            : "hover:bg-indigo-50 text-gray-600"
+            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 dark:text-black"
+            : "hover:bg-indigo-50 text-gray-600 dark:text-white hover:dark:text-black"
         }
     `}
       >

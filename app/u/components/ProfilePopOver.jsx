@@ -16,7 +16,10 @@ export default function ProfilePopOver() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <MoreVertical className="hover:cursor-pointer" size={20} />
+        <MoreVertical
+          className="hover:cursor-pointer dark:text-white"
+          size={20}
+        />
       </PopoverTrigger>
       <PopoverContent className="w-fit p-0">
         <div
@@ -24,7 +27,7 @@ export default function ProfilePopOver() {
             e.preventDefault();
             logout();
           }}
-          className="flex items-center gap-2 border-0 hover:border-0 w-full px-4 bg-red-400 hover:bg-red-300 hover:cursor-pointer transition-all ease-in duration-300 py-2"
+          className="flex items-center gap-2 rounded-sm border-0 hover:border-0 w-full px-4 bg-red-400 hover:bg-red-300 hover:cursor-pointer transition-all ease-in duration-300 py-2"
           variant="destructive"
         >
           <LogOut /> Log Out

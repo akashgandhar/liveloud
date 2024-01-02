@@ -1,7 +1,21 @@
 "use client";
 import React from "react";
 import Sidebar, { SidebarItem } from "./components/SideBar";
-import { Home, TrendingUp, Siren, Sparkles , Flame , Bell, Crown, Mail, Bookmark, User, Wallet, Gem, BadgePercent} from "lucide-react";
+import {
+  Home,
+  TrendingUp,
+  Siren,
+  Sparkles,
+  Flame,
+  Bell,
+  Crown,
+  Mail,
+  Bookmark,
+  User,
+  Wallet,
+  Gem,
+  BadgePercent,
+} from "lucide-react";
 
 import { useParams, usePathname, useRouter } from "next/navigation";
 
@@ -27,27 +41,92 @@ export default function Layout({ children }) {
     router.push("/u/home");
   }
 
-
-
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row lg:justify-between ">
       <Sidebar>
-        <SidebarItem icon={<Home color="#000000" />} text="Home" active={activeComponent === "home"} link="#" />
-        <SidebarItem icon={<TrendingUp color="#8B0000"/>} text="Trending" active={activeComponent === "trending"} link="#"  />
-        <SidebarItem icon={<Siren color="#00008B" />} text="Latest" active={activeComponent === "latest"} link="#"/>
-        <SidebarItem icon={<Sparkles />} text="Popular" active={activeComponent === "popular"} link="#" />
-        <SidebarItem icon={<Flame />} text="Hot" active={activeComponent === "hot"} link="#" />
-        <SidebarItem icon={<Bell />} text="Notification" active={activeComponent === "notification"} link="#" />
-        <SidebarItem icon={<Crown />} text="Subscription" active={activeComponent === "subscription"} link="#" />
-        <SidebarItem icon={<Mail />} text="Message" active={activeComponent === "message"} link="#" />
-        <SidebarItem icon={<Bookmark />} text="Bookmark" active={activeComponent === "bookmark"} link="#" />
-        <SidebarItem icon={<User color="#000000" />} text="My Profile" active={activeComponent === "user"} link="#" />
-        <SidebarItem icon={<Wallet color="#000000" />} text="Wallet" active={activeComponent === "wallet"} link="#" />
-        <SidebarItem icon={<Gem color="#0f14a3"  />} text="Premium account" active={activeComponent === "gem"}  link="#"/>
-        <SidebarItem icon={<BadgePercent color="#228B22" />} text="Referals" active={activeComponent === "referals"} link="#"/>
+        <SidebarItem
+          icon={<Home color="#000000" />}
+          text="Home"
+          active={activeComponent === "home"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<TrendingUp color="#8B0000" />}
+          text="Trending"
+          active={activeComponent === "trending"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Siren color="#00008B" />}
+          text="Latest"
+          active={activeComponent === "latest"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Sparkles />}
+          text="Popular"
+          active={activeComponent === "popular"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Flame />}
+          text="Hot"
+          active={activeComponent === "hot"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Bell />}
+          text="Notification"
+          active={activeComponent === "notification"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Crown />}
+          text="Subscription"
+          active={activeComponent === "subscription"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Mail />}
+          text="Message"
+          active={activeComponent === "message"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Bookmark />}
+          text="Bookmark"
+          active={activeComponent === "bookmark"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<User color="#000000" />}
+          text="My Profile"
+          active={activeComponent === "user"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Wallet color="#000000" />}
+          text="Wallet"
+          active={activeComponent === "wallet"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<Gem color="#0f14a3" />}
+          text="Premium account"
+          active={activeComponent === "gem"}
+          link="#"
+        />
+        <SidebarItem
+          icon={<BadgePercent color="#228B22" />}
+          text="Referals"
+          active={activeComponent === "referals"}
+          link="#"
+        />
       </Sidebar>
 
-      {children}
+      <section>{children}</section>
+
+      {/* <div className="w-72 lg:block hidden  border-l-2 ">fff</div> */}
     </div>
   );
 }
