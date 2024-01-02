@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
 
   return (
     <ThemeProvider>
-      <html lang="en">
+      <html className='bg-gray-100' lang="en">
         <body className={FONT.className}>
           <ThemeWrapper>
             <AuthProvider>{children}</AuthProvider>

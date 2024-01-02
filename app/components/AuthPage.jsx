@@ -21,16 +21,16 @@ export default function AuthenticationPage() {
     <>
       <section class="h-screen ">
         <div class="container h-full px-6 py-24">
-          <div class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
-            <div class="mb-12 hidden md:block md:mb-0 md:w-8/12 lg:w-6/12">
-              <img
-                src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                class="w-full"
-                alt="Phone image"
-              />
+          <div class="g-6 flex h-full relative flex-wrap items-center justify-center lg:justify-between">
+              <div class="mb-12 hidden  md:block md:mb-0 md:w-8/12 lg:w-6/12">
+                <img
+                  src="/logobig.png"
+                  class="w-full bg-blend-multiply"
+                  alt="Phone image"
+                />
             </div>
 
-            <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
+            <div class="md:w-8/12 lg:ml-6 lg:w-5/12 bg-gray-100 rounded-md ">
               <h1 class="text-4xl font-bold mb-8 text-center text-primary">
                 Sign in to Live Loud
               </h1>
@@ -68,7 +68,7 @@ export default function AuthenticationPage() {
                   />
                 </div>
 
-                <div class="mb-6 flex items-center justify-end">
+                <div class="mb-6 flex items-center justify-between">
                   <button
                     onClick={(e) => {
                       e.preventDefault();
