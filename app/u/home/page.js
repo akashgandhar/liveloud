@@ -10,7 +10,9 @@ export default function Page() {
     <div>
       <h1>Home Page</h1>
       <p>{user?.email}</p>
-      <button onClick={() => logout()}>Logout</button>
+
+      
+      
     </div>
   )
 }
