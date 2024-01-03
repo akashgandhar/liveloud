@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 import { useParams, usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth/context";
 
 export default function Layout({ children }) {
   const path = usePathname();
@@ -41,8 +42,12 @@ export default function Layout({ children }) {
     router.push("/u/home");
   }
 
+  const { navBar, setNavOpen } = useAuth();
+
   return (
-    <div className="flex flex-row lg:justify-between ">
+    <div
+      className={`flex flex-row relative ${navBar ? "backdrop:blur-sm" : ""}`}
+    >
       <Sidebar>
         <SidebarItem
           icon={<Home color="#000000" />}

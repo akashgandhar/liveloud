@@ -10,7 +10,8 @@ import { auth } from "@/lib/firebase";
 const SidebarContext = createContext();
 
 export default function Sidebar({ children }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const { user, isLoading, navOpen, setNavOpen } = useAuth();
 
   useEffect(() => {
     function handleWindowResize() {
@@ -18,8 +19,6 @@ export default function Sidebar({ children }) {
 
       if (windowWidth < 768) {
         setExpanded(false);
-      } else {
-        setExpanded(true);
       }
     }
 
@@ -28,11 +27,23 @@ export default function Sidebar({ children }) {
     handleWindowResize();
   }, []);
 
-  const { user, isLoading } = useAuth();
+  useEffect(() => {
+    if (navOpen) {
+      setExpanded(true);
+    } else {
+      setExpanded(false);
+    }
+  }, [navOpen]);
 
   return (
-    <aside className="h-screen overflow-y-scroll overflow-x-hidden w-fit whitespace-nowrap ">
-      <nav className="h-full flex flex-col w-full bg-white dark:bg-gray-800 border-r shadow-sm">
+    <aside className="h-screen overflow-y-scroll bg-white border-r overflow-x-hidden shadow-sm w-fit fixed whitespace-nowrap ">
+      <nav
+        onMouseLeave={() => setNavOpen(false)}
+        onMouseEnter={() => {
+          setNavOpen(true);
+        }}
+        className="h-full flex flex-col w-full bg-white dark:bg-gray-800 "
+      >
         <div className="p-4 pb-2 flex justify-between items-center">
           <div className="flex items-center gap-2 font-bold text-[#009ed9] text-3xl">
             <img
@@ -57,11 +68,9 @@ export default function Sidebar({ children }) {
             {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
         </div>
-
         <SidebarContext.Provider value={{ expanded }}>
           <ul className="flex-1 px-3">{children}</ul>
         </SidebarContext.Provider>
-
         <div className="border-t flex p-3">
           {/* <img
             src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"

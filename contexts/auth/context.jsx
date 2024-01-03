@@ -22,6 +22,11 @@ export default function AuthProvider({ children }) {
   const router = useRouter();
   const [error, setError] = useState(null);
 
+  const [navOpen, setNavOpen] = useState(false);
+
+
+
+
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -182,6 +187,8 @@ export default function AuthProvider({ children }) {
         userData,
         handleChange,
         error,
+        setNavOpen,
+        navOpen
       }}
     >
       {children}
