@@ -1,0 +1,100 @@
+"use client";
+
+import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import { getUserProfile, validateHandle } from "@/lib/users/firebase_read";
+import { updateUserProfile } from "@/lib/users/firebase_write";
+import { useAuth } from "../auth/context";
+
+const EditUserContext = createContext();
+
+export default function EditUserProvider({ children }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const [error, setError] = useState(null);
+  const { user } = useAuth();
+
+  const [userData, setUserData] = useState(null);
+
+  const handleChange = (key, value) => {
+    setUserData({
+      ...userData,
+      [key]: value,
+    });
+  };
+
+  const handleUpdateUser = async () => {
+    setIsLoading(true);
+    if (userData.name === "") {
+      alert("Name is required");
+      setIsLoading(false);
+      return;
+    }
+    if (userData.handle === "") {
+      alert("Handle is required");
+      setIsLoading(false);
+      return;
+    }
+    try {
+      const validation = await validateHandle(user, userData?.handle);
+      if (!validation) {
+        alert("Handle already exists");
+        setIsLoading(false);
+        return;
+      }
+      if (validation != false && validation != true) {
+        alert(validation);
+        setIsLoading(false);
+        return;
+      }
+
+      const updated = await updateUserProfile(user, userData);
+
+      if (!updated) {
+        alert("Something went wrong 1");
+        setIsLoading(false);
+        return;
+      }
+
+      alert("Profile updated successfully");
+      setIsLoading(false);
+    } catch (e) {
+      setError(e.message);
+      alert("Something went wrong 2");
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const fetchedUser = await getUserProfile(user);
+      if (fetchedUser && !userData) {
+        setUserData(fetchedUser);
+      }
+    };
+
+    console.log(userData);
+    if (user) {
+      getUserData();
+    }
+  }, [user, userData]);
+
+  console.log("fertxched",userData);
+
+  return (
+    <EditUserContext.Provider
+      value={{
+        isLoading,
+        userData,
+        handleChange,
+        handleUpdateUser,
+        error,
+      }}
+    >
+      {children}
+    </EditUserContext.Provider>
+  );
+}
+
+export const useEditUser = () => useContext(EditUserContext);

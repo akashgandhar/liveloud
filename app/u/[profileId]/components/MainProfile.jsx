@@ -3,10 +3,12 @@ import { useAuth } from "@/contexts/auth/context";
 import { useParams } from "next/navigation";
 import React from "react";
 import EditProfileDiolog from "./EditProfileDiolog";
+import { useEditUser } from "@/contexts/profile/context";
 
 export default function MainProfile() {
   const { user, isLoading } = useAuth();
   const { profileId } = useParams();
+  const { userData } = useEditUser();
   return (
     // <div class="container">
     <div class="profile-card bg-gray-100">
@@ -14,8 +16,8 @@ export default function MainProfile() {
         <div class="main-profile">
           <img src={user?.photoURL} class="profile-image"></img>
           <div class="profile-names">
-            <h1 class="username">{user?.displayName}</h1>
-            <small class="page-title">@handle</small>
+            <h1 class="username font-bold">{user?.displayName}</h1>
+            <small class="page-title">@{userData?.handle || "..."}</small>
           </div>
         </div>
       </div>
@@ -44,33 +46,33 @@ export default function MainProfile() {
         </div>
 
         <div class="account-info">
-          <div class="data">
+          <div class="data bg-white p-4 rounded-lg shadow-md">
             <div class="important-data">
               <section class="data-item">
-                <h3 class="value">104</h3>
-                <small class="title">Post</small>
+                <h3 class="value font-bold">104</h3>
+                <small class="title font-semibold">Post</small>
               </section>
-              <section class="data-item">
-                <h3 class="value">21K</h3>
-                <small class="title">Follower</small>
+              <section class="data-item hover:cursor-pointer">
+                <h3 class="value font-bold">21K</h3>
+                <small class="title font-semibold">Follower</small>
               </section>
-              <section class="data-item">
-                <h3 class="value">51</h3>
-                <small class="title">Following</small>
+              <section class="data-item hover:cursor-pointer">
+                <h3 class="value font-bold">51</h3>
+                <small class="title font-semibold">Following</small>
               </section>
             </div>
             <div class="other-data">
               <section class="data-item">
-                <h3 class="value">41K</h3>
-                <small class="title">Likes</small>
+                <h3 class="value font-bold">41K</h3>
+                <small class="title font-semibold">Likes</small>
               </section>
               <section class="data-item">
-                <h3 class="value">12K</h3>
-                <small class="title">Comments</small>
+                <h3 class="value font-bold">12K</h3>
+                <small class="title font-semibold">Comments</small>
               </section>
-              <section class="data-item">
-                <h3 class="value">2K</h3>
-                <small class="title">Saved</small>
+              <section class="data-item hover:cursor-pointer">
+                <h3 class="value font-bold">2K</h3>
+                <small class="title font-semibold">Saved</small>
               </section>
             </div>
           </div>
@@ -102,7 +104,7 @@ export default function MainProfile() {
 
           <div class="last-post">
             <div class="post-cover">
-              <span class="last-badge">Last Post</span>
+              <span class="last-badge ">Last Post</span>
             </div>
             <h3 class="post-title">3D layer</h3>
             <button class="post-CTA">View</button>

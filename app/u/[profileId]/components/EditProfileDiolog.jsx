@@ -10,8 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useEditUser } from "@/contexts/profile/context";
 
 export default function EditProfileDiolog({ children }) {
+  const { isLoading, userData, handleChange, handleUpdateUser, error } =
+    useEditUser();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,17 +33,40 @@ export default function EditProfileDiolog({ children }) {
             <Label htmlFor="name" className="text-right">
               Name
             </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
+            <Input
+              onChange={(e) => {
+                handleChange("name", e.target.value);
+              }}
+              id="name"
+              value={userData?.name}
+              className="col-span-3"
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
               Handle
             </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
+            <Input
+              onChange={(e) => {
+                handleChange("handle", e.target.value);
+              }}
+              id="username"
+              value={userData?.handle}
+              className="col-span-3"
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button
+            disabled={isLoading}
+            onClick={async (e) => {
+              e.preventDefault();
+              await handleUpdateUser();
+            }}
+            type="submit"
+          >
+            {isLoading ? "Loading..." : "Save changes"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

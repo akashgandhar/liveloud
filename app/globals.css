@@ -194,7 +194,7 @@
 }
 .profile-actions button {
   all: unset;
-  padding: 10px;
+  padding: 10px; 
   color: var(--primary-color);
   cursor: pointer;
   border: 2px solid var(--accent-bg);
@@ -203,10 +203,15 @@
 }
 .profile-actions .follow {
   color: white;
-}
-.profile-actions .follow {
   background-color: var(--accent-bg);
 }
+
+.profile-actions .follow:hover {
+  background-color: white; 
+  transition: background-color 0.45s ease;
+  color: var(--accent-bg);
+ }
+
 .bio {
   color: var(--primary-color);
   background-color: var(--secondary-bg);
@@ -298,8 +303,8 @@
 .last-badge {
   position: absolute;
   inset: 3px 3px auto auto;
-  background-color: rgba(0, 0, 0, 70%);
-  color: var(--primary-color);
+  background-color: var(--accent-bg);
+  color: white;
   padding: 5px;
   border-radius: 3px;
 }
@@ -314,6 +319,12 @@
   color: var(--accent-color);
   border-radius: 5px;
   padding: 5px;
+  cursor: pointer;
+}
+.post-CTA:hover {
+  background-color: var(--accent-bg); 
+  transition: background-color 1s ease;
+  color: white;
 }
 
 /* ------------ media queries */

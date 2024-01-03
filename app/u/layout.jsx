@@ -68,37 +68,37 @@ export default function Layout({ children }) {
           link="#"
         />
         <SidebarItem
-          icon={<Sparkles />}
+          icon={<Sparkles color="rgb(31 41 55)"/>}
           text="Popular"
           active={activeComponent === "popular"}
           link="#"
         />
         <SidebarItem
-          icon={<Flame />}
+          icon={<Flame color="rgb(255, 69, 0)" />}
           text="Hot"
           active={activeComponent === "hot"}
           link="#"
         />
         <SidebarItem
-          icon={<Bell />}
+          icon={<Bell color="#000000"/>}
           text="Notification"
           active={activeComponent === "notification"}
           link="#"
         />
         <SidebarItem
-          icon={<Crown />}
+          icon={<Crown color="#FFD700"/>}
           text="Subscription"
           active={activeComponent === "subscription"}
           link="#"
         />
         <SidebarItem
-          icon={<Mail />}
+          icon={<Mail color="#000000" />}
           text="Message"
           active={activeComponent === "message"}
           link="#"
         />
         <SidebarItem
-          icon={<Bookmark />}
+          icon={<Bookmark color="#000000"/>}
           text="Bookmark"
           active={activeComponent === "bookmark"}
           link="#"
@@ -110,7 +110,7 @@ export default function Layout({ children }) {
           link="#"
         />
         <SidebarItem
-          icon={<Wallet color="#000000" />}
+          icon={<Wallet color="#8b4513" />}
           text="Wallet"
           active={activeComponent === "wallet"}
           link="#"
