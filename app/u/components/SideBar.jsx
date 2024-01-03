@@ -36,7 +36,7 @@ export default function Sidebar({ children }) {
   }, [navOpen]);
 
   return (
-    <aside className="h-screen overflow-y-scroll bg-white border-r overflow-x-hidden shadow-sm w-fit fixed whitespace-nowrap ">
+    <aside className="h-screen overflow-y-scroll bg-white border-r overflow-x-hidden z-10 shadow-sm w-fit fixed whitespace-nowrap ">
       <nav
         onMouseLeave={() => setNavOpen(false)}
         onMouseEnter={() => {
@@ -44,12 +44,12 @@ export default function Sidebar({ children }) {
         }}
         className="h-full flex flex-col w-full bg-white dark:bg-gray-800 "
       >
-        <div className="p-4 pb-2 flex justify-between items-center">
+        <div className="pl-6 pt-4 pb-2 border-1 flex justify-between items-center">
           <div className="flex items-center gap-2 font-bold text-[#009ed9] text-3xl">
             <img
               src="/pnglogo.png"
               className={`overflow-hidden transition-all ${
-                expanded ? "w-12" : "w-0"
+                expanded ? "w-8" : "w-8"
               }`}
               alt="logo"
             />{" "}
@@ -65,7 +65,7 @@ export default function Sidebar({ children }) {
             onClick={() => setExpanded((curr) => !curr)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
+            {/* {expanded ? <ChevronFirst /> : <ChevronLast />} */}
           </button>
         </div>
         <SidebarContext.Provider value={{ expanded }}>

@@ -46,7 +46,7 @@ export default function Layout({ children }) {
 
   return (
     <div
-      className={`flex flex-row relative ${navBar ? "backdrop:blur-sm" : ""}`}
+      className={`flex flex-row overflow-y-hidden relative ${navBar ? "backdrop:blur-sm" : ""}`}
     >
       <Sidebar>
         <SidebarItem
