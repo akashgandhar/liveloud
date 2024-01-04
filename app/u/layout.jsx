@@ -50,79 +50,79 @@ export default function Layout({ children }) {
     >
       <Sidebar>
         <SidebarItem
-          icon={<Home color="#000000" />}
+          icon={<Home color="#009ED9" />}
           text="Home"
           active={activeComponent === "home"}
           link="#"
         />
         <SidebarItem
-          icon={<TrendingUp color="#8B0000" />}
+          icon={<TrendingUp color="#009ED9" />}
           text="Trending"
           active={activeComponent === "trending"}
           link="#"
         />
         <SidebarItem
-          icon={<Siren color="#00008B" />}
+          icon={<Siren color="#009ED9" />}
           text="Latest"
           active={activeComponent === "latest"}
           link="#"
         />
         <SidebarItem
-          icon={<Sparkles color="rgb(31 41 55)"/>}
+          icon={<Sparkles color="#009ED9"/>}
           text="Popular"
           active={activeComponent === "popular"}
           link="#"
         />
         <SidebarItem
-          icon={<Flame color="rgb(255, 69, 0)" />}
+          icon={<Flame color="#009ED9" />}
           text="Hot"
           active={activeComponent === "hot"}
           link="#"
         />
         <SidebarItem
-          icon={<Bell color="#000000"/>}
+          icon={<Bell color="#009ED9"/>}
           text="Notification"
           active={activeComponent === "notification"}
           link="#"
         />
         <SidebarItem
-          icon={<Crown color="#FFD700"/>}
+          icon={<Crown color="#009ED9"/>}
           text="Subscription"
           active={activeComponent === "subscription"}
           link="#"
         />
         <SidebarItem
-          icon={<Mail color="#000000" />}
+          icon={<Mail color="#009ED9" />}
           text="Message"
           active={activeComponent === "message"}
           link="#"
         />
         <SidebarItem
-          icon={<Bookmark color="#000000"/>}
+          icon={<Bookmark color="#009ED9"/>}
           text="Bookmark"
           active={activeComponent === "bookmark"}
           link="#"
         />
         <SidebarItem
-          icon={<User color="#000000" />}
+          icon={<User color="#009ED9" />}
           text="My Profile"
           active={activeComponent === "user"}
           link="#"
         />
         <SidebarItem
-          icon={<Wallet color="#8b4513" />}
+          icon={<Wallet color="#009ED9" />}
           text="Wallet"
           active={activeComponent === "wallet"}
           link="#"
         />
         <SidebarItem
-          icon={<Gem color="#0f14a3" />}
+          icon={<Gem color="#009ED9" />}
           text="Premium account"
           active={activeComponent === "gem"}
           link="#"
         />
         <SidebarItem
-          icon={<BadgePercent color="#228B22" />}
+          icon={<BadgePercent color="#009ED9" />}
           text="Referals"
           active={activeComponent === "referals"}
           link="#"

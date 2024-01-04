@@ -36,7 +36,7 @@ export default function Sidebar({ children }) {
   }, [navOpen]);
 
   return (
-    <aside className="h-screen overflow-y-scroll bg-white border-r overflow-x-hidden z-10 shadow-sm w-fit fixed whitespace-nowrap ">
+    <aside className="h-screen overflow-y-scroll bg-white dark:bg-gray-800 border-r dark:border-gray-200 overflow-x-hidden z-10 shadow-sm w-fit fixed whitespace-nowrap ">
       <nav
         onMouseLeave={() => setNavOpen(false)}
         onMouseEnter={() => {
@@ -61,12 +61,11 @@ export default function Sidebar({ children }) {
               LiveLoud
             </span>
           </div>
-          <button
+          {/* <button
             onClick={() => setExpanded((curr) => !curr)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
             {/* {expanded ? <ChevronFirst /> : <ChevronLast />} */}
-          </button>
         </div>
         <SidebarContext.Provider value={{ expanded }}>
           <ul className="flex-1 px-3">{children}</ul>

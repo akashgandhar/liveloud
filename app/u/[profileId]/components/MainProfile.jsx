@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import React from "react";
 import EditProfileDiolog from "./EditProfileDiolog";
 import { useEditUser } from "@/contexts/profile/context";
+import DragDropProfile from "./ProfileUpload";
 
 export default function MainProfile() {
   const { user, isLoading } = useAuth();
@@ -15,6 +16,7 @@ export default function MainProfile() {
       <div class="profile-header">
         <div class="main-profile">
           <img src={user?.photoURL} class="profile-image"></img>
+          {/* <DragDropProfile /> */}
           <div class="profile-names">
             <h1 class="username font-bold">{user?.displayName}</h1>
             <small class="page-title">@{userData?.handle || "..."}</small>
@@ -60,8 +62,20 @@ export default function MainProfile() {
                 <h3 class="value font-bold">51</h3>
                 <small class="title font-semibold">Following</small>
               </section>
+              <section class="data-item">
+                <h3 class="value font-bold">104</h3>
+                <small class="title font-semibold">Post</small>
+              </section>
+              <section class="data-item hover:cursor-pointer">
+                <h3 class="value font-bold">21K</h3>
+                <small class="title font-semibold">Follower</small>
+              </section>
+              <section class="data-item hover:cursor-pointer">
+                <h3 class="value font-bold">51</h3>
+                <small class="title font-semibold">Following</small>
+              </section>
             </div>
-            <div class="other-data">
+            {/* <div class="other-data">
               <section class="data-item">
                 <h3 class="value font-bold">41K</h3>
                 <small class="title font-semibold">Likes</small>
@@ -74,7 +88,7 @@ export default function MainProfile() {
                 <h3 class="value font-bold">2K</h3>
                 <small class="title font-semibold">Saved</small>
               </section>
-            </div>
+            </div> */}
           </div>
 
           <div class="social-media">

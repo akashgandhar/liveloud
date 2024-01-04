@@ -26,6 +26,7 @@
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-drag-drop-files": "^2.3.10",
     "sweetalert2": "^11.10.2",
     "sweetalert2-react-content": "^5.0.7",
     "tailwind-merge": "^2.2.0",
