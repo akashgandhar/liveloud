@@ -6,6 +6,7 @@ import ProfilePopOver from "./ProfilePopOver";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { auth } from "@/lib/firebase";
+import Initials from "@/app/helpers/NameToAvtaar";
 
 const SidebarContext = createContext();
 
@@ -64,7 +65,7 @@ export default function Sidebar({ children }) {
           {/* <button
             onClick={() => setExpanded((curr) => !curr)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
-          >
+          >nmb-zfxa-mhv
             {/* {expanded ? <ChevronFirst /> : <ChevronLast />} */}
         </div>
         <SidebarContext.Provider value={{ expanded }}>
@@ -76,9 +77,15 @@ export default function Sidebar({ children }) {
             alt=""
             className="w-10 h-10 rounded-md"
           /> */}
-          <Avatar className="w-10 h-10 rounded-md">
-            <AvatarImage src={user?.photoURL} alt="avtaar" />
-            <AvatarFallback>CN</AvatarFallback>
+          <Avatar className="w-10 h-10 rounded-md border border-white">
+            <Link href={`/u/${user?.uid}`}>
+              <AvatarImage
+                src={user?.photoURL || "/pnglogo.png"}
+                alt="avtaar"
+                className="object-cover object-center w-full h-full rounded-md border-white hover:cursor-pointer"
+              />
+            </Link>
+            <AvatarFallback>{Initials(user?.displayName)}</AvatarFallback>
           </Avatar>
           <div
             className={`

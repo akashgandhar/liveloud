@@ -144,13 +144,7 @@
   overflow: auto;
 }
 /* ------ profile header section */
-.profile-header {
-  background: url("/images/banner.jpg") center;
-  background-size: cover;
-  margin: 10px;
-  border-radius: 30px 30px 0 0;
-  position: relative;
-}
+/*  */
 .main-profile {
   display: flex;
   align-items: center;
@@ -163,7 +157,8 @@
   /* background: url("/images/profile-image.jpg") center; */
   background-size: cover;
   border-radius: 50%;
-  border: 10px solid var(--primary-bg);
+  border: 5px solid var(--primary-bg);
+  object-fit: cover;
 }
 .profile-names {
   display: flex;
@@ -222,6 +217,7 @@
   padding: 10px;
   border-radius: 10px;
 }
+
 .bio-header {
   display: flex;
   gap: 10px;

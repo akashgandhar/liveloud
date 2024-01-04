@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { getUserProfile, validateHandle } from "@/lib/users/firebase_read";
-import { updateUserProfile } from "@/lib/users/firebase_write";
+import { updateUserProfile, uploadBannerPic, uploadProfilePic } from "@/lib/users/firebase_write";
 import { useAuth } from "../auth/context";
 
 const EditUserContext = createContext();
@@ -74,13 +74,53 @@ export default function EditUserProvider({ children }) {
       }
     };
 
-    console.log(userData);
+    // console.log(userData);
     if (user) {
       getUserData();
     }
   }, [user, userData]);
 
-  console.log("fertxched",userData);
+  // console.log("fertxched", userData);
+
+  const handleUploadProfilePic = async (file) => {
+    setIsLoading(true);
+    try {
+      const uploaded = await uploadProfilePic(user, file);
+
+      if (!uploaded) {
+        alert("Something went wrong 1");
+        setIsLoading(false);
+        return;
+      }
+
+      alert("Profile updated successfully");
+      setIsLoading(false);
+    } catch (e) {
+      setError(e.message);
+      alert("Something went wrong 2");
+      setIsLoading(false);
+    }
+  };
+  const handleUploadBannerPic = async (file) => {
+    setIsLoading(true);
+    try {
+      const uploaded = await uploadBannerPic(user, file);
+
+      if (!uploaded) {
+        alert("Something went wrong 1");
+        setIsLoading(false);
+        return;
+      }
+
+      alert("Banner updated successfully");
+      setIsLoading(false);
+    } catch (e) {
+      setError(e.message);
+      alert("Something went wrong 2");
+      console.log(e);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <EditUserContext.Provider
@@ -90,6 +130,8 @@ export default function EditUserProvider({ children }) {
         handleChange,
         handleUpdateUser,
         error,
+        handleUploadProfilePic,
+        handleUploadBannerPic
       }}
     >
       {children}

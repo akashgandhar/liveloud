@@ -4,27 +4,40 @@ import { useParams } from "next/navigation";
 import React from "react";
 import EditProfileDiolog from "./EditProfileDiolog";
 import { useEditUser } from "@/contexts/profile/context";
-import DragDropProfile from "./ProfileUpload";
+import DragDropProfile, { ProfileUpload } from "./ProfileUpload";
+import { BannerUpload } from "./BannerUpload";
 
 export default function MainProfile() {
   const { user, isLoading } = useAuth();
   const { profileId } = useParams();
   const { userData } = useEditUser();
+
+  const banner = userData?.banner || "/images/banner.jpg";
+
   return (
     // <div class="container">
-    <div class="profile-card bg-gray-100">
-      <div class="profile-header">
+    <div class="profile-card bg-gray-100 dark:bg-gray-800">
+      <div
+        style={{ backgroundImage: `url(${banner})` }}
+        className={`relative border bg-cover bg-center m-[10px] rounded-t-[30px] profile-header`}
+      >
         <div class="main-profile">
           <img src={user?.photoURL} class="profile-image"></img>
           {/* <DragDropProfile /> */}
-          <div class="profile-names">
-            <h1 class="username font-bold">{user?.displayName}</h1>
-            <small class="page-title">@{userData?.handle || "..."}</small>
+          <ProfileUpload />
+          <BannerUpload />
+          <div class="profile-names dark:bg-gray-800">
+            <h1 class="username font-bold dark:text-white">
+              {user?.displayName}
+            </h1>
+            <small class="page-title dark:text-gray-100">
+              @{userData?.handle || "..."}
+            </small>
           </div>
         </div>
       </div>
 
-      <div class="profile-body">
+      <div class="profile-body dark:bg-gray-800">
         <div class="profile-actions">
           {user?.uid === profileId ? (
             <EditProfileDiolog>
@@ -63,24 +76,10 @@ export default function MainProfile() {
                 <small class="title font-semibold">Following</small>
               </section>
               <section class="data-item">
-                <h3 class="value font-bold">104</h3>
-                <small class="title font-semibold">Post</small>
-              </section>
-              <section class="data-item hover:cursor-pointer">
-                <h3 class="value font-bold">21K</h3>
-                <small class="title font-semibold">Follower</small>
-              </section>
-              <section class="data-item hover:cursor-pointer">
-                <h3 class="value font-bold">51</h3>
-                <small class="title font-semibold">Following</small>
-              </section>
-            </div>
-            {/* <div class="other-data">
-              <section class="data-item">
                 <h3 class="value font-bold">41K</h3>
                 <small class="title font-semibold">Likes</small>
               </section>
-              <section class="data-item">
+              <section class="data-item hover:cursor-pointer">
                 <h3 class="value font-bold">12K</h3>
                 <small class="title font-semibold">Comments</small>
               </section>
@@ -88,7 +87,7 @@ export default function MainProfile() {
                 <h3 class="value font-bold">2K</h3>
                 <small class="title font-semibold">Saved</small>
               </section>
-            </div> */}
+            </div>
           </div>
 
           <div class="social-media">

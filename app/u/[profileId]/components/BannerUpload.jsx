@@ -13,11 +13,11 @@ import { useEffect, useState } from "react";
 
 import { useDropzone } from "react-dropzone";
 
-export function ProfileUpload() {
+export function BannerUpload() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
   const [image, setImage] = useState(null);
 
-  const { handleUploadProfilePic, isLoading, userData, handleChange } =
+  const { handleUploadBannerPic, isLoading, userData, handleChange } =
     useEditUser();
 
   // console.log(acceptedFiles);
@@ -50,7 +50,7 @@ export function ProfileUpload() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Pic</Button>
+        <Button variant="outline">Edit Banner</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] max-h-full overflow-auto">
         <DialogHeader>
@@ -62,17 +62,15 @@ export function ProfileUpload() {
 
         <section className="p-4 border border-dashed border-[#009ed9]">
           <div {...getRootProps({ className: "dropzone" })}>
-            <input {...getInputProps()} />
-            <p className="cursor-pointer">
-              Drag & drop some files here, or click to select files
-            </p>
+            <input  {...getInputProps()} />
+            <p className="cursor-pointer">Drag & drop some files here, or click to select files</p>
           </div>
         </section>
-        <section className=" h-[50px] flex items-center justify-center w-full">
+        <section className=" h-[150px] flex items-center justify-center w-full">
           <img
-            className="object-cover object-center w-[150px] border-2px  border h-[150px]"
+            className="object-cover object-center aspect-[5/1] border h-[150px]"
             alt="Profile"
-            src={userData?.photoURL || image}
+            src={userData?.banner || image}
           />
         </section>
 
@@ -80,7 +78,7 @@ export function ProfileUpload() {
           <Button
             disabled={!image || isLoading}
             onClick={() => {
-              handleUploadProfilePic(acceptedFiles[0]);
+              handleUploadBannerPic(acceptedFiles[0]);
             }}
             type="submit"
           >
