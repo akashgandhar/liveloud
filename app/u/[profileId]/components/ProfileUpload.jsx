@@ -52,7 +52,7 @@ export function ProfileUpload() {
       <DialogTrigger asChild>
         <Button variant="outline">Edit Pic</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] max-h-full overflow-auto">
+      <DialogContent className="sm:max-w-[425px] h-fit max-h-screen ">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
@@ -68,7 +68,7 @@ export function ProfileUpload() {
             </p>
           </div>
         </section>
-        <section className=" h-[50px] flex items-center justify-center w-full">
+        <section className=" flex items-center justify-center w-full">
           <img
             className="object-cover object-center w-[150px] border-2px  border h-[150px]"
             alt="Profile"

@@ -42,7 +42,7 @@ export function BannerUpload() {
     if (acceptedFiles.length > 0) {
       fileToDataURL(acceptedFiles[0]).then((data) => {
         setImage(data);
-        handleChange("photoURL", data);
+        handleChange("banner", data);
       });
     }
   }, [acceptedFiles, handleChange]);
@@ -60,15 +60,15 @@ export function BannerUpload() {
           </DialogDescription>
         </DialogHeader>
 
-        <section className="p-4 border border-dashed border-[#009ed9]">
+        <section className="p-4 border max-w-full border-dashed border-[#009ed9]">
           <div {...getRootProps({ className: "dropzone" })}>
             <input  {...getInputProps()} />
             <p className="cursor-pointer">Drag & drop some files here, or click to select files</p>
           </div>
         </section>
-        <section className=" h-[150px] flex items-center justify-center w-full">
+        <section className=" flex items-center justify-center max-w-full">
           <img
-            className="object-cover object-center aspect-[5/1] border h-[150px]"
+            className="object-cover object-center max-w-full aspect-[5/1] border w-full min-h-[150px]"
             alt="Profile"
             src={userData?.banner || image}
           />

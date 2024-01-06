@@ -4,7 +4,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { getUserProfile, validateHandle } from "@/lib/users/firebase_read";
-import { updateUserProfile, uploadBannerPic, uploadProfilePic } from "@/lib/users/firebase_write";
+import {
+  updateUserProfile,
+  uploadBannerPic,
+  uploadProfilePic,
+} from "@/lib/users/firebase_write";
 import { useAuth } from "../auth/context";
 
 const EditUserContext = createContext();
@@ -14,6 +18,7 @@ export default function EditUserProvider({ children }) {
   const router = useRouter();
   const [error, setError] = useState(null);
   const { user } = useAuth();
+  const [isDone, setIsDone] = useState(false);
 
   const [userData, setUserData] = useState(null);
 
@@ -26,6 +31,7 @@ export default function EditUserProvider({ children }) {
 
   const handleUpdateUser = async () => {
     setIsLoading(true);
+    setIsDone(false);
     if (userData.name === "") {
       alert("Name is required");
       setIsLoading(false);
@@ -58,6 +64,7 @@ export default function EditUserProvider({ children }) {
       }
 
       alert("Profile updated successfully");
+      setIsDone(true);
       setIsLoading(false);
     } catch (e) {
       setError(e.message);
@@ -78,12 +85,13 @@ export default function EditUserProvider({ children }) {
     if (user) {
       getUserData();
     }
-  }, [user, userData]);
+  }, [user, userData, isDone]);
 
   // console.log("fertxched", userData);
 
   const handleUploadProfilePic = async (file) => {
     setIsLoading(true);
+    setIsDone(false);
     try {
       const uploaded = await uploadProfilePic(user, file);
 
@@ -95,6 +103,7 @@ export default function EditUserProvider({ children }) {
 
       alert("Profile updated successfully");
       setIsLoading(false);
+      setIsDone(true);
     } catch (e) {
       setError(e.message);
       alert("Something went wrong 2");
@@ -103,6 +112,7 @@ export default function EditUserProvider({ children }) {
   };
   const handleUploadBannerPic = async (file) => {
     setIsLoading(true);
+    setIsDone(false);
     try {
       const uploaded = await uploadBannerPic(user, file);
 
@@ -113,6 +123,7 @@ export default function EditUserProvider({ children }) {
       }
 
       alert("Banner updated successfully");
+      setIsDone(true);
       setIsLoading(false);
     } catch (e) {
       setError(e.message);
@@ -131,7 +142,7 @@ export default function EditUserProvider({ children }) {
         handleUpdateUser,
         error,
         handleUploadProfilePic,
-        handleUploadBannerPic
+        handleUploadBannerPic,
       }}
     >
       {children}

@@ -42,18 +42,20 @@ export default function Layout({ children }) {
     router.push("/u/home");
   }
 
-  const { navBar, setNavOpen } = useAuth();
+  const { navBar, setNavOpen, user } = useAuth();
 
   return (
     <div
-      className={`flex flex-row overflow-y-hidden relative ${navBar ? "backdrop:blur-sm" : ""}`}
+      className={`flex flex-row overflow-y-hidden relative ${
+        navBar ? "backdrop:blur-sm" : ""
+      }`}
     >
       <Sidebar>
         <SidebarItem
           icon={<Home color="#009ED9" />}
           text="Home"
           active={activeComponent === "home"}
-          link="#"
+          link="/u/home"
         />
         <SidebarItem
           icon={<TrendingUp color="#009ED9" />}
@@ -68,7 +70,7 @@ export default function Layout({ children }) {
           link="#"
         />
         <SidebarItem
-          icon={<Sparkles color="#009ED9"/>}
+          icon={<Sparkles color="#009ED9" />}
           text="Popular"
           active={activeComponent === "popular"}
           link="#"
@@ -80,13 +82,13 @@ export default function Layout({ children }) {
           link="#"
         />
         <SidebarItem
-          icon={<Bell color="#009ED9"/>}
+          icon={<Bell color="#009ED9" />}
           text="Notification"
           active={activeComponent === "notification"}
           link="#"
         />
         <SidebarItem
-          icon={<Crown color="#009ED9"/>}
+          icon={<Crown color="#009ED9" />}
           text="Subscription"
           active={activeComponent === "subscription"}
           link="#"
@@ -98,7 +100,7 @@ export default function Layout({ children }) {
           link="#"
         />
         <SidebarItem
-          icon={<Bookmark color="#009ED9"/>}
+          icon={<Bookmark color="#009ED9" />}
           text="Bookmark"
           active={activeComponent === "bookmark"}
           link="#"
@@ -107,7 +109,7 @@ export default function Layout({ children }) {
           icon={<User color="#009ED9" />}
           text="My Profile"
           active={activeComponent === "user"}
-          link="#"
+          link={`/u/${user?.uid}`}
         />
         <SidebarItem
           icon={<Wallet color="#009ED9" />}
