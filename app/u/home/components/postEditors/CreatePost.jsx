@@ -1,3 +1,5 @@
+"use client";
+
 import { CopyIcon } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/ui/button";
@@ -11,13 +13,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { Textarea } from "@/components/ui/textarea";
 import { MediaCarousel } from "./MediaCarousel";
 import { Smile, BarChartBig, GalleryThumbnails, ImagePlus } from "lucide-react";
+import { useNewPost } from "@/contexts/newPost/context";
 
 export function CreatePostDiolog({ children }) {
+  const {
+    isLoading,
+    handleChange,
+    isDone,
+    postData,
+    createNewPost,
+    handleMediaChange,
+  } = useNewPost();
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -31,16 +41,25 @@ export function CreatePostDiolog({ children }) {
 
         <div className="w-full flex flex-col justify-center items-center">
           <Textarea
+            onChange={(e) => handleChange("content", e.target.value)}
+            value={postData?.content}
+            name="content"
             placeholder="Whats Happening"
             className="resize-none text-2xl mt-3 pb-3 w-full h-fit max-h-56  outline-none border-none  py-2"
           />
-          <MediaCarousel />
+          {postData?.media?.length > 0 && (
+            <MediaCarousel postMedia={postData?.media} />
+          )}
         </div>
 
         <DialogFooter className="sm:justify-between">
           <div className="flex justify-start gap-4">
             <label className="flex m-2">
-              <input className="hidden" type="file" />
+              <input
+                onChange={(e) => handleMediaChange(e)}
+                className="hidden"
+                type="file"
+              />
               <ImagePlus className="text-2xl mt-1 text-blue-700 cursor-pointer" />
             </label>
             {/* emoji icon */}
@@ -59,11 +78,18 @@ export function CreatePostDiolog({ children }) {
               <BarChartBig className="text-2xl mt-1 text-blue-700 cursor-pointer" />
             </label>
           </div>
-          
-            <Button className="p-2.5 bg-blue-600 hover:bg-blue-800 text-white rounded-xl shadow-md hover:shadow-lg transition duration-150 ease-in-out disabled:cursor-not-allowed">
-              Post
-            </Button>
-          
+
+          <Button
+            disabled={isLoading}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(postData);
+              createNewPost();
+            }}
+            className="p-2.5 bg-blue-600 hover:bg-blue-800 text-white rounded-xl shadow-md hover:shadow-lg transition duration-150 ease-in-out disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Loading..." : "Post"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

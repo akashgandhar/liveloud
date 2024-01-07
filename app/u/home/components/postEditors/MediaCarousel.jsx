@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-export function MediaCarousel() {
+export function MediaCarousel({ postMedia }) {
   return (
     <Carousel
       opts={{
@@ -19,17 +19,21 @@ export function MediaCarousel() {
       className=" w-full md:w-[80%]"
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-1">
-                  <img src="/bg.jpg" className="h-full w-full object-cover rounded-lg"/>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
+        {postMedia &&
+          postMedia.map((media, index) => (
+            <CarouselItem key={index}>
+              <div className="p-1">
+                <Card>
+                  <CardContent className="flex aspect-square items-center justify-center p-1">
+                    <img
+                      src={URL.createObjectURL(media.file)}
+                      className="h-full w-full object-cover rounded-lg"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          ))}
       </CarouselContent>
       <CarouselPrevious />
       <CarouselNext />
