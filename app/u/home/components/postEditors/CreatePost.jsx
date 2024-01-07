@@ -70,7 +70,7 @@ export function CreatePostDiolog({ children }) {
             {/* gif icon */}
             <label className="flex m-2">
               <input className="hidden" type="file" />
-              <GalleryThumbnails className="text-2xl mt-1 text-blue-700 cursor-pointer" />
+              <GalleryThumbnails className="text-2xl mt-1 style={{ color: '#009ED9' }} cursor-pointer" />
             </label>
             {/* poll icon */}
             <label className="flex m-2">

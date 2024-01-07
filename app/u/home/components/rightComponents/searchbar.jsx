@@ -5,7 +5,7 @@ import { Search } from 'lucide-react';
 
 export default function CardWithSearchBar() {
  return (
-<div className="p-2 flex items-center space-x-2"> 
+<div className=" flex items-center space-x-2"> 
     <Card className="w-full p-2 flex items-center space-x-2">
     <Input type="text" className="px-3 py-2 w-full" placeholder="Search..." />
     <div title="Search" className="cursor-pointer transform transition duration-300 hover:scale-110 ">
