@@ -7,7 +7,7 @@ import { MoreHorizontal } from 'lucide-react';
 
 export default function Post() {
   return (
-    <div className="flex border rounded-lg ml-0 mr-2  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
+    <div className="flex border dark:text-black rounded-lg ml-0 mr-2  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
       <div className="mt-3 w-12 h-12 text-lg flex-none">
         <img
           src="/bg.jpg"
@@ -36,7 +36,7 @@ export default function Post() {
         <div className="max-w-3xl max-h-96 mx-auto bg-blue-100 rounded-md cursor-pointer">
           <img
             src="/bg.jpg"
-            className="max-w-full max-h-80 rounded-md my-2 mx-auto"
+            className="max-w-full max-h-96 rounded-md my-2 mx-auto"
             alt="avatar"
           />
         </div>
