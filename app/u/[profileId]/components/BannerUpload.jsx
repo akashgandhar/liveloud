@@ -11,6 +11,8 @@ import {
 import { useEditUser } from "@/contexts/profile/context";
 import { useEffect, useState } from "react";
 
+import { Pen } from "lucide-react";
+
 import { useDropzone } from "react-dropzone";
 
 export function BannerUpload() {
@@ -50,20 +52,24 @@ export function BannerUpload() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Banner</Button>
+        <div className=" p-3 flex justify-center items-center text-white bg-[#009ED9] cursor-pointer rounded-full w-12 h-12 hover:bg-white hover:text-[#009ED9]">
+          <Pen size={20}  />
+          </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] max-h-full overflow-auto">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Edit Banner</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+            Make changes to your banner here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
 
         <section className="p-4 border max-w-full border-dashed border-[#009ed9]">
           <div {...getRootProps({ className: "dropzone" })}>
-            <input  {...getInputProps()} />
-            <p className="cursor-pointer">Drag & drop some files here, or click to select files</p>
+            <input {...getInputProps()} />
+            <p className="cursor-pointer">
+              Drag & drop some files here, or click to select files
+            </p>
           </div>
         </section>
         <section className=" flex items-center justify-center max-w-full">

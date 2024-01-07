@@ -87,7 +87,7 @@ export default function Sidebar({ children }) {
             </Link>
             <AvatarFallback>{Initials(user?.displayName)}</AvatarFallback>
           </Avatar>
-          <div
+          <Link href={`/u/${user?.uid}`}
             className={`
               flex justify-between items-center
               overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
@@ -103,7 +103,7 @@ export default function Sidebar({ children }) {
             </div>
             {/* <MoreVertical size={20} /> */}
             <ProfilePopOver />
-          </div>
+          </Link>
         </div>
       </nav>
     </aside>

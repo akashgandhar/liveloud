@@ -21,12 +21,16 @@ export default function MainProfile() {
         style={{ backgroundImage: `url(${banner})` }}
         className={`relative border bg-cover bg-center m-[10px] rounded-t-[30px] profile-header`}
       >
-        <div class="main-profile">
+        <div class="absolute text-white  bottom-2 end-2">
+          <BannerUpload />
+        </div>
+        <div class="main-profile position:relative">
           <img src={user?.photoURL} class="profile-image"></img>
           {/* <DragDropProfile /> */}
-          <ProfileUpload />
-          <BannerUpload />
-          <div class="profile-names dark:bg-gray-800">
+          <div class="absolute text-white bottom-2 left-24 ">
+            <ProfileUpload />
+          </div>
+          <div class="profile-names pl-2 dark:bg-gray-800">
             <h1 class="username font-bold dark:text-white">
               {user?.displayName}
             </h1>
@@ -38,10 +42,10 @@ export default function MainProfile() {
       </div>
 
       <div class="profile-body dark:bg-gray-800">
-        <div class="profile-actions">
+        <div class="profile-actions relative">
           {user?.uid === profileId ? (
             <EditProfileDiolog>
-              <button class="follow">Edit</button>
+              <button class="follow absolute left-0">Edit</button>
             </EditProfileDiolog>
           ) : (
             <button class="follow">

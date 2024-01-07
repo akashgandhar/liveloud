@@ -1,4 +1,9 @@
 import React from "react";
+import { Heart } from "lucide-react";
+import { MessageSquare } from "lucide-react";
+import { Share2 } from "lucide-react";
+import { Repeat2 } from "lucide-react";
+import { MoreHorizontal } from 'lucide-react';
 
 export default function Post() {
   return (
@@ -18,17 +23,17 @@ export default function Post() {
             <span className="text-slate-500 font-normal pl-1.5">@handle</span>
           </h2>
 
-          {/* todo */}
-          {/* <HiDotsHorizontal className="cursor-pointer mr-3"  /> */}
+          {/* //todo popover */}
+          <MoreHorizontal className="text-xl cursor-pointer " />
 
-          {/* Post Options Modal */}
+         
         </div>
 
         <p className="py-3 cursor-pointer max-w-lg break-words">
           post?.content
         </p>
 
-        <div className="max-w-3xl max-h-80 mx-auto bg-blue-100 rounded-md cursor-pointer">
+        <div className="max-w-3xl max-h-96 mx-auto bg-blue-100 rounded-md cursor-pointer">
           <img
             src="/bg.jpg"
             className="max-w-full max-h-80 rounded-md my-2 mx-auto"
@@ -39,11 +44,21 @@ export default function Post() {
         <p className="text-sm text-gray-600">{new Date().toLocaleString()}</p>
 
         <div className="flex justify-between pt-8">
-          <div className="flex">
-            {/* heart icon */}
-            {/* <BsSuitHeart className="text-xl cursor-pointer"  /> */}
-
-            <span className="text-sm pl-4 font-semibold">{0}</span>
+          <div title="Like" className="flex justify-center items-center gap-2">
+            <Heart className="text-xl cursor-pointer hover:text-red-500 "  />
+            <span className="text-sm  font-semibold">{0}</span>
+          </div>
+          <div title="Comment" className="flex justify-center items-center gap-2">
+            <MessageSquare className="text-xl cursor-pointer hover:text-blue-500" />
+            <span className="text-sm  font-semibold">{0}</span>
+          </div>
+          <div title="Amplify" className="flex justify-center items-center gap-2">
+            <Repeat2 className="text-xl cursor-pointer " />
+            <span className="text-sm  font-semibold">{0}</span>
+          </div>
+          <div title="Share" className="flex justify-center items-center gap-2">
+            <Share2 className="text-xl cursor-pointer " />
+            <span className="text-sm  font-semibold">{0}</span>
           </div>
         </div>
       </div>

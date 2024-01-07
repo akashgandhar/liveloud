@@ -9,7 +9,7 @@ export default function Page() {
           {/* Left Section */}
           Left Section
         </div>
-        <div className="md:w-1/2 w-full overflow-hidden h-full bg-green-400">
+        <div className="md:w-1/2 w-full overflow-hidden h-full ">
           {/* Center Section */}
           <TopTabs />
           Center Section

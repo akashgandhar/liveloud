@@ -78,6 +78,7 @@ export default function EditUserProvider({ children }) {
       const fetchedUser = await getUserProfile(user);
       if (fetchedUser && !userData) {
         setUserData(fetchedUser);
+        setUserData({...fetchedUser, oldHandle: fetchedUser?.handle || ""})
       }
     };
 

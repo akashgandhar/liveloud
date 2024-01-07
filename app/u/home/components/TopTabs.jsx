@@ -22,12 +22,10 @@ export default function TopTabs() {
         <TabsTrigger value="following">Following</TabsTrigger>
       </TabsList>
       <TabsContent value="explore">
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen pb-10 overflow-y-auto overflow-x-hidden">
           <CreatePostTrigger />
-          <Separator className="my-4" />
-          <div className="flex-1 overflow-y-auto ">
-            <InfiniteScrollPost />
-          </div>
+          <Separator className="my-4 " />
+          <InfiniteScrollPost />
         </div>
       </TabsContent>
       <TabsContent value="following">

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -7,50 +7,58 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useEditUser } from "@/contexts/profile/context";
-import { useEffect, useState } from "react";
+} from '@/components/ui/dialog'
+import { useEditUser } from '@/contexts/profile/context'
+import { useEffect, useState } from 'react'
 
-import { useDropzone } from "react-dropzone";
+import { Pen } from 'lucide-react'
+
+import { useDropzone } from 'react-dropzone'
 
 export function ProfileUpload() {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
-  const [image, setImage] = useState(null);
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone()
+  const [image, setImage] = useState(null)
 
-  const { handleUploadProfilePic, isLoading, userData, handleChange } =
-    useEditUser();
+  const {
+    handleUploadProfilePic,
+    isLoading,
+    userData,
+    handleChange,
+  } = useEditUser()
 
   // console.log(acceptedFiles);
 
   useEffect(() => {
     function fileToDataURL(file) {
       return new Promise((resolve, reject) => {
-        const reader = new FileReader();
+        const reader = new FileReader()
 
         reader.onload = function (event) {
-          resolve(event.target.result);
-        };
+          resolve(event.target.result)
+        }
 
         reader.onerror = function (error) {
-          reject(error);
-        };
+          reject(error)
+        }
 
-        reader.readAsDataURL(file);
-      });
+        reader.readAsDataURL(file)
+      })
     }
 
     if (acceptedFiles.length > 0) {
       fileToDataURL(acceptedFiles[0]).then((data) => {
-        setImage(data);
-        handleChange("photoURL", data);
-      });
+        setImage(data)
+        handleChange('photoURL', data)
+      })
     }
-  }, [acceptedFiles, handleChange]);
+  }, [acceptedFiles, handleChange])
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Pic</Button>
+        <div className=" p-3 flex justify-center items-center text-white bg-[#009ED9] cursor-pointer rounded-full w-10 h-10 hover:bg-white hover:text-[#009ED9]">
+          <Pen size={20} />
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] h-fit max-h-screen ">
         <DialogHeader>
@@ -61,7 +69,7 @@ export function ProfileUpload() {
         </DialogHeader>
 
         <section className="p-4 border border-dashed border-[#009ed9]">
-          <div {...getRootProps({ className: "dropzone" })}>
+          <div {...getRootProps({ className: 'dropzone' })}>
             <input {...getInputProps()} />
             <p className="cursor-pointer">
               Drag & drop some files here, or click to select files
@@ -80,14 +88,14 @@ export function ProfileUpload() {
           <Button
             disabled={!image || isLoading}
             onClick={() => {
-              handleUploadProfilePic(acceptedFiles[0]);
+              handleUploadProfilePic(acceptedFiles[0])
             }}
             type="submit"
           >
-            {isLoading ? "Loading..." : "Save changes"}
+            {isLoading ? 'Loading...' : 'Save changes'}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

@@ -23,6 +23,7 @@ const InfiniteScrollPost = () => {
 
   return (
     <InfiniteScroll
+      className="flex flex-col gap-4 w-full ml-1.5"
       dataLength={items.length}
       next={fetchMoreData}
       hasMore={items.length < totalElements}

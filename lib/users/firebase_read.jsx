@@ -23,7 +23,12 @@ export const validateHandle = async (user, handle) => {
 
     console.log(snapshot);
 
-    if (snapshot?.docs?.length > 0) return false;
+    if (snapshot?.docs?.length > 0) {
+      if (snapshot.docs[0].id === user.uid) {
+        return true;
+      }
+      return false;
+    }
 
     return true;
   } catch (e) {
@@ -31,9 +36,6 @@ export const validateHandle = async (user, handle) => {
     return e.message;
   }
 };
-
-
-
 
 export const getUserProfile = async (user) => {
   try {
