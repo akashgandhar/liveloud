@@ -1,11 +1,11 @@
-import React from "react";
-import TopTabs from "./components/TopTabs";
-import Subscribe from "./components/rightComponents/subscribe";
-import Trends from "./components/rightComponents/trends";
-import RecommendedProfiles from "./components/leftComponents/RecommendedProfiles";
-import Advertisement from "./components/leftComponents/Advertisement";
-import Add from "./components/rightComponents/add";
-import CardWithSearchBar from "./components/rightComponents/searchbar";
+import Advertisement from "../home/components/leftComponents/Advertisement";
+import RecommendedProfiles from "../home/components/leftComponents/RecommendedProfiles";
+import CardWithSearchBar from "../home/components/rightComponents/searchbar";
+import Subscribe from "../home/components/rightComponents/subscribe";
+import Trends from "../home/components/rightComponents/trends";
+import Add from "../home/components/rightComponents/add";
+import Main from "./components/Main";
+
 export default function Page() {
   return (
     <div className="flex pl-20 pr-2 w-screen min-h-screen justify-center h-screen overflow-hidden">
@@ -17,9 +17,9 @@ export default function Page() {
           </div>
           <Advertisement />
         </div>
-        <div className="lg:w-1/2 w-full overflow-hidden h-full ">
+        <div className="lg:w-1/2 w-full py-4 overflow-x-hidden h-full ">
           {/* Center Section */}
-          <TopTabs />
+          <Main />
         </div>
         <div className="w-1/4 hidden h-full  lg:flex gap-4 flex-col p-4">
           {/*right section*/}

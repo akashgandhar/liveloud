@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
-export default function trends() {
+export default function Trends() {
   return (
     <div className=" flex items-center space-x-2 ">
       <Card className="w-full flex items-center">

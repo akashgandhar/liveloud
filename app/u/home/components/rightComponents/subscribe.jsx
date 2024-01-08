@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 
-export default function subscribe() {
+export default function Subscribe() {
  return (
 <div className=" flex items-center space-x-2 w-full">
       <Card className="w-full flex items-center">

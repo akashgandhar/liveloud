@@ -91,7 +91,7 @@ export default function Layout({ children }) {
                 icon={<Bell color="#009ED9" />}
                 text="Notification"
                 active={activeComponent === "notification"}
-                link="#"
+                link="/u/notifications"
               />
               <SidebarItem
                 icon={<Crown color="#009ED9" />}
@@ -126,14 +126,14 @@ export default function Layout({ children }) {
               <SidebarItem
                 icon={<Gem color="#009ED9" />}
                 text="Premium account"
-                active={activeComponent === "gem"}
-                link="#"
+                active={activeComponent === "premium"}
+                link="/u/premium"
               />
               <SidebarItem
                 icon={<BadgePercent color="#009ED9" />}
                 text="Referals"
                 active={activeComponent === "referals"}
-                link="#"
+                link="/u/referals"
               />
             </Sidebar>
 

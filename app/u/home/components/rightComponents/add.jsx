@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 
-export default function Advertisement() {
+export default function Add() {
   return (
     <Card>
       <CardHeader>
