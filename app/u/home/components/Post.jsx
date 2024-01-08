@@ -8,9 +8,15 @@ import { PostMediaSlider } from "./PostMediaSlider";
 import { UsePostUsertStream } from "@/lib/posts/firebase_read";
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
+import { useAuth } from "@/contexts/auth/context";
+import { usePost } from "@/contexts/posts/context";
 
 export default function Post({ post }) {
   const { data, isLoading, error } = UsePostUsertStream(post?.owner);
+  const { user } = useAuth();
+  const { handleLikePost, handleSharePost, handleAmplifyPost, handleShare } =
+    usePost();
+
   return (
     <div className="flex border dark:text-black rounded-lg ml-0 mr-2  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
       <div className="mt-3 w-12 h-12 text-lg flex-none">
@@ -57,7 +63,12 @@ export default function Post({ post }) {
 
         <div className="flex justify-between pt-8">
           <div title="Like" className="flex justify-center items-center gap-2">
-            <Heart className="text-xl cursor-pointer hover:text-red-500 " />
+            <Heart
+              onClick={() => handleLikePost(post?.postId)}
+              fill={post?.likes?.includes(user?.uid) ? "#FF0000" : "#fff"}
+              stroke={post?.likes?.includes(user?.uid) ? "#FF0000" : "#000000"}
+              className="text-xl cursor-pointer hover:text-red-500 "
+            />
             <span className="text-sm  font-semibold">
               {post?.likes?.length}
             </span>
@@ -75,13 +86,24 @@ export default function Post({ post }) {
             title="Amplify"
             className="flex justify-center items-center gap-2"
           >
-            <Volume2 className="text-xl cursor-pointer " />
+            <Volume2
+              stroke={post?.amplified?.includes(user?.uid) ? "#009ED9" : "#000"}
+              onClick={() => handleAmplifyPost(post?.postId)}
+              className="text-xl cursor-pointer "
+            />
             <span className="text-sm  font-semibold">
               {post?.amplified?.length}
             </span>
           </div>
           <div title="Share" className="flex justify-center items-center gap-2">
-            <Share2 className="text-xl cursor-pointer " />
+            <Share2
+              stroke={post?.shared?.includes(user?.uid) ? "#009ED9" : "#000"}
+              onClick={() => {
+                handleShare(post?.content);
+                handleSharePost(post?.postId);
+              }}
+              className="text-xl cursor-pointer "
+            />
             <span className="text-sm  font-semibold">
               {post?.shared?.length}
             </span>

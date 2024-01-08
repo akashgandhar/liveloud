@@ -13,9 +13,18 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UseAllProfilesStream } from "@/lib/profiles/firebase_read";
+import { useFollow } from "@/contexts/follow/context";
+import { useAuth } from "@/contexts/auth/context";
 
 export default function RecommendedProfiles() {
   const { data, error, isLoading } = UseAllProfilesStream();
+  const {
+    error: isError,
+    isLoading: loading,
+    handleFollowOrUnfollowUser,
+  } = useFollow();
+
+  const { user } = useAuth();
   return (
     <Card className="h-full flex  flex-col">
       <CardHeader>
@@ -23,6 +32,8 @@ export default function RecommendedProfiles() {
       </CardHeader>
       <CardContent className="overflow-hidden">
         <div class="items-center justify-center  gap-2 flex flex-col">
+          {isLoading && <p>Loading...</p>}
+          {error && <p className="text-red-500">An error has occurred</p>}
           {data &&
             data.slice(0, 5).map((profile, index) => (
               // <div key={index} class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -56,8 +67,19 @@ export default function RecommendedProfiles() {
                     </div>
                   </div>
                 </div>
-                <div class="flex flex-1 sm:flex-[0.3] w-full sm:w-fit items-center justify-center">
-                  <Plus className="text-xl cursor-pointer " />
+                <div class="flex flex-1 sm:flex-[0.3] w-full sm:mt-0 mt-1 sm:w-fit items-center justify-center">
+                  {/* <Plus className="text-xl cursor-pointer " /> */}
+                  <Button
+                    disabled={loading}
+                    onClick={() => {
+                      handleFollowOrUnfollowUser(profile?.uid);
+                    }}
+                    className="text-sm font-semibold text-white bg-[#009ED9] rounded-full px-4 py-1.5"
+                  >
+                    {profile?.followers?.includes(user?.uid)
+                      ? "Unfollow"
+                      : "Follow"}
+                  </Button>
                 </div>
               </Link>
 

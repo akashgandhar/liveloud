@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../auth/context";
 import { GetAllPosts } from "@/lib/posts/firebase_read";
+import { AmplifyPost, LikePost, SharePost } from "@/lib/posts/firebase_write";
 
 const PostContext = createContext();
 
@@ -13,39 +14,51 @@ export default function PostProvider({ children }) {
   const [error, setError] = useState(null);
   const { user } = useAuth();
   const [isDone, setIsDone] = useState(false);
-  const [isRefresh, setIsRefresh] = useState(false);
 
   const [allPosts, setAllPosts] = useState([]);
 
-  `
-  posts/{postId}:{
-    postId: "postId",
-    content: "content",
-    media:[{
-      type: "image",
-      url: "url",
-    }]
-    owner: uid,
-    likes: [uid],
-    comments: [uid],
-    amplified: [uid],
-    shared: [uid],
-    visibility: "public",
-    flag: "flag",
-    createdAt: timestamp,
-  }
-  `;
+  const handleLikePost = async (postId) => {
+    const liked = await LikePost(user, postId);
+    if (liked != true) {
+      alert("An error occured");
+    }
+  };
 
+  const handleSharePost = async (postId) => {
+    const shared = await SharePost(user, postId);
+    if (shared != true) {
+      alert("An error occured");
+    }
+  };
+
+  const handleAmplifyPost = async (postId) => {
+    const amplified = await AmplifyPost(user, postId);
+    if (amplified != true) {
+      alert("An error occured");
+    }
+  };
+
+  const handleShare = async (data) => {
+    try {
+      await navigator.share({
+        text: data,
+      });
+      console.log("Successfully shared");
+    } catch (error) {
+      console.error("Error sharing:", error.message);
+      console.log(data);
+    }
+  };
 
   return (
     <PostContext.Provider
       value={{
-        allPosts,
-        isLoading,
         error,
-        isDone,
-        isRefresh,
-        setIsRefresh,
+        isLoading,
+        handleLikePost,
+        handleSharePost,
+        handleAmplifyPost,
+        handleShare,
       }}
     >
       {children}

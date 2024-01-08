@@ -116,13 +116,7 @@ export default function NewPostProvider({ children }) {
       return;
     }
     try {
-      // Create a new post document
-      // await uploadFilesToStorage(user, postData?.media).then((result) => {
-      //   setPostData((prevState) => ({
-      //     ...prevState,
-      //     media: result,
-      //   }));
-      // });
+      
 
       console.log("postData", postData);
 
@@ -140,7 +134,7 @@ export default function NewPostProvider({ children }) {
       setIsDone(true);
       setIsLoading(false);
     } catch (error) {
-      alert(error.message);
+      alert("1",error.message);
       setError(error);
       setIsLoading(false);
     }

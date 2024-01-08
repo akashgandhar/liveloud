@@ -1,4 +1,11 @@
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
@@ -27,7 +34,10 @@ export const CreateNewPost = async ({ user, post }) => {
   console.log("finalData", finalData);
 
   try {
-    await addDoc(postRef, finalData);
+    await addDoc(postRef, finalData).then(async (docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+      await updateDoc(doc(db, "posts", docRef.id), { postId: docRef.id });
+    });
     return true;
   } catch (e) {
     console.log("err", e);
@@ -69,3 +79,67 @@ export async function uploadFilesToStorage(user, mediaArray) {
 
   return resultArray;
 }
+
+export const LikePost = async (user, postId) => {
+  const postRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(postRef);
+
+  if (docSnap.exists()) {
+    const post = docSnap.data();
+    if (post.likes.includes(user.uid)) {
+      await updateDoc(postRef, {
+        likes: post.likes.filter((id) => id != user.uid),
+      });
+      return true;
+    } else {
+      await updateDoc(postRef, {
+        likes: [...post.likes, user.uid],
+      });
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const SharePost = async (user, postId) => {
+  const postRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(postRef);
+
+  if (docSnap.exists()) {
+    const post = docSnap.data();
+    if (post.shared.includes(user.uid)) {
+      return true;
+    } else {
+      await updateDoc(postRef, {
+        shared: [...post.shared, user.uid],
+      });
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const AmplifyPost = async (user, postId) => {
+  const postRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(postRef);
+
+  if (docSnap.exists()) {
+    const post = docSnap.data();
+    if (post.amplified.includes(user.uid)) {
+      console.log(1);
+      await updateDoc(postRef, {
+        amplified: post.amplified.filter((id) => id != user.uid),
+      });
+      return true;
+    } else {
+      await updateDoc(postRef, {
+        amplified: [...post.amplified, user.uid],
+      });
+      return true;
+    }
+  }
+
+  return false;
+};
