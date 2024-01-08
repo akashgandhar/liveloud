@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Card,
@@ -8,38 +9,61 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UseAllProfilesStream } from "@/lib/profiles/firebase_read";
 
 export default function RecommendedProfiles() {
+  const { data, error, isLoading } = UseAllProfilesStream();
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="h-full flex  flex-col">
       <CardHeader>
         <CardTitle className="text-2xl font-extrabold">Who To Follow</CardTitle>
       </CardHeader>
-      <CardContent >
-        <Card className="h-full w-full">
-          <div className="flex flex-row flex-wrap overflow-hidden gap-2 items-center justify-between p-2">
-            <div className="flex gap-2 flex-row items-center">
-              {" "}
-              <div className="flex h-12 w-12 rounded-full items-center ">
-                <Avatar>
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>AV</AvatarFallback>
-                </Avatar>
-              </div>
-              <div className="relative flex flex-col text-nowrap  h-[40px] justify-start">
-                <h1 className="font-bold ">John Doe</h1>
-                <h2 className="to-gray-300 text-xs absolute top-4">@handle</h2>
-              </div>
-            </div>
-            <Button className="text-white bg-[#009ED9] cursor-pointer border hover:text-[#009ED9] hover:bg-white hover:border-[#009ED9]">Follow</Button>
-          </div>
-        </Card>
+      <CardContent className="overflow-hidden">
+        <div class="items-center justify-center  gap-2 flex flex-col">
+          {data &&
+            data.slice(0, 5).map((profile, index) => (
+              // <div key={index} class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+
+              <Link
+                key={index}
+                href="#"
+                class="w-full sm:w-full lg:flex-none flex-wrap justify-between bg-gray-100  focus:ring-4 focus:outline-none focus:ring-gray-300 text-black rounded-lg inline-flex items-center  px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+              >
+                <div className="flex-1 gap-1 flex items-center ">
+                  <div class=" w-10 h-10">
+                    <img
+                      src={
+                        profile?.photoURL ||
+                        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                      }
+                      className=" w-10 h-10 rounded-full object-cover"
+                      alt="avatar"
+                    />
+                  </div>
+
+                  <div class="text-left ">
+                    <div class=" font-sans text-sm font-semibold">
+                      {profile?.name}
+                    </div>
+                    <div class="mb-1 text-xs">
+                      <span class="text-gray-500">
+                        @{profile?.handle?.slice(0, 10)}
+                        {profile?.handle?.length > 10 && "..."}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-1 sm:flex-[0.3] w-full sm:w-fit items-center justify-center">
+                  <Plus className="text-xl cursor-pointer " />
+                </div>
+              </Link>
+
+              // </div>
+            ))}
+        </div>
       </CardContent>
       <CardFooter className="text-[#009ED9] text-sm font-semibold cursor-pointer mt-auto mb-0">
         <p>Show More</p>

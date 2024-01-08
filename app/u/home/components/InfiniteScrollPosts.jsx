@@ -20,7 +20,7 @@ const InfiniteScrollPost = () => {
   }, [data]);
 
   // Assuming totalElements is the total number of posts
-  const totalElements = 50; // Adjust this based on your total number of posts
+  const totalElements = data?.length; // Adjust this based on your total number of posts
 
   const fetchMoreData = () => {
     // A fake async API call that sends 20 more records in 1.5 secs
@@ -41,9 +41,13 @@ const InfiniteScrollPost = () => {
       hasMore={posts.length < totalElements}
       loader={<h4>Loading...</h4>}
     >
-      {posts.map((post, index) => (
-        <Post key={index} post={post} />
-      ))}
+      {posts
+        .sort((a, b) => {
+          return b?.createdAt?.seconds - a?.createdAt?.seconds;
+        })
+        .map((post, index) => (
+          <Post key={index} post={post} />
+        ))}
       <Separator className="mt-4" />
       <div className="flex justify-center">
         <h1>

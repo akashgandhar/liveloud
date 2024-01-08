@@ -60,7 +60,7 @@ export default function NewPostProvider({ children }) {
 
       setPostData((prevState) => ({
         ...prevState,
-        media: [...prevState?.media, selectedMedia],
+        media: [...(prevState?.media || []), selectedMedia],
       }));
     } else {
       selectedMedia = event.target.files[0];
@@ -82,7 +82,7 @@ export default function NewPostProvider({ children }) {
       }
 
       if (
-        !selectedMedia.type.startsWith("video/") ||
+        !selectedMedia.type.startsWith("video/") &&
         !selectedMedia.type.startsWith("image/")
       ) {
         alert("File type not supported");
@@ -101,7 +101,7 @@ export default function NewPostProvider({ children }) {
 
         setPostData((prevState) => ({
           ...prevState,
-          media: [...prevState?.media, mediaItem],
+          media: [...(prevState?.media || []), mediaItem],
         }));
       }
     }

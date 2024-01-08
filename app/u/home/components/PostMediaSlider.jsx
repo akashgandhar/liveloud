@@ -37,7 +37,7 @@ export function PostMediaSlider({ postMedia }) {
                     )}{" "}
                     {media?.type === "gif" && (
                       <img
-                        src={media?.file?.url}
+                        src={media?.url}
                         className="h-full w-full object-cover rounded-lg"
                       />
                     )}{" "}
