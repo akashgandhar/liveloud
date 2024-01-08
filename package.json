@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -24,11 +26,14 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "embla-carousel-react": "^8.0.0-rc18",
+    "emoji-mart": "^5.5.2",
     "firebase": "^10.7.1",
+    "gif-picker-react": "^1.3.2",
     "ldrs": "^1.0.1",
     "lucide-react": "^0.303.0",
     "lz-string": "^1.5.0",
     "md5": "^2.3.0",
+    "moment": "^2.30.1",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
@@ -37,6 +42,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "sweetalert2": "^11.10.2",
     "sweetalert2-react-content": "^5.0.7",
+    "swr": "^2.2.4",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7"
   },

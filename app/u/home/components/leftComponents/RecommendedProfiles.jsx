@@ -14,11 +14,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function RecommendedProfiles() {
   return (
-    <Card className="h-full">
+    <Card className="h-full flex flex-col">
       <CardHeader>
         <CardTitle className="text-2xl font-extrabold">Who To Follow</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent >
         <Card className="h-full w-full">
           <div className="flex flex-row flex-wrap overflow-hidden gap-2 items-center justify-between p-2">
             <div className="flex gap-2 flex-row items-center">
@@ -41,7 +41,7 @@ export default function RecommendedProfiles() {
           </div>
         </Card>
       </CardContent>
-      <CardFooter className="text-[#009ED9] text-lg font-semibold cursor-pointer mt-auto mb-0">
+      <CardFooter className="text-[#009ED9] text-sm font-semibold cursor-pointer mt-auto mb-0">
         <p>Show More</p>
       </CardFooter>
     </Card>

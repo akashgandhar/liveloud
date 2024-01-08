@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,8 +14,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CreatePostTrigger from "./CreatePostTrigger";
 import InfiniteScrollPost from "./InfiniteScrollPosts";
 import { Separator } from "@/components/ui/separator";
+import { usePost } from "@/contexts/posts/context";
 
 export default function TopTabs() {
+  const { allPosts } = usePost();
   return (
     <Tabs defaultValue="explore" className="w-full">
       <TabsList className="grid w-full grid-cols-2">
@@ -29,7 +32,11 @@ export default function TopTabs() {
         </div>
       </TabsContent>
       <TabsContent value="following">
-        <CreatePostTrigger />
+        <div className="flex flex-col h-screen pb-10 overflow-y-auto overflow-x-hidden">
+          <CreatePostTrigger />
+          <Separator className="my-4 " />
+          <InfiniteScrollPost />
+        </div>
       </TabsContent>
     </Tabs>
   );

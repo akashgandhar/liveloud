@@ -20,7 +20,7 @@ export default function Page() {
         <div className="md:w-1/2 w-full overflow-hidden h-full ">
           {/* Center Section */}
           <TopTabs />
-          Center Section
+          
         </div>
         <div className="w-1/4 hidden h-full  md:flex gap-4 flex-col p-4">
           {/*right section*/}

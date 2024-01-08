@@ -20,6 +20,7 @@ import {
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth/context";
 import NewPostProvider from "@/contexts/newPost/context";
+import PostProvider from "@/contexts/posts/context";
 
 export default function Layout({ children }) {
   const path = usePathname();
@@ -51,90 +52,92 @@ export default function Layout({ children }) {
         navBar ? "backdrop:blur-sm" : ""
       }`}
     >
-      <NewPostProvider>
-        <Sidebar>
-          <SidebarItem
-            icon={<Home color="#009ED9" />}
-            text="Home"
-            active={activeComponent === "home"}
-            link="/u/home"
-          />
-          <SidebarItem
-            icon={<TrendingUp color="#009ED9" />}
-            text="Trending"
-            active={activeComponent === "trending"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<Siren color="#009ED9" />}
-            text="Latest"
-            active={activeComponent === "latest"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<Sparkles color="#009ED9" />}
-            text="Popular"
-            active={activeComponent === "popular"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<Flame color="#009ED9" />}
-            text="Hot"
-            active={activeComponent === "hot"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<Bell color="#009ED9" />}
-            text="Notification"
-            active={activeComponent === "notification"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<Crown color="#009ED9" />}
-            text="Subscription"
-            active={activeComponent === "subscription"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<Mail color="#009ED9" />}
-            text="Message"
-            active={activeComponent === "message"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<Bookmark color="#009ED9" />}
-            text="Bookmark"
-            active={activeComponent === "bookmark"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<User color="#009ED9" />}
-            text="My Profile"
-            active={activeComponent === "user"}
-            link={`/u/${user?.uid}`}
-          />
-          <SidebarItem
-            icon={<Wallet color="#009ED9" />}
-            text="Wallet"
-            active={activeComponent === "wallet"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<Gem color="#009ED9" />}
-            text="Premium account"
-            active={activeComponent === "gem"}
-            link="#"
-          />
-          <SidebarItem
-            icon={<BadgePercent color="#009ED9" />}
-            text="Referals"
-            active={activeComponent === "referals"}
-            link="#"
-          />
-        </Sidebar>
+      <PostProvider>
+        <NewPostProvider>
+          <Sidebar>
+            <SidebarItem
+              icon={<Home color="#009ED9" />}
+              text="Home"
+              active={activeComponent === "home"}
+              link="/u/home"
+            />
+            <SidebarItem
+              icon={<TrendingUp color="#009ED9" />}
+              text="Trending"
+              active={activeComponent === "trending"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<Siren color="#009ED9" />}
+              text="Latest"
+              active={activeComponent === "latest"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<Sparkles color="#009ED9" />}
+              text="Popular"
+              active={activeComponent === "popular"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<Flame color="#009ED9" />}
+              text="Hot"
+              active={activeComponent === "hot"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<Bell color="#009ED9" />}
+              text="Notification"
+              active={activeComponent === "notification"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<Crown color="#009ED9" />}
+              text="Subscription"
+              active={activeComponent === "subscription"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<Mail color="#009ED9" />}
+              text="Message"
+              active={activeComponent === "message"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<Bookmark color="#009ED9" />}
+              text="Bookmark"
+              active={activeComponent === "bookmark"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<User color="#009ED9" />}
+              text="My Profile"
+              active={activeComponent === "user"}
+              link={`/u/${user?.uid}`}
+            />
+            <SidebarItem
+              icon={<Wallet color="#009ED9" />}
+              text="Wallet"
+              active={activeComponent === "wallet"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<Gem color="#009ED9" />}
+              text="Premium account"
+              active={activeComponent === "gem"}
+              link="#"
+            />
+            <SidebarItem
+              icon={<BadgePercent color="#009ED9" />}
+              text="Referals"
+              active={activeComponent === "referals"}
+              link="#"
+            />
+          </Sidebar>
 
-        <section>{children}</section>
-      </NewPostProvider>
+          <section>{children}</section>
+        </NewPostProvider>
+      </PostProvider>
 
       {/* <div className="w-72 lg:block hidden  border-l-2 ">fff</div> */}
     </div>

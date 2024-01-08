@@ -1,40 +1,58 @@
 // InfiniteScrollPost.jsx
 
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "./Post";
 import { Separator } from "@/components/ui/separator";
+import { usePost } from "@/contexts/posts/context";
+import { UsePostsStream } from "@/lib/posts/firebase_read";
 
 const InfiniteScrollPost = () => {
-  const [items, setItems] = useState(Array.from({ length: 20 }));
-  const totalElements = 50; // Set the total number of elements
+  const { data, error, isLoading } = UsePostsStream();
+
+  const [posts, setPosts] = useState(data || []);
+
+  useEffect(() => {
+    if (data) {
+      setPosts(data);
+    }
+  }, [data]);
+
+  // Assuming totalElements is the total number of posts
+  const totalElements = 50; // Adjust this based on your total number of posts
 
   const fetchMoreData = () => {
     // A fake async API call that sends 20 more records in 1.5 secs
     setTimeout(() => {
-      const newItems =
-        items.length + 20 > totalElements
-          ? Array.from({ length: totalElements })
-          : items.concat(Array.from({ length: 20 }));
-      setItems(newItems);
+      const newPosts =
+        posts.length + 20 > totalElements
+          ? allPosts.slice(0, totalElements) // Ensure not to exceed the totalElements
+          : posts.concat(allPosts.slice(posts.length, posts.length + 20));
+      setPosts(newPosts);
     }, 1500);
   };
 
   return (
     <InfiniteScroll
       className="flex flex-col gap-4 w-full ml-1.5"
-      dataLength={items.length}
+      dataLength={posts.length}
       next={fetchMoreData}
-      hasMore={items.length < totalElements}
+      hasMore={posts.length < totalElements}
       loader={<h4>Loading...</h4>}
     >
-      {items.map((item, index) => (
-        <Post key={index} />
+      {posts.map((post, index) => (
+        <Post key={index} post={post} />
       ))}
       <Separator className="mt-4" />
       <div className="flex justify-center">
-        <h1>You Have Reached The End</h1>
+        <h1>
+          {isLoading
+            ? "Loading..."
+            : error
+            ? "An Error Occured"
+            : "No more posts"}
+        </h1>
       </div>
     </InfiniteScroll>
   );

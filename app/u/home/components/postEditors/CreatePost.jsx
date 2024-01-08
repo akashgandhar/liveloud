@@ -18,8 +18,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { MediaCarousel } from "./MediaCarousel";
 import { Smile, BarChartBig, GalleryThumbnails, ImagePlus } from "lucide-react";
 import { useNewPost } from "@/contexts/newPost/context";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
+import { useTheme } from "@/contexts/themeContext";
+import GifPicker from "gif-picker-react";
 
 export function CreatePostDiolog({ children }) {
+  const { theme } = useTheme();
   const {
     isLoading,
     handleChange,
@@ -31,11 +41,11 @@ export function CreatePostDiolog({ children }) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-xl p-1">
+      <DialogContent className="sm:max-w-xl p-2">
         <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
+          <DialogTitle>Create Post</DialogTitle>
           <DialogDescription>
-            Anyone who has this link will be able to view this.
+            Speak Loud Your Message to the Globe: Amplify Your Voice!
           </DialogDescription>
         </DialogHeader>
 
@@ -44,7 +54,7 @@ export function CreatePostDiolog({ children }) {
             onChange={(e) => handleChange("content", e.target.value)}
             value={postData?.content}
             name="content"
-            placeholder="Whats Happening"
+            placeholder="Whats Happening?!"
             className="resize-none text-2xl mt-3 pb-3 w-full h-fit max-h-56  outline-none border-none  py-2"
           />
           {postData?.media?.length > 0 && (
@@ -60,23 +70,47 @@ export function CreatePostDiolog({ children }) {
                 className="hidden"
                 type="file"
               />
-              <ImagePlus className="text-2xl mt-1 text-blue-700 cursor-pointer" />
+              <ImagePlus className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
             </label>
             {/* emoji icon */}
             <label className="flex m-2">
-              <input className="hidden" type="file" />
-              <Smile className="text-2xl mt-1 text-blue-700 cursor-pointer" />
+              <Popover>
+                <PopoverTrigger>
+                  <Smile className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+                </PopoverTrigger>
+                <PopoverContent className="w-fit">
+                  <Picker
+                    data={data}
+                    theme={theme}
+                    onEmojiSelect={(e) => {
+                      handleChange("content", postData?.content + e.native);
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
             </label>
             {/* gif icon */}
             <label className="flex m-2">
-              <input className="hidden" type="file" />
-              <GalleryThumbnails className="text-2xl mt-1 style={{ color: '#009ED9' }} cursor-pointer" />
+              <Popover>
+                <PopoverTrigger>
+                  <GalleryThumbnails className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+                </PopoverTrigger>
+                <PopoverContent className="w-fit">
+                  <GifPicker
+                    onGifClick={(e) => {
+                      console.log(e);
+                      handleMediaChange(e);
+                    }}
+                    tenorApiKey={"AIzaSyA6u39Z0ZKdnqk1SXfbrxm066ICUjQ4eKI"}
+                  />
+                </PopoverContent>
+              </Popover>
             </label>
             {/* poll icon */}
-            <label className="flex m-2">
+            {/* <label className="flex m-2">
               <input className="hidden" type="file" />
-              <BarChartBig className="text-2xl mt-1 text-blue-700 cursor-pointer" />
-            </label>
+              <BarChartBig className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+            </label> */}
           </div>
 
           <Button
@@ -86,7 +120,7 @@ export function CreatePostDiolog({ children }) {
               console.log(postData);
               createNewPost();
             }}
-            className="p-2.5 bg-blue-600 hover:bg-blue-800 text-white rounded-xl shadow-md hover:shadow-lg transition duration-150 ease-in-out disabled:cursor-not-allowed"
+            className="p-2.5 rounded-xl shadow-md bg-[#009ED9] text-white border border-white hover:text-[#009ED9] hover:bg-white hover:border-[#009ED9] hover:shadow-lg transition duration-150 ease-in-out disabled:cursor-not-allowed"
           >
             {isLoading ? "Loading..." : "Post"}
           </Button>

@@ -32,26 +32,29 @@ export default function CreatePostTrigger() {
       {/* image icon */}
       <div className="w-full px-4 ml-12">
         <div className="flex justify-start flex-wrap gap-4">
-          <label className="flex m-2">
-            <input className="hidden" type="file" />
-            <ImagePlus className="text-2xl mt-1 text-blue-700 cursor-pointer" />
-          </label>
+          <CreatePostDiolog>
+            <label className="flex m-2">
+              <ImagePlus className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+            </label>
+          </CreatePostDiolog>
           {/* emoji icon */}
-          <label className="flex m-2">
-            <input className="hidden" type="file" />
-            <Smile className="text-2xl mt-1 text-blue-700 cursor-pointer" />
-          </label>
+          <CreatePostDiolog>
+            <label className="flex m-2">
+              <Smile className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+            </label>
+          </CreatePostDiolog>
           {/* gif icon */}
-          <label className="flex m-2">
-            <input className="hidden" type="file" />
-            <GalleryThumbnails className="text-2xl mt-1 text-blue-700 cursor-pointer" />
-          </label>
+          <CreatePostDiolog>
+            <label className="flex m-2">
+              <GalleryThumbnails className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+            </label>
+          </CreatePostDiolog>
           {/* poll icon */}
-          <label className="flex m-2">
-            <input className="hidden" type="file" />
-            <BarChartBig className="text-2xl mt-1 text-blue-700 cursor-pointer" />
-          </label>
-
+          <CreatePostDiolog>
+            <label className="flex m-2">
+              <BarChartBig className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+            </label>
+          </CreatePostDiolog>
           {/* <button className="p-2.5 bg-blue-600 hover:bg-blue-800 text-white rounded-xl shadow-md hover:shadow-lg transition duration-150 ease-in-out disabled:cursor-not-allowed">
               Post
             </button> */}

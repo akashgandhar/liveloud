@@ -9,15 +9,17 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-export function MediaCarousel({ postMedia }) {
-  console.log(postMedia);
+export function PostMediaSlider({ postMedia }) {
+  // console.log("postMedia", postMedia);
+
+  console.log("postMedia", postMedia);
   return (
     <Carousel
       opts={{
         align: "center",
         loop: true,
       }}
-      className=" w-full md:w-[80%]"
+      className="w-full max-w-2xl"
     >
       <CarouselContent>
         {postMedia &&
@@ -26,20 +28,22 @@ export function MediaCarousel({ postMedia }) {
               <div className="p-1">
                 <Card>
                   <CardContent className="flex aspect-square items-center justify-center p-1">
-                    {media?.type == "video" ? (
+                    {media?.type === "video" && (
                       <video
-                        src={URL.createObjectURL(media.file)}
+                        src={media.url}
                         className="h-full w-full object-cover rounded-lg"
                         controls
                       />
-                    ) : media?.type === "gif" ? (
+                    )}{" "}
+                    {media?.type === "gif" && (
                       <img
                         src={media?.file?.url}
                         className="h-full w-full object-cover rounded-lg"
                       />
-                    ) : (
+                    )}{" "}
+                    {media?.type === "image" && (
                       <img
-                        src={URL.createObjectURL(media.file)}
+                        src={media?.url}
                         className="h-full w-full object-cover rounded-lg"
                       />
                     )}
@@ -49,8 +53,8 @@ export function MediaCarousel({ postMedia }) {
             </CarouselItem>
           ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      {/* <CarouselPrevious />
+      <CarouselNext /> */}
     </Carousel>
   );
 }

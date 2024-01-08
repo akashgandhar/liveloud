@@ -4,7 +4,10 @@ import { createContext, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "../auth/context";
-import { CreateNewPost } from "@/lib/posts/firebase_write";
+import {
+  CreateNewPost,
+  uploadFilesToStorage,
+} from "@/lib/posts/firebase_write";
 
 const NewPostContext = createContext();
 
@@ -47,21 +50,60 @@ export default function NewPostProvider({ children }) {
   `;
 
   const handleMediaChange = (event) => {
-    const selectedMedia = event.target.files[0];
+    var selectedMedia = null;
 
-    if (selectedMedia) {
-      const mediaType = selectedMedia.type.startsWith("image/")
-        ? "image"
-        : "video";
-      const mediaItem = {
-        file: selectedMedia,
-        type: mediaType,
+    if (event?.tenorUrl) {
+      selectedMedia = {
+        file: event,
+        type: "gif",
       };
 
       setPostData((prevState) => ({
         ...prevState,
-        media: [...prevState?.media, mediaItem],
+        media: [...prevState?.media, selectedMedia],
       }));
+    } else {
+      selectedMedia = event.target.files[0];
+
+      if (!selectedMedia) return;
+      if (
+        selectedMedia.type.startsWith("image/") &&
+        selectedMedia.size > 5000000
+      ) {
+        alert("File size should be less than 5 MB");
+        return;
+      }
+      if (
+        selectedMedia.type.startsWith("video/") &&
+        selectedMedia.size > 10000000
+      ) {
+        alert("Video size should be less than 10 MB");
+        return;
+      }
+
+      if (
+        !selectedMedia.type.startsWith("video/") ||
+        !selectedMedia.type.startsWith("image/")
+      ) {
+        alert("File type not supported");
+        console.log(selectedMedia.type);
+        return;
+      }
+
+      if (selectedMedia) {
+        const mediaType = selectedMedia.type.startsWith("image/")
+          ? "image"
+          : "video";
+        const mediaItem = {
+          file: selectedMedia,
+          type: mediaType,
+        };
+
+        setPostData((prevState) => ({
+          ...prevState,
+          media: [...prevState?.media, mediaItem],
+        }));
+      }
     }
   };
 
@@ -75,6 +117,19 @@ export default function NewPostProvider({ children }) {
     }
     try {
       // Create a new post document
+      // await uploadFilesToStorage(user, postData?.media).then((result) => {
+      //   setPostData((prevState) => ({
+      //     ...prevState,
+      //     media: result,
+      //   }));
+      // });
+
+      console.log("postData", postData);
+
+      if (!confirm("Are you sure you want to post?")) {
+        setIsLoading(false);
+        return;
+      }
 
       await CreateNewPost({ user, post: postData });
 

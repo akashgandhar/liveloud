@@ -3,7 +3,7 @@ import { db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export const CreateNewPost = async ({ user, post }) => {
-  const finalData = {
+  var finalData = {
     ...post,
     owner: user.uid,
     likes: [],
@@ -15,7 +15,16 @@ export const CreateNewPost = async ({ user, post }) => {
     createdAt: new Date(),
   };
 
+  await uploadFilesToStorage(user, post?.media).then((result) => {
+    finalData = {
+      ...finalData,
+      media: result,
+    };
+  });
+
   const postRef = collection(db, "posts");
+
+  console.log("finalData", finalData);
 
   try {
     await addDoc(postRef, finalData);
@@ -26,33 +35,37 @@ export const CreateNewPost = async ({ user, post }) => {
   }
 };
 
-export const BulkMediaUpload = async ({ user, postMedia }) => {
-  var mediaURLs = [];
+export async function uploadFilesToStorage(user, mediaArray) {
+  const resultArray = [];
 
-  console.log("postMedia", postMedia);
+  for (const mediaObject of mediaArray) {
+    const file = mediaObject.file;
+    const type = mediaObject.type;
 
-  try {
-    postMedia.forEach(async (media) => {
-      const mediaRef = ref(
-        storage,
-        `media/${user.uid}/posts/${
-          new Date().toISOString() + `-${media?.url?.slice(0, 10)}`
-        }`
-      );
-      await uploadBytes(mediaRef, media.file)
+    if (type == "gif") {
+      resultArray.push({ type: type, url: file.url });
+      continue;
+    }
+
+    // const fileRef = storage.ref().child(`${type}/${file.name}`);
+    const storageRef = ref(
+      storage,
+      `${user.uid}/posts/${type}/${file.name}-${new Date().getTime()}}`
+    );
+
+    try {
+      await uploadBytes(storageRef, file)
         .then((snapshot) => {
-          return getDownloadURL(snapshot.ref);
+          return getDownloadURL(storageRef);
         })
         .then(async (downloadUrl) => {
-          mediaURLs.push(downloadUrl);
+          resultArray.push({ type: type, url: downloadUrl });
         });
-    });
-
-    console.log("mediaURLs", mediaURLs);
-
-    return mediaURLs;
-  } catch (e) {
-    console.log("err", e);
-    return false;
+    } catch (error) {
+      console.error(`Error uploading file ${file.name}: ${error.message}`);
+      // You can handle errors here, e.g., retrying the upload or skipping the file
+    }
   }
-};
+
+  return resultArray;
+}
