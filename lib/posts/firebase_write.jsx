@@ -143,3 +143,28 @@ export const AmplifyPost = async (user, postId) => {
 
   return false;
 };
+export const CommentPost = async (user, postId, comment) => {
+  const postRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(postRef);
+
+  const commentData = {
+    owner: {
+      uid: user.uid,
+      name: user.displayName,
+      photoURL: user.photoURL,
+    },
+    content: comment,
+    createdAt: new Date(),
+  };
+
+  if (docSnap.exists()) {
+    const post = docSnap.data();
+
+    await updateDoc(postRef, {
+      comments: [...post.comments, commentData],
+    });
+    return true;
+  }
+
+  return false;
+};

@@ -88,3 +88,26 @@ export const UsePostUsertStream = (uid) => {
   );
   return { data, error, isLoading };
 };
+export const UsePostByIdtStream = (postId) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const { data, error } = useSWRSubscription(
+    [`posts/${postId}`],
+    ([path], { next }) => {
+      const ref = doc(db, path);
+      const unsubscribe = onSnapshot(
+        ref,
+        (snap) => {
+          setIsLoading(false);
+          next(null, snap.exists() ? snap.data() : null);
+        },
+        (error) => {
+          next(error.message);
+          console.log(error.message);
+          setIsLoading(false);
+        }
+      );
+      return () => unsubscribe();
+    }
+  );
+  return { data, error, isLoading };
+};

@@ -114,6 +114,9 @@ export default function NewPostProvider({ children }) {
     }));
   };
 
+
+  
+
   const createNewPost = async () => {
     setIsLoading(true);
     setIsDone(false);

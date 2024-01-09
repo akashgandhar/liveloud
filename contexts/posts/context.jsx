@@ -4,7 +4,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../auth/context";
 import { GetAllPosts } from "@/lib/posts/firebase_read";
-import { AmplifyPost, LikePost, SharePost } from "@/lib/posts/firebase_write";
+import {
+  AmplifyPost,
+  CommentPost,
+  LikePost,
+  SharePost,
+} from "@/lib/posts/firebase_write";
 
 const PostContext = createContext();
 
@@ -14,6 +19,7 @@ export default function PostProvider({ children }) {
   const [error, setError] = useState(null);
   const { user } = useAuth();
   const [isDone, setIsDone] = useState(false);
+  const [newComment, setNewComment] = useState("");
 
   const [allPosts, setAllPosts] = useState([]);
 
@@ -50,6 +56,31 @@ export default function PostProvider({ children }) {
     }
   };
 
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleCommentSubmit = async (e, postId) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const commented = await CommentPost(user, postId, newComment);
+
+      if (commented != true) {
+        alert("An error occured");
+        setIsLoading(false);
+        return;
+      }
+      setNewComment("");
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+      setIsLoading(false);
+      return;
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -59,6 +90,8 @@ export default function PostProvider({ children }) {
         handleSharePost,
         handleAmplifyPost,
         handleShare,
+        handleCommentChange,
+        handleCommentSubmit,
       }}
     >
       {children}
