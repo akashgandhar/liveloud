@@ -107,6 +107,13 @@ export default function NewPostProvider({ children }) {
     }
   };
 
+  const handleDeSelectMedia = (index) => {
+    setPostData((prevState) => ({
+      ...prevState,
+      media: prevState?.media?.filter((_, i) => i !== index),
+    }));
+  };
+
   const createNewPost = async () => {
     setIsLoading(true);
     setIsDone(false);
@@ -116,8 +123,6 @@ export default function NewPostProvider({ children }) {
       return;
     }
     try {
-      
-
       console.log("postData", postData);
 
       if (!confirm("Are you sure you want to post?")) {
@@ -134,7 +139,7 @@ export default function NewPostProvider({ children }) {
       setIsDone(true);
       setIsLoading(false);
     } catch (error) {
-      alert("1",error.message);
+      alert("1", error.message);
       setError(error);
       setIsLoading(false);
     }
@@ -150,6 +155,7 @@ export default function NewPostProvider({ children }) {
         setIsDone,
         createNewPost,
         handleMediaChange,
+        handleDeSelectMedia,
       }}
     >
       {children}

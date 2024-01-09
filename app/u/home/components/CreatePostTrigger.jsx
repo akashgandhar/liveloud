@@ -50,11 +50,11 @@ export default function CreatePostTrigger() {
             </label>
           </CreatePostDiolog>
           {/* poll icon */}
-          <CreatePostDiolog>
-            <label className="flex m-2">
+          {/* <CreatePostDiolog> */}
+          {/* <label className="flex m-2">
               <BarChartBig className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
             </label>
-          </CreatePostDiolog>
+          </CreatePostDiolog> */}
           {/* <button className="p-2.5 bg-blue-600 hover:bg-blue-800 text-white rounded-xl shadow-md hover:shadow-lg transition duration-150 ease-in-out disabled:cursor-not-allowed">
               Post
             </button> */}

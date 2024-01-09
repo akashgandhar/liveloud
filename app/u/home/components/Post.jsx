@@ -10,6 +10,7 @@ import { Timestamp } from "firebase/firestore";
 import moment from "moment";
 import { useAuth } from "@/contexts/auth/context";
 import { usePost } from "@/contexts/posts/context";
+import { PostOptions } from "./PostOptions";
 
 export default function Post({ post }) {
   const { data, isLoading, error } = UsePostUsertStream(post?.owner);
@@ -18,7 +19,7 @@ export default function Post({ post }) {
     usePost();
 
   return (
-    <div className="flex border dark:text-black rounded-lg ml-0 mr-2  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
+    <div className="flex border dark:text-black rounded-lg ml-0 mr-2 min-w-fit  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
       <div className="mt-3 w-12 h-12 text-lg flex-none">
         <img
           src={data?.photoURL}
@@ -37,7 +38,9 @@ export default function Post({ post }) {
           </h2>
 
           {/* //todo popover */}
-          <MoreHorizontal className="text-xl cursor-pointer " />
+          <PostOptions>
+            <MoreHorizontal className="text-xl cursor-pointer " />
+          </PostOptions>
         </div>
 
         <p className="py-3 cursor-pointer max-w-lg break-words">
@@ -47,7 +50,7 @@ export default function Post({ post }) {
           <div className="max-w-3xl mx-auto flex justify-center bg-blue-100 rounded-md cursor-pointer">
             <div
               // src="/bg.jpg"
-              className="max-w-full  rounded-md my-2 mx-auto"
+              className="max-w-[90%]  rounded-md my-2 mx-auto"
               // alt="avatar"
             >
               <PostMediaSlider postMedia={post?.media} />

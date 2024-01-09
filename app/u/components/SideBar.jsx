@@ -69,7 +69,14 @@ export default function Sidebar({ children }) {
             {/* {expanded ? <ChevronFirst /> : <ChevronLast />} */}
         </div>
         <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
+          <ul
+            onClick={() => {
+              setNavOpen(false);
+            }}
+            className="flex-1 px-3"
+          >
+            {children}
+          </ul>
         </SidebarContext.Provider>
         <div className="border-t flex p-3">
           {/* <img
@@ -87,7 +94,8 @@ export default function Sidebar({ children }) {
             </Link>
             <AvatarFallback>{Initials(user?.displayName)}</AvatarFallback>
           </Avatar>
-          <Link href={`/u/${user?.uid}`}
+          <Link
+            href={`/u/${user?.uid}`}
             className={`
               flex justify-between items-center
               overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
