@@ -19,7 +19,7 @@ export default function Post({ post }) {
     usePost();
 
   return (
-    <div className="flex border dark:text-black rounded-lg ml-0 mr-2 min-w-fit  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
+    <div className="flex border dark:text-black rounded-lg ml-0 mr-2 min-w-fit w-full shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
       <div className="mt-3 w-12 h-12 text-lg flex-none">
         <img
           src={data?.photoURL}

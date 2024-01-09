@@ -297,6 +297,9 @@
   background-color: var(--secondary-bg);
   border-radius: 10px;
   padding: 10px;
+  max-width: 300px;
+  max-height: 300px;
+  
 
   display: grid;
   grid-template-rows: 70% auto max-content;
@@ -304,9 +307,11 @@
 }
 .post-cover {
   position: relative;
-  background: url("/images/last-post.jpg") center;
+  /* background: url("/images/last-post.jpg") center; */
   background-size: cover;
   border-radius: 5px;
+  width: 100%;
+  height: 100%;
 }
 .last-badge {
   position: absolute;

@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { getUserProfile, validateHandle } from "@/lib/users/firebase_read";
 import {
@@ -21,6 +21,8 @@ export default function EditUserProvider({ children }) {
   const [isDone, setIsDone] = useState(false);
 
   const [userData, setUserData] = useState(null);
+
+  const { profileId } = useParams();
 
   const handleChange = (key, value) => {
     setUserData({
@@ -75,10 +77,10 @@ export default function EditUserProvider({ children }) {
 
   useEffect(() => {
     const getUserData = async () => {
-      const fetchedUser = await getUserProfile(user);
+      const fetchedUser = await getUserProfile(profileId);
       if (fetchedUser && !userData) {
         setUserData(fetchedUser);
-        setUserData({...fetchedUser, oldHandle: fetchedUser?.handle || ""})
+        setUserData({ ...fetchedUser, oldHandle: fetchedUser?.handle || "" });
       }
     };
 

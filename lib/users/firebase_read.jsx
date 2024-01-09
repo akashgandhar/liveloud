@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { db } from "../firebase";
+import useSWRSubscription from "swr/subscription";
 
 import {
   collection,
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   updateDoc,
   where,
@@ -41,7 +44,7 @@ export const getUserProfile = async (user) => {
   try {
     if (!user) return false;
 
-    const userRef = doc(db, "users", user?.uid);
+    const userRef = doc(db, "users", user);
 
     const userDoc = await getDoc(userRef);
 
@@ -53,4 +56,30 @@ export const getUserProfile = async (user) => {
     console.log("err", e);
     return false;
   }
+};
+
+
+
+export const UseUserPostsStream = (uid) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const { data, error } = useSWRSubscription([`posts`], ([path], { next }) => {
+    const ref = query(collection(db, path), where("owner", "==", uid));
+    const unsubscribe = onSnapshot(
+      ref,
+      (snap) => {
+        setIsLoading(false);
+        next(
+          null,
+          snap.docs.map((snap) => snap.data())
+        );
+      },
+      (error) => {
+        next(error.message);
+        console.log(error.message);
+        setIsLoading(false);
+      }
+    );
+    return () => unsubscribe();
+  });
+  return { data, error, isLoading };
 };
