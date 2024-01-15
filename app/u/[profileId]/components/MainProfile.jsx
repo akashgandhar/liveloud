@@ -6,17 +6,29 @@ import EditProfileDiolog from "./EditProfileDiolog";
 import { useEditUser } from "@/contexts/profile/context";
 import DragDropProfile, { ProfileUpload } from "./ProfileUpload";
 import { BannerUpload } from "./BannerUpload";
-import { UseUserPostsStream } from "@/lib/users/firebase_read";
+import { UseUserPostsStream, UseUserStream } from "@/lib/users/firebase_read";
 import ShowMyPost from "./ShowMyPosts";
 import { Separator } from "@/components/ui/separator";
+import InsertLineBreak from "@/app/helpers/LineBreaker";
 
 export default function MainProfile() {
   const { user, isLoading } = useAuth();
   const { profileId } = useParams();
   const { userData } = useEditUser();
-  const banner = userData?.banner || "/images/banner.jpg";
 
   const { data, isLoading: loading, error } = UseUserPostsStream(profileId);
+
+  const {
+    data: profile,
+    isLoading: IsProfileLoading,
+    error: isProfileError,
+  } = UseUserStream(profileId);
+
+  const banner = profile?.banner || "/images/banner.jpg";
+
+  // const {}
+
+  // console.log(userData);
 
   return (
     // <div class="container">
@@ -32,7 +44,7 @@ export default function MainProfile() {
             </div>
           )}
           <div class="main-profile position:relative">
-            <img src={userData?.photoURL} class="profile-image"></img>
+            <img src={profile?.photoURL} class="profile-image"></img>
             {/* <DragDropProfile /> */}
             {user?.uid === profileId && (
               <div class="absolute text-white bottom-2 left-24 ">
@@ -41,10 +53,10 @@ export default function MainProfile() {
             )}
             <div class="profile-names pl-2 dark:bg-gray-800">
               <h1 class="username font-bold dark:text-white">
-                {userData?.name}
+                {profile?.name}
               </h1>
               <small class="page-title dark:text-gray-100">
-                @{userData?.handle || "..."}
+                @{profile?.handle || "..."}
               </small>
             </div>
           </div>
@@ -68,10 +80,14 @@ export default function MainProfile() {
             <section class="bio">
               <div class="bio-header">
                 <i class="fa fa-info-circle"></i>
-                Info
+                Bio
               </div>
-              <p class="bio-text">+91 7983461538</p>
-              <p class="bio-text">+91 7983461538</p>
+              <p class="bio-text">
+                {InsertLineBreak({
+                  inputString: profile?.bio || "",
+                  characters: 15,
+                })}
+              </p>
             </section>
             {/* {JSON.stringify(data)} */}
           </div>
@@ -85,32 +101,49 @@ export default function MainProfile() {
                 </section>
                 <section class="data-item hover:cursor-pointer">
                   <h3 class="value font-bold">
-                    {userData?.followers?.length || 0}
+                    {profile?.followers?.length || 0}
                   </h3>
                   <small class="title font-semibold">Follower</small>
                 </section>
                 <section class="data-item hover:cursor-pointer">
                   <h3 class="value font-bold">
-                    {userData?.following?.length || 0}
+                    {profile?.following?.length || 0}
                   </h3>
                   <small class="title font-semibold">Following</small>
                 </section>
                 <section class="data-item">
-                  <h3 class="value font-bold">41K</h3>
+                  <h3 class="value font-bold">
+                    {data?.reduce((acc, item) => {
+                      return acc + item?.likes?.length;
+                    }, 0) || 0}
+                  </h3>
                   <small class="title font-semibold">Likes</small>
                 </section>
                 <section class="data-item hover:cursor-pointer">
-                  <h3 class="value font-bold">12K</h3>
+                  <h3 class="value font-bold">
+                    {data?.reduce((acc, item) => {
+                      return acc + item?.comments?.length;
+                    }, 0) || 0}
+                  </h3>
                   <small class="title font-semibold">Comments</small>
                 </section>
                 <section class="data-item hover:cursor-pointer">
-                  <h3 class="value font-bold">2K</h3>
+                  <h3 class="value font-bold">
+                    {data?.reduce((acc, item) => {
+                      return acc + item?.saves?.length;
+                    }, 0) || 0}
+                  </h3>
                   <small class="title font-semibold">Saved</small>
                 </section>
               </div>
             </div>
 
-            <div class="social-media">bio</div>
+            {/* <div class="social-media">
+                {InsertLineBreak({
+                  inputString: profile?.bio || "",
+                  characters: 50,
+                })}
+            </div> */}
 
             <div class="last-post">
               <div class="post-cover">
@@ -119,7 +152,7 @@ export default function MainProfile() {
                   src={
                     data?.sort((a, b) => {
                       return b?.createdAt?.seconds - a?.createdAt?.seconds;
-                    })[0].media[0].url || "/images/last-post.jpg"
+                    })[0]?.media[0]?.url || "/images/last-post.jpg"
                   }
                   className="h-full w-full"
                 />
@@ -129,7 +162,7 @@ export default function MainProfile() {
                   ?.sort((a, b) => {
                     return b?.createdAt?.seconds - a?.createdAt?.seconds;
                   })[0]
-                  .content.slice(0, 20)}
+                  ?.content.slice(0, 20)}
               </h3>
               <button class="post-CTA">View</button>
             </div>
@@ -137,7 +170,7 @@ export default function MainProfile() {
         </div>
       </div>
       <div className="w-full flex flex-col items-center  justify-center">
-        <h1 className="text-2xl font-bold">{userData?.name}&apos;s Post</h1>
+        <h1 className="text-2xl font-bold">{profile?.name}&apos;s Post</h1>
         <Separator className="my-2" />
         <ShowMyPost />
       </div>

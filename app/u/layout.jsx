@@ -21,7 +21,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth/context";
 import NewPostProvider from "@/contexts/newPost/context";
 import PostProvider from "@/contexts/posts/context";
-import FollowProvider from "@/contexts/follow/context";
+import ChatContextProvider from "@/contexts/chatContext";
 
 export default function Layout({ children }) {
   const path = usePathname();
@@ -53,8 +53,8 @@ export default function Layout({ children }) {
         navBar ? "backdrop:blur-sm" : ""
       }`}
     >
-      <PostProvider>
-        <FollowProvider>
+      <ChatContextProvider>
+        <PostProvider>
           <NewPostProvider>
             <Sidebar>
               <SidebarItem
@@ -67,25 +67,25 @@ export default function Layout({ children }) {
                 icon={<TrendingUp color="#009ED9" />}
                 text="Trending"
                 active={activeComponent === "trending"}
-                link="#"
+                link="/u/trending"
               />
               <SidebarItem
                 icon={<Siren color="#009ED9" />}
                 text="Latest"
                 active={activeComponent === "latest"}
-                link="#"
+                link="/u/latest"
               />
               <SidebarItem
                 icon={<Sparkles color="#009ED9" />}
                 text="Popular"
                 active={activeComponent === "popular"}
-                link="#"
+                link="/u/popular"
               />
               <SidebarItem
                 icon={<Flame color="#009ED9" />}
                 text="Hot"
                 active={activeComponent === "hot"}
-                link="#"
+                link="/u/hot"
               />
               <SidebarItem
                 icon={<Bell color="#009ED9" />}
@@ -103,7 +103,7 @@ export default function Layout({ children }) {
                 icon={<Mail color="#009ED9" />}
                 text="Message"
                 active={activeComponent === "message"}
-                link="#"
+                link="/u/message"
               />
               <SidebarItem
                 icon={<Bookmark color="#009ED9" />}
@@ -139,8 +139,8 @@ export default function Layout({ children }) {
 
             <section>{children}</section>
           </NewPostProvider>
-        </FollowProvider>
-      </PostProvider>
+        </PostProvider>
+      </ChatContextProvider>
 
       {/* <div className="w-72 lg:block hidden  border-l-2 ">fff</div> */}
     </div>

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useEditUser } from "@/contexts/profile/context";
 
 export default function EditProfileDiolog({ children }) {
@@ -38,7 +39,7 @@ export default function EditProfileDiolog({ children }) {
                 handleChange("name", e.target.value);
               }}
               id="name"
-              value={userData?.name}
+              value={userData?.name || ""}
               className="col-span-3"
             />
           </div>
@@ -51,8 +52,21 @@ export default function EditProfileDiolog({ children }) {
                 handleChange("handle", e.target.value);
               }}
               id="username"
-              value={userData?.handle}
+              value={userData?.handle || ""}
               className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="bio" className="text-right">
+              Bio
+            </Label>
+            <Textarea
+              onChange={(e) => {
+                handleChange("bio", e.target.value);
+              }}
+              id="bio"
+              value={userData?.bio || ""}
+              className="col-span-3 border"
             />
           </div>
         </div>

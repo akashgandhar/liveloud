@@ -47,7 +47,10 @@ export default function PostProvider({ children }) {
   const handleShare = async (data) => {
     try {
       await navigator.share({
-        text: data,
+        text: data?.text,
+        url: data?.url,
+        files: data?.files,
+        title: data?.title,
       });
       console.log("Successfully shared");
     } catch (error) {
@@ -63,6 +66,13 @@ export default function PostProvider({ children }) {
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
     setIsLoading(true);
+
+    if (!newComment || newComment?.trim() === "") {
+      alert("Comment cannot be empty");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const commented = await CommentPost(user, postId, newComment);
 
@@ -71,7 +81,7 @@ export default function PostProvider({ children }) {
         setIsLoading(false);
         return;
       }
-      setNewComment("");
+      handleCommentChange({ target: { value: "" } });
       setIsLoading(false);
     } catch (error) {
       console.log(error);

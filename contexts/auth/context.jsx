@@ -144,6 +144,12 @@ export default function AuthProvider({ children }) {
       });
       // ..
     });
+
+    Swal.fire({
+      title: "Success!",
+      text: "Password reset email sent successfully",
+      icon: "success",
+    });
   };
 
   const logout = async () => {

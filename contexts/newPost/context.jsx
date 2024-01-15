@@ -86,7 +86,7 @@ export default function NewPostProvider({ children }) {
         !selectedMedia.type.startsWith("image/")
       ) {
         alert("File type not supported");
-        console.log(selectedMedia.type);
+        // console.log(selectedMedia.type);
         return;
       }
 
@@ -126,7 +126,7 @@ export default function NewPostProvider({ children }) {
       return;
     }
     try {
-      console.log("postData", postData);
+      // console.log("postData", postData);
 
       if (!confirm("Are you sure you want to post?")) {
         setIsLoading(false);

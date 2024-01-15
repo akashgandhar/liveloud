@@ -1,5 +1,5 @@
-export default function InsertLineBreak({ inputString }) {
-  const charactersPerLine = 35;
+export default function InsertLineBreak({ inputString, characters }) {
+  const charactersPerLine = characters || 35;
   let outputString = "";
 
   for (let i = 0; i < inputString.length; i++) {
