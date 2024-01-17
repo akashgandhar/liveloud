@@ -8,6 +8,7 @@ import {
   AmplifyPost,
   CommentPost,
   LikePost,
+  SavePost,
   SharePost,
 } from "@/lib/posts/firebase_write";
 
@@ -26,6 +27,12 @@ export default function PostProvider({ children }) {
   const handleLikePost = async (postId) => {
     const liked = await LikePost(user, postId);
     if (liked != true) {
+      alert("An error occured");
+    }
+  };
+  const handleSavePost = async (postId) => {
+    const saved = await SavePost(user, postId);
+    if (saved != true) {
       alert("An error occured");
     }
   };
@@ -102,6 +109,7 @@ export default function PostProvider({ children }) {
         handleShare,
         handleCommentChange,
         handleCommentSubmit,
+        handleSavePost,
       }}
     >
       {children}

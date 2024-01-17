@@ -1,5 +1,6 @@
 import {
   addDoc,
+  arrayRemove,
   collection,
   doc,
   getDoc,
@@ -94,6 +95,27 @@ export const LikePost = async (user, postId) => {
     } else {
       await updateDoc(postRef, {
         likes: [...post.likes, user.uid],
+      });
+      return true;
+    }
+  }
+
+  return false;
+};
+export const SavePost = async (user, postId) => {
+  const postRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(postRef);
+
+  if (docSnap.exists()) {
+    const post = docSnap.data();
+    if (post.saved.includes(user.uid)) {
+      await updateDoc(postRef, {
+        saved: post.saved.filter((id) => id != user.uid),
+      });
+      return true;
+    } else {
+      await updateDoc(postRef, {
+        saved: [...post.saved, user.uid],
       });
       return true;
     }

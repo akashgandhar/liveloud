@@ -132,6 +132,14 @@ export default function Post({ post }) {
               {post?.shared?.length}
             </span>
           </div>
+          <div title="Share" className="flex justify-center items-center gap-2">
+            <Share2
+              stroke={post?.shared?.includes(user?.uid) ? "#009ED9" : "#000"}
+              onClick={() => ''}
+              className="text-xl cursor-pointer "
+            />
+            
+          </div>
         </div>
       </div>
     </div>

@@ -10,6 +10,9 @@ import { UseUserPostsStream, UseUserStream } from "@/lib/users/firebase_read";
 import ShowMyPost from "./ShowMyPosts";
 import { Separator } from "@/components/ui/separator";
 import InsertLineBreak from "@/app/helpers/LineBreaker";
+import { useFollow } from "@/contexts/follow/context";
+import { ShowFollowersDiolog } from "./ShowFollowersDiolog";
+import { ShowFollowingsDiolog } from "./ShowFollowingsDiolog";
 
 export default function MainProfile() {
   const { user, isLoading } = useAuth();
@@ -17,6 +20,13 @@ export default function MainProfile() {
   const { userData } = useEditUser();
 
   const { data, isLoading: loading, error } = UseUserPostsStream(profileId);
+
+  const {
+    error: isError,
+    isLoading: loadingFollow,
+    isDone,
+    handleFollowUnfollow,
+  } = useFollow();
 
   const {
     data: profile,
@@ -69,8 +79,16 @@ export default function MainProfile() {
                 <button class="follow absolute left-0">Edit</button>
               </EditProfileDiolog>
             ) : (
-              <button class="follow">
-                {isLoading ? "Loading..." : "Follow"}
+              <button
+                disabled={loadingFollow}
+                onClick={() => handleFollowUnfollow(profile?.uid)}
+                class="follow"
+              >
+                {isLoading
+                  ? "Loading..."
+                  : profile?.followers?.includes(user?.uid)
+                  ? "UnFollow"
+                  : "Follow"}
               </button>
             )}
             {user?.uid != profileId && (
@@ -96,21 +114,25 @@ export default function MainProfile() {
             <div class="data bg-white p-4 rounded-lg shadow-md">
               <div class="important-data">
                 <section class="data-item">
-                  <h3 class="value font-bold">{data?.length}</h3>
+                  <h3 class="value font-bold">{data?.length || 0}</h3>
                   <small class="title font-semibold">Post</small>
                 </section>
-                <section class="data-item hover:cursor-pointer">
-                  <h3 class="value font-bold">
-                    {profile?.followers?.length || 0}
-                  </h3>
-                  <small class="title font-semibold">Follower</small>
-                </section>
-                <section class="data-item hover:cursor-pointer">
-                  <h3 class="value font-bold">
-                    {profile?.following?.length || 0}
-                  </h3>
-                  <small class="title font-semibold">Following</small>
-                </section>
+                <ShowFollowersDiolog>
+                  <section class="data-item hover:cursor-pointer">
+                    <h3 class="value font-bold">
+                      {profile?.followers?.length || 0}
+                    </h3>
+                    <small class="title font-semibold">Follower</small>
+                  </section>
+                </ShowFollowersDiolog>
+                <ShowFollowingsDiolog>
+                  <section class="data-item hover:cursor-pointer">
+                    <h3 class="value font-bold">
+                      {profile?.following?.length || 0}
+                    </h3>
+                    <small class="title font-semibold">Following</small>
+                  </section>
+                </ShowFollowingsDiolog>
                 <section class="data-item">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {

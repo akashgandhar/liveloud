@@ -35,7 +35,7 @@ export default function RecommendedProfiles() {
 
               <Link
                 key={index}
-                href="#"
+                href={`/u/${profile?.uid}`}
                 class="w-full sm:w-full lg:flex-none flex-wrap justify-between bg-gray-100  focus:ring-4 focus:outline-none focus:ring-gray-300 text-black rounded-lg inline-flex items-center  px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
               >
                 <div className="flex-1 gap-1 flex items-center ">
