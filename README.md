@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-## LiveLoud Social Media Platform
+### LiveLoud Social Media Platform
+
+### Introduction
+Welcome to LiveLoud, the social media platform that empowers users to speak freely, express themselves, and earn tokens through their contributions. At LiveLoud, we believe in the freedom of speech, providing a space where anyone can voice their thoughts, ideas, and creativity without restrictions.
+
+## Features
+
 
 ## Getting Started
 
