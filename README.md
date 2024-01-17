@@ -16,8 +16,8 @@ Welcome to LiveLoud, the social media platform that empowers users to speak free
 ### Post and Earn
 
 
-# Future Scope for Creators
-## At LiveLoud, we are committed to providing creators with a dynamic and rewarding platform. As we continue to grow and evolve, here are some exciting future opportunities and features we're exploring to enhance your experience as a creator:
+# Future Scope for Creators :
+
 ### Monetization Options
 ### Enhanced Analytics
 ### Exclusive Creator Programs
@@ -28,7 +28,7 @@ Welcome to LiveLoud, the social media platform that empowers users to speak free
 ### Educational Resources
 ### User-Driven Innovation
 
-# Future Scope for Users
+# Future Scope for Users :
 ### Personalized User Profiles
 ### Advanced Privacy Controls
 ### Make Friends and Connect with Celebrities
