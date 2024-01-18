@@ -35,6 +35,7 @@ export default function PostProvider({ children }) {
     if (saved != true) {
       alert("An error occured");
     }
+    alert("Post Saved");
   };
 
   const handleSharePost = async (postId) => {

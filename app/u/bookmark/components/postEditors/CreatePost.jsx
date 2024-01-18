@@ -93,13 +93,7 @@ export function CreatePostDiolog({ children }) {
             <label className="flex m-2">
               <Popover>
                 <PopoverTrigger>
-                <img
-                  src="/gif2.svg"  
-                  alt="GIF"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer item-center"/>
-                                                                            
+                  <GalleryThumbnails className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
                 </PopoverTrigger>
                 <PopoverContent className="w-fit">
                   <GifPicker

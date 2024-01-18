@@ -152,7 +152,7 @@ export default function MainProfile() {
                 <section class="data-item hover:cursor-pointer">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
-                      return acc + item?.saves?.length;
+                      return acc + (item?.saved?.length || 0);
                     }, 0) || 0}
                   </h3>
                   <small class="title font-semibold">Saved</small>

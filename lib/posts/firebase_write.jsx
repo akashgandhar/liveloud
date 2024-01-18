@@ -108,14 +108,14 @@ export const SavePost = async (user, postId) => {
 
   if (docSnap.exists()) {
     const post = docSnap.data();
-    if (post.saved.includes(user.uid)) {
+    if (post?.saved?.includes(user?.uid)) {
       await updateDoc(postRef, {
-        saved: post.saved.filter((id) => id != user.uid),
+        saved: post?.saved?.filter((id) => id != user?.uid),
       });
       return true;
     } else {
       await updateDoc(postRef, {
-        saved: [...post.saved, user.uid],
+        saved: [...post?.saved || [], user?.uid],
       });
       return true;
     }

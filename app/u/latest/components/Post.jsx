@@ -1,7 +1,7 @@
 import React from "react";
 import { Heart } from "lucide-react";
 import { MessageSquare } from "lucide-react";
-import { Share2 } from "lucide-react";
+import { Share2, Bookmark } from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
 import { Volume2 } from "lucide-react";
 import { PostMediaSlider } from "./PostMediaSlider";
@@ -18,8 +18,13 @@ import Link from "next/link";
 export default function Post({ post }) {
   const { data, isLoading, error } = UsePostUsertStream(post?.owner);
   const { user } = useAuth();
-  const { handleLikePost, handleSharePost, handleAmplifyPost, handleShare } =
-    usePost();
+  const {
+    handleLikePost,
+    handleSharePost,
+    handleAmplifyPost,
+    handleShare,
+    handleSavePost,
+  } = usePost();
 
   const router = useRouter();
 
@@ -116,7 +121,14 @@ export default function Post({ post }) {
             <Share2
               stroke={post?.shared?.includes(user?.uid) ? "#009ED9" : "#000"}
               onClick={() => {
-                handleShare(post?.content);
+                const url = `http://localhost:3000/u/posts/${post?.postId}`;
+                const title = `${data?.name} shared a post`;
+                handleShare({
+                  text: post?.content,
+                  url: url,
+                  files: post?.media?.map((media) => media?.url),
+                  title: title,
+                });
                 handleSharePost(post?.postId);
               }}
               className="text-xl cursor-pointer "
@@ -124,6 +136,14 @@ export default function Post({ post }) {
             <span className="text-sm  font-semibold">
               {post?.shared?.length}
             </span>
+          </div>
+          <div title="Share" className="flex justify-center items-center gap-2">
+            <Bookmark
+              stroke={post?.saved?.includes(user?.uid) ? "#009ED9" : "#000"}
+              fill={post?.saved?.includes(user?.uid) ? "#009ED9" : "#fff"}
+              onClick={() => handleSavePost(post?.postId)}
+              className="text-xl cursor-pointer"
+            />
           </div>
         </div>
       </div>

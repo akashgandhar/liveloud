@@ -31,7 +31,7 @@ export default function CreatePostTrigger() {
       </div>
       {/* image icon */}
       <div className="w-full px-4 ml-12">
-        <div className="flex flex-row item-center justify-start flex-wrap gap-4">
+        <div className="flex justify-start flex-wrap gap-4">
           <CreatePostDiolog>
             <label className="flex m-2">
               <ImagePlus className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
@@ -46,12 +46,7 @@ export default function CreatePostTrigger() {
           {/* gif icon */}
           <CreatePostDiolog>
             <label className="flex m-2">
-            <img
-                src="/gif2.svg"  
-                alt="GIF"
-                width={24}
-                height={24}
-                className="cursor-pointer item-center  "/>
+              <GalleryThumbnails className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
             </label>
           </CreatePostDiolog>
           {/* poll icon */}

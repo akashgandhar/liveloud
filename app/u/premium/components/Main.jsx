@@ -1,7 +1,10 @@
 "use client";
+import { usePremium } from "@/contexts/premium/context";
 import React from "react";
 
 export default function Main() {
+  const { selectedPackage, setSelectedPackage } = usePremium();
+  console.log(selectedPackage);
   return (
     <div class="w-full text-center rounded-md  p-8 shadow-xs">
       <div class="mb-6 flex items-center justify-center">
@@ -49,15 +52,25 @@ export default function Main() {
         </div>
       </div>
 
-      <div class="mt-6 flex justify-between space-x-4">
-        <div class="flex-1 rounded-md bg-white cursor-pointer hover:outline outline-gray-300 p-4">
+      <div class="mt-6 flex flex-wrap justify-between gap-4">
+        <div
+          onClick={() => setSelectedPackage("monthly")}
+          class={`flex-1 rounded-md bg-white cursor-pointer ${
+            selectedPackage === "monthly" && "outline"
+          } hover:outline outline-gray-300 p-4`}
+        >
           <p class="text-sm text-gray-600">Monthly Subscription</p>
-          <p class="text-lg font-bold text-gray-800">TBD</p>
+          <p class="text-lg font-bold text-gray-800">$ 5 ~ </p>
         </div>
 
-        <div class="flex-1 rounded-md bg-white cursor-pointer hover:outline outline-gray-300 p-4">
+        <div
+          onClick={() => setSelectedPackage("yearly")}
+          class={`flex-1 rounded-md bg-white cursor-pointer ${
+            selectedPackage === "yearly" && "outline"
+          } hover:outline outline-gray-300 p-4`}
+        >
           <p class="text-sm text-gray-600">Annual Subscription</p>
-          <p class="text-lg font-bold text-gray-800">TBD</p>
+          <p class="text-lg font-bold text-gray-800">$ 50  ~ </p>
         </div>
       </div>
 

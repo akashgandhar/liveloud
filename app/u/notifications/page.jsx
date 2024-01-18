@@ -11,7 +11,8 @@ export default function Page() {
   return (
     <div className="flex pl-20 pr-2 w-screen min-h-screen justify-center h-screen overflow-hidden">
       <div className="flex w-full h-full justify-center">
-        <div className="w-1/4 p-4 hidden  h-screen lg:flex flex-col gap-4">
+                <div className="w-1/4 p-4 hidden overflow-y-scroll h-screen lg:flex flex-col gap-4">
+
           {/* Left Section */}
           <div className="h-3/4">
             <RecommendedProfiles />
@@ -22,7 +23,7 @@ export default function Page() {
           {/* Center Section */}
           <ListView />
         </div>
-        <div className="w-1/4 hidden h-full  lg:flex gap-4 flex-col p-4">
+        <div className="w-1/4 hidden h-full overflow-y-scroll lg:flex gap-4 flex-col p-4">
           {/*right section*/}
           <CardWithSearchBar />
           <Subscribe />
