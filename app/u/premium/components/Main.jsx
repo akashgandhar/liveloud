@@ -3,7 +3,8 @@ import { usePremium } from "@/contexts/premium/context";
 import React from "react";
 
 export default function Main() {
-  const { selectedPackage, setSelectedPackage } = usePremium();
+  const { selectedPackage, setSelectedPackage, payToSubscribe, isLoading } =
+    usePremium();
   console.log(selectedPackage);
   return (
     <div class="w-full text-center rounded-md  p-8 shadow-xs">
@@ -75,8 +76,12 @@ export default function Main() {
       </div>
 
       <div class="mt-4 flex items-center justify-center">
-        <button class="cursor-pointer rounded-md border bg-[#009ED9] px-4 py-2 text-white hover:border-[#009ED9] hover:bg-white hover:text-[#009ED9]">
-          Subscribe Now
+        <button
+          disabled={isLoading}
+          onClick={() => payToSubscribe()}
+          class="cursor-pointer rounded-md border bg-[#009ED9] px-4 py-2 text-white hover:border-[#009ED9] hover:bg-white hover:text-[#009ED9]"
+        >
+          {isLoading ? "Loading..." : "Subscribe Now"}
         </button>
       </div>
 
