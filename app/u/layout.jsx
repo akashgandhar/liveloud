@@ -125,7 +125,7 @@ export default function Layout({ children }) {
                     icon={<Wallet color="#009ED9" />}
                     text="Wallet"
                     active={activeComponent === "wallet"}
-                    link="#"
+                    link="/u/wallet"
                   />
                   <SidebarItem
                     icon={<Gem color="#009ED9" />}

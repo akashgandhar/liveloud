@@ -15,11 +15,21 @@ export default function PremiumProvider({ children }) {
   const [isDone, setIsDone] = useState(false);
 
 
-    const [selectedPackage, setSelectedPackage] = useState(null);
+  const [selectedPackage, setSelectedPackage] = useState(null);
 
+  const payToSubscribe = async () => {
+    setIsLoading(true);
 
+    const requestSended = await SentPaymentRequestForSubscription(selectedPackage);
 
-  
+    if(!requestSended){
+      setIsLoading(false);
+      setError("Something went wrong");
+      return;
+    }
+
+  }
+
 
   return (
     <PremiumContext.Provider

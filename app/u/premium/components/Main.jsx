@@ -60,7 +60,7 @@ export default function Main() {
           } hover:outline outline-gray-300 p-4`}
         >
           <p class="text-sm text-gray-600">Monthly Subscription</p>
-          <p class="text-lg font-bold text-gray-800">$ 5 ~ </p>
+          <p class="text-lg font-bold text-gray-800">2,000 XP</p>
         </div>
 
         <div
@@ -70,7 +70,7 @@ export default function Main() {
           } hover:outline outline-gray-300 p-4`}
         >
           <p class="text-sm text-gray-600">Annual Subscription</p>
-          <p class="text-lg font-bold text-gray-800">$ 50  ~ </p>
+          <p class="text-lg font-bold text-gray-800">20,000 XP</p>
         </div>
       </div>
 
