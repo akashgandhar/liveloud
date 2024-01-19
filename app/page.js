@@ -12,7 +12,7 @@ export default function Home() {
   const router = useRouter();
 
   if (user) {
-    router.push(`/u/${user?.uid}`);
+    router.replace(`/u/${user?.uid}`);
   }
 
   if (!isLoading && !user) {

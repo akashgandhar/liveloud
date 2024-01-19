@@ -9,11 +9,15 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import Swal from "sweetalert2";
-import { SendReferRequest } from "@/lib/users/firebase_write";
+import {
+  SendReferRequest,
+  updateUserProfile,
+} from "@/lib/users/firebase_write";
 
 const AuthContext = createContext();
 
@@ -49,12 +53,13 @@ export default function AuthProvider({ children }) {
   const signInWithGoogle = async () => {
     return await signInWithPopup(auth, new GoogleAuthProvider())
       .then(async (user) => {
-        await SendReferRequest(
-          user.user,
-          localStorage.getItem("referId") ?? ""
-        ).catch((error) => {
-          alert("Error in refer request");
-        });
+        await SendReferRequest(user.user, localStorage.getItem("referId") ?? "")
+          .then(() => {
+            localStorage?.removeItem("referId");
+          })
+          .catch((error) => {
+            alert("Error in refer request");
+          });
         return user.user;
       })
       .catch((error) => {
@@ -74,15 +79,20 @@ export default function AuthProvider({ children }) {
       .then(async (userCredential) => {
         await SendReferRequest(
           userCredential.user,
-          localStorage.getItem("referId") ?? ""
-        ).catch((error) => {
-          alert("Error in refer request");
-        });
+          localStorage?.getItem("referId") ?? ""
+        )
+          .then(() => {
+            localStorage.removeItem("referId");
+          })
+          .catch((error) => {
+            alert("Error in refer request");
+          });
 
-        return {
-          status: true,
-          user: userCredential.user,
-        };
+        // return {
+        //   status: true,
+        // user: userCredential.user,
+        // };
+        return updateUserProfile(userCredential.user, userData);
       })
       .catch((error) => {
         const errorCode = error.code;

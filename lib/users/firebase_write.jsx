@@ -2,7 +2,7 @@ import { updateProfile } from "firebase/auth";
 import { db, storage } from "../firebase";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
-import { addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 
 export const updateUserProfile = async (user, data) => {
   try {
@@ -96,7 +96,7 @@ export const SendReferRequest = async (user, endUserId) => {
       }
     }
 
-    const Ref = doc(db, "refer_requests");
+    const Ref = collection(db, "refer_requests");
 
     const data = {
       from: user?.uid,

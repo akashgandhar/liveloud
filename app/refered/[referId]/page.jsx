@@ -1,9 +1,17 @@
+"use client";
+import { useAuth } from "@/contexts/auth/context";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 export default function Page() {
   const { referId } = useParams();
   const router = useRouter();
+
+  const { user } = useAuth();
+
+  if (user) {
+    router.replace("/u/home");
+  }
 
   useEffect(() => {
     if (!localStorage) {
@@ -13,16 +21,12 @@ export default function Page() {
       alert("Invalid referal link");
       router.push("/");
     }
-    if (localStorage.getItem("referId")) {
-      alert("You have already used a referal link");
-      if (!confirm("Do you want to use this link instead?")) {
-        router.push("/");
-      }
-    } else {
+
+    return () => {
       localStorage.setItem("referId", referId);
-      router.push("/");
-    }
-  }, [referId, router]);
+      router.replace("/");
+    };
+  }, [referId, router, localStorage]);
 
   return (
     <div className="w-full h-screen flex items-center justify-center">
