@@ -84,15 +84,17 @@ export default function Main() {
             </p>
             <p class="text-lg font-bold text-gray-800">
               Expires In :{" "}
-              {moment(activeSubscription?.endDate?.toDate()).diff(
+              {moment(activeSubscription?.endTime?.toDate()).diff(
                 new Date(),
                 "days"
               ) == 0
                 ? "Today"
-                : moment(activeSubscription?.endDate?.toDate()).diff(
+                : moment(activeSubscription?.endTime?.toDate()).diff(
                     new Date(),
                     "days"
-                  ) + " days"}
+                  ) +
+                  1 +
+                  " days"}
             </p>
           </div>
         ) : subLoading ? (
