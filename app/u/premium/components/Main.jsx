@@ -1,11 +1,29 @@
 "use client";
+import { useAuth } from "@/contexts/auth/context";
 import { usePremium } from "@/contexts/premium/context";
+import { UseActiveSubscriptionStream } from "@/lib/premium/firebase_read";
+import { UseUserStream } from "@/lib/users/firebase_read";
+import moment from "moment";
 import React from "react";
 
 export default function Main() {
   const { selectedPackage, setSelectedPackage, payToSubscribe, isLoading } =
     usePremium();
-  console.log(selectedPackage);
+
+  const { user } = useAuth();
+
+  const {
+    data: profile,
+    isLoading: IsProfileLoading,
+    error: isProfileError,
+  } = UseUserStream(user?.uid);
+
+  const {
+    data: activeSubscription,
+    error: subError,
+    isLoading: subLoading,
+  } = UseActiveSubscriptionStream(profile);
+
   return (
     <div class="w-full text-center rounded-md  p-8 shadow-xs">
       <div class="mb-6 flex items-center justify-center">
@@ -54,35 +72,74 @@ export default function Main() {
       </div>
 
       <div class="mt-6 flex flex-wrap justify-between gap-4">
-        <div
-          onClick={() => setSelectedPackage("monthly")}
-          class={`flex-1 rounded-md bg-white cursor-pointer ${
-            selectedPackage === "monthly" && "outline"
-          } hover:outline outline-gray-300 p-4`}
-        >
-          <p class="text-sm text-gray-600">Monthly Subscription</p>
-          <p class="text-lg font-bold text-gray-800">2,000 XP</p>
-        </div>
-
-        <div
-          onClick={() => setSelectedPackage("yearly")}
-          class={`flex-1 rounded-md bg-white cursor-pointer ${
-            selectedPackage === "yearly" && "outline"
-          } hover:outline outline-gray-300 p-4`}
-        >
-          <p class="text-sm text-gray-600">Annual Subscription</p>
-          <p class="text-lg font-bold text-gray-800">20,000 XP</p>
-        </div>
+        {activeSubscription ? (
+          <div
+            class={`flex-1 rounded-md bg-white cursor-pointer hover:outline outline-gray-300 p-4`}
+          >
+            <p class="text-sm text-gray-600">
+              Active Subscription :{" "}
+              <span className="uppercase font-bold">
+                {activeSubscription?.subscriptionType}
+              </span>
+            </p>
+            <p class="text-lg font-bold text-gray-800">
+              Expires In :{" "}
+              {moment(activeSubscription?.endDate?.toDate()).diff(
+                new Date(),
+                "days"
+              ) == 0
+                ? "Today"
+                : moment(activeSubscription?.endDate?.toDate()).diff(
+                    new Date(),
+                    "days"
+                  ) + " days"}
+            </p>
+          </div>
+        ) : subLoading ? (
+          <div
+            class={`flex-1 rounded-md bg-white cursor-pointer hover:outline outline-gray-300 p-4`}
+          >
+            {/* <p class="text-sm text-gray-600">Monthly Subscription</p> */}
+            <p class="text-lg font-bold text-gray-800">Loading...</p>
+          </div>
+        ) : (
+          <>
+            <div
+              onClick={() => setSelectedPackage("monthly")}
+              class={`flex-1 rounded-md bg-white cursor-pointer ${
+                selectedPackage === "monthly" && "outline"
+              } hover:outline outline-gray-300 p-4`}
+            >
+              <p class="text-sm text-gray-600">Monthly Subscription</p>
+              <p class="text-lg font-bold text-gray-800">2,000 XP</p>
+            </div>
+            <div
+              onClick={() => setSelectedPackage("yearly")}
+              class={`flex-1 rounded-md bg-white cursor-pointer ${
+                selectedPackage === "yearly" && "outline"
+              } hover:outline outline-gray-300 p-4`}
+            >
+              <p class="text-sm text-gray-600">Annual Subscription</p>
+              <p class="text-lg font-bold text-gray-800">20,000 XP</p>
+            </div>
+          </>
+        )}
       </div>
 
       <div class="mt-4 flex items-center justify-center">
-        <button
-          disabled={isLoading}
-          onClick={() => payToSubscribe()}
-          class="cursor-pointer rounded-md border bg-[#009ED9] px-4 py-2 text-white hover:border-[#009ED9] hover:bg-white hover:text-[#009ED9]"
-        >
-          {isLoading ? "Loading..." : "Subscribe Now"}
-        </button>
+        {!subLoading && (
+          <>
+            {!activeSubscription && (
+              <button
+                disabled={isLoading || subLoading}
+                onClick={() => payToSubscribe()}
+                class="cursor-pointer rounded-md border bg-[#009ED9] px-4 py-2 text-white hover:border-[#009ED9] hover:bg-white hover:text-[#009ED9]"
+              >
+                {isLoading ? "Loading..." : "Subscribe Now"}
+              </button>
+            )}
+          </>
+        )}
       </div>
 
       <div class="mt-4 rounded-md border border-[#009ED9] p-4 text-sm text-gray-600">
