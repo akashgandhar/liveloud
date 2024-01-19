@@ -2,7 +2,7 @@ import { updateProfile } from "firebase/auth";
 import { db, storage } from "../firebase";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
-import { doc, updateDoc } from "firebase/firestore";
+import { addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 
 export const updateUserProfile = async (user, data) => {
   try {
@@ -71,6 +71,41 @@ export const uploadBannerPic = async (user, file) => {
           banner: downloadUrl,
         });
       });
+
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const SendReferRequest = async (user, endUserId) => {
+  try {
+    if (!user || !endUserId || endUserId === "")
+      return "user or data is missing";
+
+    const userRef = doc(db, "users", user?.uid);
+
+    const docSnap = await getDoc(userRef);
+
+    if (docSnap.exists) {
+      const data = docSnap.data();
+
+      if (data?.referedUsers?.includes(endUserId)) {
+        return false;
+      }
+    }
+
+    const Ref = doc(db, "refer_requests");
+
+    const data = {
+      from: user?.uid,
+      to: endUserId,
+      status: "pending",
+      createdAt: new Date(),
+    };
+
+    await addDoc(Ref, data);
 
     return true;
   } catch (e) {

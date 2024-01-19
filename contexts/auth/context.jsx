@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import Swal from "sweetalert2";
+import { SendReferRequest } from "@/lib/users/firebase_write";
 
 const AuthContext = createContext();
 
@@ -21,7 +22,6 @@ export default function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const [error, setError] = useState(null);
-
   const [navOpen, setNavOpen] = useState(false);
 
   const [userData, setUserData] = useState({
@@ -48,7 +48,13 @@ export default function AuthProvider({ children }) {
 
   const signInWithGoogle = async () => {
     return await signInWithPopup(auth, new GoogleAuthProvider())
-      .then((user) => {
+      .then(async (user) => {
+        await SendReferRequest(
+          user.user,
+          localStorage.getItem("referId") ?? ""
+        ).catch((error) => {
+          alert("Error in refer request");
+        });
         return user.user;
       })
       .catch((error) => {
@@ -65,7 +71,14 @@ export default function AuthProvider({ children }) {
 
   const signUpUserWithEmailAndPassword = async (email, password) => {
     const data = await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
+        await SendReferRequest(
+          userCredential.user,
+          localStorage.getItem("referId") ?? ""
+        ).catch((error) => {
+          alert("Error in refer request");
+        });
+
         return {
           status: true,
           user: userCredential.user,

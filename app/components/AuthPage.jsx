@@ -52,6 +52,17 @@ export default function AuthenticationPage() {
                     className="dark:border-white dark:text-white"
                     // class="peer block min-h-[auto] w-full rounded border dark:text-black dark:placeholder:text-black dark:shadow dark:bg-white bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     id="exampleFormControlInput3"
+                    placeholder="Name"
+                    onChange={(e) => handleChange("name", e.target.value)}
+                  />
+                </div>
+
+                <div class="relative mb-6" data-te-input-wrapper-init>
+                  <Input
+                    type="text"
+                    className="dark:border-white dark:text-white"
+                    // class="peer block min-h-[auto] w-full rounded border dark:text-black dark:placeholder:text-black dark:shadow dark:bg-white bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    id="exampleFormControlInput3"
                     placeholder="Email Address"
                     onChange={(e) => handleChange("email", e.target.value)}
                   />

@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/contexts/auth/context";
 import React from "react";
 import {
   EmailShareButton,
@@ -31,6 +32,7 @@ import {
 } from "react-share";
 
 export default function Main() {
+  const {user} = useAuth();
   return (
     <div class="text-center">
       <main class="max-w-screen-md mx-auto p-8">
@@ -60,7 +62,7 @@ export default function Main() {
           <h2 class="mb-2 text-2xl font-semibold">Get Started</h2>
           Your Referral Link is <br />{" "}
           <u class="text-2xl font-bold text-[#009ED9]">
-            https://play.tailwindcss.com/
+          http://localhost:3000/refered/{user?.uid}
           </u>
         </section>
 
