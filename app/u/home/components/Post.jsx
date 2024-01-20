@@ -50,15 +50,16 @@ export default function Post({ post }) {
     error: postCommentsError,
   } = UsePostCommentsStream(post?.postId);
   const {
-    data: postAmplified,
-    isLoading: postAmplifiedLoading,
-    error: postAmplifiedError,
-  } = UsePostAmplifiedStream(post?.postId);
-  const {
     data: postSaved,
     isLoading: postSavedLoading,
     error: postSavedError,
   } = UsePostSavedStream(post?.postId);
+  const {
+    data: postAmplified,
+    isLoading: postAmplifiedLoading,
+    error: postAmplifiedError,
+  } = UsePostAmplifiedStream(post?.postId);
+
   const {
     data: postShared,
     isLoading: postSharedLoading,

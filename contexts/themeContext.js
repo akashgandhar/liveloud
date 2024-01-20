@@ -8,7 +8,7 @@ export const ThemeContext = createContext()
 // Create the theme provider component
 export default function ThemeProvider({ children }) {
   // Define the state for theme
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+  const [theme, setTheme] = useState(localStorage?.getItem('theme') || 'light')
 
   // Return the theme context provider with the state and setter
   return (

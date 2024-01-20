@@ -5,7 +5,14 @@ import { Share2, Bookmark } from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
 import { Volume2 } from "lucide-react";
 import { PostMediaSlider } from "./PostMediaSlider";
-import { UsePostUsertStream } from "@/lib/posts/firebase_read";
+import {
+  UsePostAmplifiedStream,
+  UsePostCommentsStream,
+  UsePostLikesStream,
+  UsePostSavedStream,
+  UsePostSharedStream,
+  UsePostUsertStream,
+} from "@/lib/posts/firebase_read";
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
 import { useAuth } from "@/contexts/auth/context";
@@ -24,9 +31,39 @@ export default function Post({ post }) {
     handleAmplifyPost,
     handleShare,
     handleSavePost,
+    isLikeLoading,
+    isSaveLoading,
+    isShareLoading,
+    isAmplifyLoading,
   } = usePost();
 
   const router = useRouter();
+
+  const {
+    data: postLikes,
+    isLoading: postLikesLoading,
+    error: postLikesError,
+  } = UsePostLikesStream(post?.postId);
+  const {
+    data: postComments,
+    isLoading: postCommentsLoading,
+    error: postCommentsError,
+  } = UsePostCommentsStream(post?.postId);
+  const {
+    data: postAmplified,
+    isLoading: postAmplifiedLoading,
+    error: postAmplifiedError,
+  } = UsePostAmplifiedStream(post?.postId);
+  const {
+    data: postSaved,
+    isLoading: postSavedLoading,
+    error: postSavedError,
+  } = UsePostSavedStream(post?.postId);
+  const {
+    data: postShared,
+    isLoading: postSharedLoading,
+    error: postSharedError,
+  } = UsePostSharedStream(post?.postId);
 
   return (
     <div className="flex border dark:text-black rounded-lg ml-0 mr-2 min-w-fit  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
@@ -83,14 +120,26 @@ export default function Post({ post }) {
 
         <div className="flex justify-between pt-8">
           <div title="Like" className="flex justify-center items-center gap-2">
-            <Heart
+            <button
+              disabled={isLikeLoading}
               onClick={() => handleLikePost(post?.postId)}
-              fill={post?.likes?.includes(user?.uid) ? "#FF0000" : "#fff"}
-              stroke={post?.likes?.includes(user?.uid) ? "#FF0000" : "#000000"}
-              className="text-xl cursor-pointer hover:text-red-500 "
-            />
+            >
+              <Heart
+                fill={
+                  postLikes?.map((like) => like?.uid)?.includes(user?.uid)
+                    ? "#FF0000"
+                    : "#fff"
+                }
+                stroke={
+                  postLikes?.map((like) => like?.uid)?.includes(user?.uid)
+                    ? "#FF0000"
+                    : "#000"
+                }
+                className="text-xl cursor-pointer hover:text-red-500 "
+              />
+            </button>
             <span className="text-sm  font-semibold">
-              {post?.likes?.length}
+              {postLikes?.length || 0}
             </span>
           </div>
           <div
@@ -101,49 +150,78 @@ export default function Post({ post }) {
               <MessageSquare className="text-xl cursor-pointer hover:text-blue-500" />
             </CommentDiologBox>
             <span className="text-sm  font-semibold">
-              {post?.comments?.length}
+              {postComments?.length || 0}
             </span>
           </div>
           <div
             title="Amplify"
             className="flex justify-center items-center gap-2"
           >
-            <Volume2
-              stroke={post?.amplified?.includes(user?.uid) ? "#009ED9" : "#000"}
+            <button
+              disabled={isAmplifyLoading}
               onClick={() => handleAmplifyPost(post?.postId)}
-              className="text-xl cursor-pointer "
-            />
+            >
+              <Volume2
+                stroke={
+                  postAmplified
+                    ?.map((amplify) => amplify?.uid)
+                    ?.includes(user?.uid)
+                    ? "#009ED9"
+                    : "#000"
+                }
+                className="text-xl cursor-pointer "
+              />
+            </button>
             <span className="text-sm  font-semibold">
-              {post?.amplified?.length}
+              {postAmplified?.length || 0}
             </span>
           </div>
           <div title="Share" className="flex justify-center items-center gap-2">
-            <Share2
-              stroke={post?.shared?.includes(user?.uid) ? "#009ED9" : "#000"}
+            <button
+              disabled={isShareLoading}
               onClick={() => {
                 const url = `http://localhost:3000/u/posts/${post?.postId}`;
                 const title = `${data?.name} shared a post`;
                 handleShare({
                   text: post?.content,
                   url: url,
-                  files: post?.media?.map((media) => media?.url),
-                  title: title,
                 });
                 handleSharePost(post?.postId);
               }}
-              className="text-xl cursor-pointer "
-            />
+            >
+              <Share2
+                stroke={
+                  postShared?.map((share) => share?.uid)?.includes(user?.uid)
+                    ? "#009ED9"
+                    : "#000"
+                }
+                className="text-xl cursor-pointer "
+              />
+            </button>
             <span className="text-sm  font-semibold">
-              {post?.shared?.length}
+              {postShared?.length || 0}
             </span>
           </div>
           <div title="Share" className="flex justify-center items-center gap-2">
-            <Bookmark
-              stroke={post?.saved?.includes(user?.uid) ? "#009ED9" : "#000"}
-              fill={post?.saved?.includes(user?.uid) ? "#009ED9" : "#fff"}
+            <button
+              disabled={isSaveLoading}
               onClick={() => handleSavePost(post?.postId)}
-              className="text-xl cursor-pointer"
-            />
+            >
+              <Bookmark
+                stroke={
+                  postSaved?.map((save) => save?.uid)?.includes(user?.uid)
+                    ? "#009ED9"
+                    : "#000"
+                }
+                fill={
+                  postSaved?.map((save) => save?.uid)?.includes(user?.uid)
+                    ? "#009ED9"
+                    : "#fff"
+                }
+                onClick={() => handleSavePost(post?.postId)}
+                className="text-xl cursor-pointer"
+              />
+            </button>
           </div>
         </div>
       </div>

@@ -13,7 +13,10 @@ import InsertLineBreak from "@/app/helpers/LineBreaker";
 import { useFollow } from "@/contexts/follow/context";
 import { ShowFollowersDiolog } from "./ShowFollowersDiolog";
 import { ShowFollowingsDiolog } from "./ShowFollowingsDiolog";
-import { UseUserFollowersStream, UseUserFollowingStream } from "@/lib/follow/firebase_read";
+import {
+  UseUserFollowersStream,
+  UseUserFollowingStream,
+} from "@/lib/follow/firebase_read";
 
 export default function MainProfile() {
   const { user, isLoading } = useAuth();
@@ -49,15 +52,9 @@ export default function MainProfile() {
     error: userFollowingError,
   } = UseUserFollowingStream(profileId);
 
-  console.log("1",userFollowing);
-  console.log("2",userFollowers);
-
-
   // const {}
 
   // console.log(userData);
-
-  
 
   return (
     // <div class="container">
@@ -103,7 +100,7 @@ export default function MainProfile() {
                 onClick={() => handleFollowUnfollow(profile?.uid)}
                 class="follow"
               >
-                {isLoading || loadingFollow 
+                {isLoading || loadingFollow
                   ? "Loading..."
                   : userFollowers?.some((item) => item?.id === user?.uid)
                   ? "UnFollow"
