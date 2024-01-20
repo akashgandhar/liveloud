@@ -80,21 +80,37 @@ export const FollowUnfollow = async (user, profileId) => {
 
 export const RemoveFollower = async (user, profileId) => {
   try {
-    await getDocs(
+    const userDelRef = await getDocs(
       query(
-        collection(db, `users/${profileId}/followers`),
-        where("id", "==", user?.uid)
-      )
-    )?.forEach((doc) => deleteDoc(doc?.ref));
-
-    await getDocs(
-      query(
-        collection(db, `users/${user?.uid}/following`),
+        collection(db, `users/${user?.uid}/followers`),
         where("id", "==", profileId)
       )
-    )?.forEach((doc) => deleteDoc(doc?.ref));
+    );
+
+    if (userDelRef?.empty) {
+      console.log("empty 1");
+      return false;
+    }
+
+    userDelRef?.forEach((doc) => deleteDoc(doc?.ref));
+
+    const profileDelRef = await getDocs(
+      query(
+        collection(db, `users/${profileId}/following`),
+        where("id", "==", user?.uid)
+      )
+    );
+
+    if (profileDelRef?.empty) {
+      console.log("empty 2");
+      return false;
+    }
+
+    profileDelRef?.forEach((doc) => deleteDoc(doc?.ref));
     return true;
   } catch (error) {
+    console.log("Error", error);
+    alert(error);
     return false;
   }
 };

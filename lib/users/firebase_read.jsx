@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import useSWRSubscription from "swr/subscription";
 
@@ -58,8 +58,6 @@ export const getUserProfile = async (user) => {
   }
 };
 
-
-
 export const UseUserStream = (uid) => {
   const [isLoading, setIsLoading] = useState(true);
   const { data, error } = useSWRSubscription(
@@ -107,3 +105,7 @@ export const UseUserPostsStream = (uid) => {
   });
   return { data, error, isLoading };
 };
+
+
+
+
