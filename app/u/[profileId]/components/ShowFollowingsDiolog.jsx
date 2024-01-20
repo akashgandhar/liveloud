@@ -13,6 +13,10 @@ import { UseUserStream } from "@/lib/users/firebase_read";
 import { useParams } from "next/navigation";
 import FollowerShowCard from "./FollowerShowCard";
 import FollowingShowCard from "./FollowingShowCard";
+import {
+  UseUserFollowersStream,
+  UseUserFollowingStream,
+} from "@/lib/follow/firebase_read";
 
 export function ShowFollowingsDiolog({ children }) {
   const { user, isLoading } = useAuth();
@@ -25,6 +29,18 @@ export function ShowFollowingsDiolog({ children }) {
     error: isProfileError,
   } = UseUserStream(profileId);
 
+  const {
+    data: userFollowers,
+    isLoading: userFollowersLoading,
+    error: userFollowersErroor,
+  } = UseUserFollowersStream(profileId);
+
+  const {
+    data: userFollowing,
+    isLoading: userFollowingLoading,
+    error: userFollowingError,
+  } = UseUserFollowingStream(profileId);
+
   return (
     <Dialog className="max-h-screen sm:min-h-[60%]">
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -33,16 +49,18 @@ export function ShowFollowingsDiolog({ children }) {
           <DialogTitle>{profile?.name}&apos;s followings</DialogTitle>
         </DialogHeader>
 
-        {IsProLoading && !profile && <p>Loading...as</p>}
+        {userFollowingLoading && !userFollowing && <p>Loading...</p>}
         {isProfileError && <p>{isProfileError.message}</p>}
-        {profile?.following?.length === 0 && (
+        {userFollowing?.length === 0 && (
           <DialogDescription>
-            <p className="text-center">No followers yet</p>
+            <p className="text-center">No following yet</p>
           </DialogDescription>
         )}
         <div className="w-full h-full pb-10 overflow-auto">
-          {profile?.following?.map((followerId, index) => {
-            return <FollowingShowCard key={index} followerId={followerId} />;
+          {userFollowing?.map((followingId, index) => {
+            return (
+              <FollowingShowCard key={index} followerId={followingId?.id} />
+            );
           })}
         </div>
       </DialogContent>

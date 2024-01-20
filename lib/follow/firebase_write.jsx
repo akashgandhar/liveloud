@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { db } from "../firebase";
 import {
   doc,
@@ -5,68 +6,94 @@ import {
   updateDoc,
   arrayRemove,
   arrayUnion,
+  collection,
+  query,
+  addDoc,
+  getDocs,
+  where,
+  deleteDoc,
 } from "firebase/firestore";
+import { useState } from "react";
+import useSWRSubscription from "swr/subscription";
 
 export const FollowUnfollow = async (user, profileId) => {
   try {
-    const userRef = doc(db, "users", user?.uid);
-    const profileRef = doc(db, "users", profileId);
+    const docRef = query(
+      collection(db, `users/${user?.uid}/following`),
+      where("id", "==", profileId)
+    );
 
-    const userDoc = await getDoc(userRef);
-    const profileDoc = await getDoc(profileRef);
+    const docSnap = await getDocs(docRef);
 
-    if (userDoc.exists() && profileDoc.exists()) {
-      if (userDoc.data().following.includes(profileId)) {
-        await updateDoc(userRef, {
-          following: arrayRemove(profileId),
-        });
-        await updateDoc(profileRef, {
-          followers: arrayRemove(user?.uid),
-        });
+    console.log("docSnap", docSnap);
 
-        return true;
-      } else {
-        await updateDoc(userRef, {
-          following: arrayUnion(profileId),
-        });
-        await updateDoc(profileRef, {
-          followers: arrayUnion(user?.uid),
-        });
+    const alreadyFollowing = docSnap?.docs?.length > 0 ? true : false;
 
-        return true;
+    console.log("alreadyFollowing", alreadyFollowing);
+
+    if (alreadyFollowing) {
+      if (docSnap?.empty) {
+        console.log("empty");
+        return false;
       }
+
+      docSnap?.forEach((doc) => {
+        deleteDoc(doc?.ref);
+      });
+
+      const snapp = await getDocs(
+        query(
+          collection(db, `users/${profileId}/followers`),
+          where("id", "==", user?.uid)
+        )
+      );
+
+      if (snapp?.empty) {
+        console.log("empty");
+        return false;
+      }
+
+      snapp?.forEach((doc) => {
+        deleteDoc(doc?.ref);
+      });
+
+      console.log("unfollowed");
+
+      return true;
     } else {
-      return false;
+      await addDoc(collection(db, `users/${user?.uid}/following`), {
+        id: profileId,
+        uid: user?.uid,
+      });
+      await addDoc(collection(db, `users/${profileId}/followers`), {
+        id: user?.uid,
+        uid: user?.uid,
+      });
+      console.log("followed");
+      return true;
     }
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
 
 export const RemoveFollower = async (user, profileId) => {
   try {
-    const userRef = doc(db, "users", user?.uid);
-    const profileRef = doc(db, "users", profileId);
+    await getDocs(
+      query(
+        collection(db, `users/${profileId}/followers`),
+        where("id", "==", user?.uid)
+      )
+    )?.forEach((doc) => deleteDoc(doc?.ref));
 
-    const userDoc = await getDoc(userRef);
-    const profileDoc = await getDoc(profileRef);
-
-    if (userDoc.exists() && profileDoc.exists()) {
-      if (userDoc.data().followers.includes(profileId)) {
-        await updateDoc(userRef, {
-          followers: arrayRemove(profileId),
-        });
-        await updateDoc(profileRef, {
-          following: arrayRemove(user?.uid),
-        });
-
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    await getDocs(
+      query(
+        collection(db, `users/${user?.uid}/following`),
+        where("id", "==", profileId)
+      )
+    )?.forEach((doc) => deleteDoc(doc?.ref));
+    return true;
   } catch (error) {
     return false;
   }

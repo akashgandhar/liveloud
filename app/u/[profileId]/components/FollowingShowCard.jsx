@@ -5,6 +5,10 @@ import { UseUserStream } from "@/lib/users/firebase_read";
 import { useParams } from "next/navigation";
 import React from "react";
 import Link from "next/link";
+import {
+  UseUserFollowersStream,
+  UseUserFollowingStream,
+} from "@/lib/follow/firebase_read";
 
 export default function FollowingShowCard({ followerId }) {
   const { user, isLoading } = useAuth();
@@ -18,13 +22,29 @@ export default function FollowingShowCard({ followerId }) {
     handleFollowUnfollow,
   } = useFollow();
 
+  console.log("followerId", followerId);
+
   const {
     data: follower,
     isLoading: IsProfileLoading,
     error: isProfileError,
   } = UseUserStream(followerId);
 
+  const {
+    data: userFollowers,
+    isLoading: userFollowersLoading,
+    error: userFollowersErroor,
+  } = UseUserFollowersStream(followerId);
+
+  const {
+    data: userFollowing,
+    isLoading: userFollowingLoading,
+    error: userFollowingError,
+  } = UseUserFollowingStream(followerId);
+
   if (IsProfileLoading) return <p>Loading...</p>;
+
+  console.log("chek",follower);
 
   return (
     <div className="flex items-center justify-between py-2">
@@ -57,7 +77,8 @@ export default function FollowingShowCard({ followerId }) {
           UnFollow
         </Button>
       ) : (
-        !follower?.followers?.includes(user?.uid) && (
+        (!userFollowing?.includes(follower?.uid) ||
+          !user?.uid === follower?.uid) && (
           <Button
             disabled={loadingFollow}
             onClick={() => handleFollowUnfollow(follower?.uid)}

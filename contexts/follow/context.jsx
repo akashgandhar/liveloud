@@ -16,9 +16,21 @@ export default function FollowProvider({ children }) {
 
   const handleFollowUnfollow = async (profileId) => {
     setIsLoading(true);
+
+    if (!user) {
+      alert("Not Logged In");
+    }
+
+    if (profileId === user?.uid) {
+      alert("Cannot follow yourself");
+      setIsLoading(false);
+      return;
+    }
+
     const followed = await FollowUnfollow(user, profileId);
     if (followed != true) {
       alert("An error occured");
+      console.log(followed);
       setIsLoading(false);
       return;
     }
@@ -26,7 +38,6 @@ export default function FollowProvider({ children }) {
     setIsDone(true);
     setIsLoading(false);
   };
-
 
   const removeFollower = async (profileId) => {
     setIsLoading(true);
@@ -39,10 +50,7 @@ export default function FollowProvider({ children }) {
     alert("Success");
     setIsDone(true);
     setIsLoading(false);
-  }
-
-
-
+  };
 
   return (
     <FollowContext.Provider
@@ -51,7 +59,7 @@ export default function FollowProvider({ children }) {
         isLoading,
         isDone,
         handleFollowUnfollow,
-        removeFollower
+        removeFollower,
       }}
     >
       {children}

@@ -12,6 +12,10 @@ import { useAuth } from "@/contexts/auth/context";
 import { UseUserStream } from "@/lib/users/firebase_read";
 import { useParams } from "next/navigation";
 import FollowerShowCard from "./FollowerShowCard";
+import {
+  UseUserFollowersStream,
+  UseUserFollowingStream,
+} from "@/lib/follow/firebase_read";
 
 export function ShowFollowersDiolog({ children }) {
   const { user, isLoading } = useAuth();
@@ -24,6 +28,18 @@ export function ShowFollowersDiolog({ children }) {
     error: isProfileError,
   } = UseUserStream(profileId);
 
+  const {
+    data: userFollowers,
+    isLoading: userFollowersLoading,
+    error: userFollowersErroor,
+  } = UseUserFollowersStream(profileId);
+
+  const {
+    data: userFollowing,
+    isLoading: userFollowingLoading,
+    error: userFollowingError,
+  } = UseUserFollowingStream(profileId);
+
   return (
     <Dialog className="max-h-screen sm:min-h-[60%]">
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -32,16 +48,16 @@ export function ShowFollowersDiolog({ children }) {
           <DialogTitle>{profile?.name}&apos;s followers</DialogTitle>
         </DialogHeader>
 
-        {IsProfileLoading && <p>Loading...</p>}
+        {userFollowersLoading && !userFollowers  && <p>Loading...</p>}
         {isProfileError && <p>{isProfileError.message}</p>}
-        {profile?.followers?.length === 0 && (
+        {userFollowers?.length === 0 && (
           <DialogDescription>
             <p className="text-center">No followers yet</p>
           </DialogDescription>
         )}
         <div className="w-full h-full pb-10 overflow-auto">
-          {profile?.followers?.map((followerId, index) => {
-            return <FollowerShowCard key={index} followerId={followerId} />;
+          {userFollowers?.map((followerId, index) => {
+            return <FollowerShowCard key={index} followerId={followerId.id} />;
           })}
         </div>
       </DialogContent>

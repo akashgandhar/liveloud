@@ -13,6 +13,7 @@ import InsertLineBreak from "@/app/helpers/LineBreaker";
 import { useFollow } from "@/contexts/follow/context";
 import { ShowFollowersDiolog } from "./ShowFollowersDiolog";
 import { ShowFollowingsDiolog } from "./ShowFollowingsDiolog";
+import { UseUserFollowersStream, UseUserFollowingStream } from "@/lib/follow/firebase_read";
 
 export default function MainProfile() {
   const { user, isLoading } = useAuth();
@@ -36,9 +37,27 @@ export default function MainProfile() {
 
   const banner = profile?.banner || "/images/banner.jpg";
 
+  const {
+    data: userFollowers,
+    isLoading: userFollowersLoading,
+    error: userFollowersErroor,
+  } = UseUserFollowersStream(profileId);
+
+  const {
+    data: userFollowing,
+    isLoading: userFollowingLoading,
+    error: userFollowingError,
+  } = UseUserFollowingStream(profileId);
+
+  console.log("1",userFollowing);
+  console.log("2",userFollowers);
+
+
   // const {}
 
   // console.log(userData);
+
+  
 
   return (
     // <div class="container">
@@ -84,9 +103,9 @@ export default function MainProfile() {
                 onClick={() => handleFollowUnfollow(profile?.uid)}
                 class="follow"
               >
-                {isLoading
+                {isLoading || loadingFollow 
                   ? "Loading..."
-                  : profile?.followers?.includes(user?.uid)
+                  : userFollowers?.some((item) => item?.id === user?.uid)
                   ? "UnFollow"
                   : "Follow"}
               </button>
@@ -120,7 +139,7 @@ export default function MainProfile() {
                 <ShowFollowersDiolog>
                   <section class="data-item hover:cursor-pointer">
                     <h3 class="value font-bold">
-                      {profile?.followers?.length || 0}
+                      {userFollowers?.length || 0}
                     </h3>
                     <small class="title font-semibold">Follower</small>
                   </section>
@@ -128,7 +147,7 @@ export default function MainProfile() {
                 <ShowFollowingsDiolog>
                   <section class="data-item hover:cursor-pointer">
                     <h3 class="value font-bold">
-                      {profile?.following?.length || 0}
+                      {userFollowing?.length || 0}
                     </h3>
                     <small class="title font-semibold">Following</small>
                   </section>
