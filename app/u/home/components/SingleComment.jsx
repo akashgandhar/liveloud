@@ -10,10 +10,10 @@ export default function SingleComment({ comment }) {
       <div class="flex flex-row gap-1">
         <Link
           href={`
-        /u/${comment?.owner?.uid || "#"}`}
+        /u/${comment?.uid || "#"}`}
         >
           <img
-            src={comment?.owner?.photoURL || "/bg.jpg"}
+            src={comment?.photoURL || "/bg.jpg"}
             alt="avatar"
             class="w-8 h-8 rounded-full"
           />
@@ -22,11 +22,11 @@ export default function SingleComment({ comment }) {
           <div class="bg-gray-100 w-auto rounded-xl px-2 pb-2">
             <div class="font-medium">
               <Link href="#" class="hover:underline text-sm">
-                <strong>{comment?.owner?.name || "Unknown"}</strong>
+                <strong>{comment?.name || "Unknown"}</strong>
               </Link>
             </div>
             <div class="text-xs text-clip">
-              {InsertLineBreak({ inputString: comment?.content })}
+              {InsertLineBreak({ inputString: comment?.comment })}
             </div>
           </div>
           <div class="flex justify-start items-center text-xs w-full">

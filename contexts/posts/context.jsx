@@ -11,6 +11,7 @@ import {
   SavePost,
   SharePost,
 } from "@/lib/posts/firebase_write";
+import { set } from "firebase/database";
 
 const PostContext = createContext();
 
@@ -21,35 +22,54 @@ export default function PostProvider({ children }) {
   const { user } = useAuth();
   const [isDone, setIsDone] = useState(false);
   const [newComment, setNewComment] = useState("");
-
   const [allPosts, setAllPosts] = useState([]);
 
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
+  const [isSaveLoading, setIsSaveLoading] = useState(false);
+  const [isShareLoading, setIsShareLoading] = useState(false);
+  const [isAmplifyLoading, setIsAmplifyLoading] = useState(false);
+
   const handleLikePost = async (postId) => {
+    setIsLikeLoading(true);
     const liked = await LikePost(user, postId);
     if (liked != true) {
       alert("An error occured");
+      setIsLikeLoading(false);
     }
+    setIsLikeLoading(false);
   };
   const handleSavePost = async (postId) => {
+    setIsSaveLoading(true);
     const saved = await SavePost(user, postId);
     if (saved != true) {
       alert("An error occured");
+      setIsSaveLoading(false);
+      return;
     }
-    alert("Post Saved");
+
+    setIsSaveLoading(false);
   };
 
   const handleSharePost = async (postId) => {
+    setIsShareLoading(true);
     const shared = await SharePost(user, postId);
     if (shared != true) {
       alert("An error occured");
+      setIsShareLoading(false);
+      return;
     }
+    setIsShareLoading(false);
   };
 
   const handleAmplifyPost = async (postId) => {
+    setIsAmplifyLoading(true);
     const amplified = await AmplifyPost(user, postId);
     if (amplified != true) {
       alert("An error occured");
+      setIsAmplifyLoading(false);
+      return;
     }
+    setIsAmplifyLoading(false);
   };
 
   const handleShare = async (data) => {
@@ -111,6 +131,11 @@ export default function PostProvider({ children }) {
         handleCommentChange,
         handleCommentSubmit,
         handleSavePost,
+        isLikeLoading,
+        isSaveLoading,
+        isShareLoading,
+        isAmplifyLoading,
+        
       }}
     >
       {children}

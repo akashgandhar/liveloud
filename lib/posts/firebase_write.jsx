@@ -2,10 +2,14 @@ import {
   addDoc,
   arrayRemove,
   collection,
+  deleteDoc,
   doc,
   getDoc,
+  getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -82,111 +86,125 @@ export async function uploadFilesToStorage(user, mediaArray) {
 }
 
 export const LikePost = async (user, postId) => {
-  const postRef = doc(db, "posts", postId);
-  const docSnap = await getDoc(postRef);
+  try {
+    const docRef = query(
+      collection(db, `posts/${postId}/likes`),
+      where("uid", "==", user.uid)
+    );
 
-  if (docSnap.exists()) {
-    const post = docSnap.data();
-    if (post.likes.includes(user.uid)) {
-      await updateDoc(postRef, {
-        likes: post.likes.filter((id) => id != user.uid),
-      });
-      return true;
-    } else {
-      await updateDoc(postRef, {
-        likes: [...post.likes, user.uid],
-      });
-      return true;
-    }
+    await getDocs(docRef).then((querySnapshot) => {
+      if (querySnapshot.size > 0) {
+        querySnapshot.forEach((docd) => {
+          console.log(docd.id, " => ", docd.data());
+          deleteDoc(doc(db, `posts/${postId}/likes`, docd.id));
+        });
+      } else {
+        addDoc(collection(db, `posts/${postId}/likes`), {
+          uid: user.uid,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        });
+      }
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
-
-  return false;
 };
 export const SavePost = async (user, postId) => {
-  const postRef = doc(db, "posts", postId);
-  const docSnap = await getDoc(postRef);
+  try {
+    const docRef = query(
+      collection(db, `posts/${postId}/saved`),
+      where("uid", "==", user.uid)
+    );
 
-  if (docSnap.exists()) {
-    const post = docSnap.data();
-    if (post?.saved?.includes(user?.uid)) {
-      await updateDoc(postRef, {
-        saved: post?.saved?.filter((id) => id != user?.uid),
-      });
-      return true;
-    } else {
-      await updateDoc(postRef, {
-        saved: [...post?.saved || [], user?.uid],
-      });
-      return true;
-    }
+    await getDocs(docRef).then((querySnapshot) => {
+      if (querySnapshot.size > 0) {
+        querySnapshot.forEach((docd) => {
+          console.log(docd.id, " => ", docd.data());
+          deleteDoc(doc(db, `posts/${postId}/saved`, docd.id));
+        });
+      } else {
+        addDoc(collection(db, `posts/${postId}/saved`), {
+          uid: user.uid,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        });
+      }
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
-
-  return false;
 };
 
 export const SharePost = async (user, postId) => {
-  const postRef = doc(db, "posts", postId);
-  const docSnap = await getDoc(postRef);
+  try {
+    const docRef = query(
+      collection(db, `posts/${postId}/shared`),
+      where("uid", "==", user.uid)
+    );
 
-  if (docSnap.exists()) {
-    const post = docSnap.data();
-    if (post.shared.includes(user.uid)) {
-      return true;
-    } else {
-      await updateDoc(postRef, {
-        shared: [...post.shared, user.uid],
-      });
-      return true;
-    }
+    await getDocs(docRef).then((querySnapshot) => {
+      if (querySnapshot.size <= 0) {
+        addDoc(collection(db, `posts/${postId}/shared`), {
+          uid: user.uid,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        });
+      }
+    });
+    return true;
+  } catch (error) {
+    return false;
   }
-
-  return false;
 };
 
 export const AmplifyPost = async (user, postId) => {
-  const postRef = doc(db, "posts", postId);
-  const docSnap = await getDoc(postRef);
+  try {
+    const docRef = query(
+      collection(db, `posts/${postId}/amplified`),
+      where("uid", "==", user.uid)
+    );
 
-  if (docSnap.exists()) {
-    const post = docSnap.data();
-    if (post.amplified.includes(user.uid)) {
-      console.log(1);
-      await updateDoc(postRef, {
-        amplified: post.amplified.filter((id) => id != user.uid),
-      });
-      return true;
-    } else {
-      await updateDoc(postRef, {
-        amplified: [...post.amplified, user.uid],
-      });
-      return true;
-    }
+    await getDocs(docRef).then((querySnapshot) => {
+      if (querySnapshot.size > 0) {
+        querySnapshot.forEach((docd) => {
+          console.log(docd.id, " => ", docd.data());
+          deleteDoc(doc(db, `posts/${postId}/amplified`, docd.id));
+        });
+      } else {
+        addDoc(collection(db, `posts/${postId}/amplified`), {
+          uid: user.uid,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        });
+      }
+    });
+    return true;
+  } catch (error) {
+    return false;
   }
-
-  return false;
 };
-export const CommentPost = async (user, postId, comment) => {
-  const postRef = doc(db, "posts", postId);
-  const docSnap = await getDoc(postRef);
 
-  const commentData = {
-    owner: {
+export const CommentPost = async (user, postId, comment) => {
+  try {
+    addDoc(collection(db, `posts/${postId}/comments`), {
       uid: user.uid,
       name: user.displayName,
       photoURL: user.photoURL,
-    },
-    content: comment,
-    createdAt: new Date(),
-  };
-
-  if (docSnap.exists()) {
-    const post = docSnap.data();
-
-    await updateDoc(postRef, {
-      comments: [...post.comments, commentData],
+      comment: comment,
+      createdAt: new Date(),
     });
     return true;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
-
-  return false;
 };
