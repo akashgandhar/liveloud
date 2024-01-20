@@ -15,6 +15,7 @@ import { useChat } from "@/contexts/chatContext";
 import { useAuth } from "@/contexts/auth/context";
 import UserCard from "./Card";
 import { UseUserStream } from "@/lib/users/firebase_read";
+import { UseUserFriendsStream } from "@/lib/message/firebase_read";
 
 const dataList = [
   { id: 1, title: "@start" },
@@ -22,7 +23,7 @@ const dataList = [
   { id: 2, title: "@username" },
   { id: 2, title: "@username" },
   { id: 2, title: "@username" },
-  { id: 1, title: "@username" },  
+  { id: 1, title: "@username" },
   { id: 2, title: "@username" },
   { id: 2, title: "@username" },
   { id: 2, title: "@username" },
@@ -42,15 +43,16 @@ const dataList = [
 export default function MsgBox() {
   const { selectedChat, handleChange } = useChat();
 
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const {
     data: profile,
     isLoading: IsProfileLoading,
     error: isProfileError,
   } = UseUserStream(user?.uid);
-  
-  
+
+  const { friends, error, isLoading } = UseUserFriendsStream(user);
+
   return (
     <Card className="flex flex-col align-self: flex-end items-start justify-center h-screen w-full rounded-none">
       <CardHeader className=" h-12 flex flex-row p-1 item-start  overflow-wrap">
@@ -63,7 +65,7 @@ export default function MsgBox() {
         </CardTitle>
       </CardHeader>
       <CardContent className="w-full gap-2 h-full p-4 pb-5 text-black-200 bg-white-200 flex flex-col  mt-4 overflow-y-auto">
-        {profile?.friends?.map((item, index) => (
+        {friends?.map((item, index) => (
           <UserCard key={index} userId={item} />
         ))}
       </CardContent>
