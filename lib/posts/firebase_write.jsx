@@ -135,6 +135,26 @@ export const SavePost = async (user, postId) => {
         });
       }
     });
+
+    const docRef2 = query(
+      collection(db, `users/${user.uid}/saved`),
+      where("postId", "==", postId)
+    );
+
+    await getDocs(docRef2).then((querySnapshot) => {
+      if (querySnapshot.size > 0) {
+        querySnapshot.forEach((docd) => {
+          console.log(docd.id, " => ", docd.data());
+          deleteDoc(doc(db, `users/${user.uid}/saved`, docd.id));
+        });
+      } else {
+        addDoc(collection(db, `users/${user.uid}/saved`), {
+          postId: postId,
+          createdAt: new Date(),
+        });
+      }
+    });
+
     return true;
   } catch (error) {
     console.log(error);

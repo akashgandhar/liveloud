@@ -8,10 +8,26 @@ import { Separator } from "@/components/ui/separator";
 import { usePost } from "@/contexts/posts/context";
 import { UsePostsStream } from "@/lib/posts/firebase_read";
 import { useAuth } from "@/contexts/auth/context";
+import {
+  UseUserSavedPostIdsStream,
+  UseUserSavedPostsStream,
+} from "@/lib/users/firebase_read";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 const InfiniteScrollPost = () => {
   const { user } = useAuth();
-  const { data, error, isLoading } = UsePostsStream();
+
+  const {
+    data: savedPostIds,
+    isLoading: postIdsLoading,
+    error: idsError,
+  } = UseUserSavedPostIdsStream(user?.uid);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isDone, setIsDone] = useState(false);
+
+  const [data, setData] = useState(null);
 
   const [posts, setPosts] = useState(data || []);
 
@@ -20,6 +36,34 @@ const InfiniteScrollPost = () => {
       setPosts(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (savedPostIds && savedPostIds?.length > 0) {
+      const ref = query(
+        collection(db, "posts"),
+        where(
+          "postId",
+          "in",
+          savedPostIds?.map((post) => post.postId)
+        )
+      );
+      const unsubscribe = onSnapshot(
+        ref,
+        (snap) => {
+          setData(snap.docs.map((snap) => snap.data()));
+          setIsLoading(false);
+          setIsDone(true);
+        },
+        (error) => {
+          setError(error.message);
+          console.log(error.message);
+          setIsLoading(false);
+        }
+      );
+
+      return () => unsubscribe();
+    }
+  }, [savedPostIds]);
 
   // Assuming totalElements is the total number of posts
   const totalElements = data?.length; // Adjust this based on your total number of posts
@@ -43,8 +87,8 @@ const InfiniteScrollPost = () => {
       hasMore={posts.length < totalElements}
       loader={<h4>Loading...</h4>}
     >
+      {JSON.stringify(posts)}
       {posts
-        .filter((post) => post?.saved?.includes(user?.uid))
         .sort((a, b) => {
           return b?.createdAt?.seconds - a?.createdAt?.seconds;
         })
@@ -54,7 +98,7 @@ const InfiniteScrollPost = () => {
       <Separator className="mt-4" />
       <div className="flex justify-center">
         <h1>
-          {isLoading
+          {postIdsLoading
             ? "Loading..."
             : error
             ? "An Error Occured"
@@ -66,3 +110,4 @@ const InfiniteScrollPost = () => {
 };
 
 export default InfiniteScrollPost;
+           

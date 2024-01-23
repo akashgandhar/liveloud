@@ -106,6 +106,62 @@ export const UseUserPostsStream = (uid) => {
   return { data, error, isLoading };
 };
 
+export const UseUserSavedPostsStream = (uid, savedPostIds) => {
+  const [isLoading, setIsLoading] = useState(true);
 
+  const { data: posts, error } = useSWRSubscription(
+    [`posts`],
+    ([path], { next }) => {
+      const ref = query(
+        collection(db, path),
+        where("postId", "in", savedPostIds)
+      );
+      const unsubscribe = onSnapshot(
+        ref,
+        (snap) => {
+          setIsLoading(false);
+          next(
+            null,
+            snap.docs.map((snap) => snap.data())
+          );
+        },
+        (error) => {
+          next(error.message);
+          console.log(error.message);
+          setIsLoading(false);
+        }
+      );
+      return () => unsubscribe();
+    }
+  );
 
+  return { data: posts, error, isLoading };
+};
 
+export const UseUserSavedPostIdsStream = (uid) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const { data: saved, error } = useSWRSubscription(
+    [`users/${uid}/saved`],
+    ([path], { next }) => {
+      const ref = query(collection(db, path));
+      const unsubscribe = onSnapshot(
+        ref,
+        (snap) => {
+          setIsLoading(false);
+          next(
+            null,
+            snap.docs.map((snap) => snap.data())
+          );
+        },
+        (error) => {
+          next(error.message);
+          console.log(error.message);
+          setIsLoading(false);
+        }
+      );
+      return () => unsubscribe();
+    }
+  );
+
+  return { data: saved, error, isLoading };
+};
