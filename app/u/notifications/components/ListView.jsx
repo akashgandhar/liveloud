@@ -21,7 +21,7 @@ export default function ListView() {
       <h3 className="text-xl font-bold px-2">Notifications</h3>
       <Separator className="my-2" />
       <div className="space-y-4 pb-20 p-4 h-screen overflow-y-scroll">
-        {isLoading ? (
+        {isLoading && !error && !data ? (
           <p>Loading...</p>
         ) : error ? (
           <p>{error}</p>

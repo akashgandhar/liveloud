@@ -87,7 +87,6 @@ const InfiniteScrollPost = () => {
       hasMore={posts.length < totalElements}
       loader={<h4>Loading...</h4>}
     >
-      {JSON.stringify(posts)}
       {posts
         .sort((a, b) => {
           return b?.createdAt?.seconds - a?.createdAt?.seconds;
