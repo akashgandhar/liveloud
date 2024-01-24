@@ -25,6 +25,10 @@ export const CreateNewPost = async ({ user, post }) => {
     visibility: "public",
     flag: "flag",
     createdAt: new Date(),
+    totalLikes: 0,
+    totalComments: 0,
+    totalAmplified: 0,
+    totalShared: 0,
   };
 
   await uploadFilesToStorage(user, post?.media).then((result) => {

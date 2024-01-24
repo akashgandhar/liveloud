@@ -25,6 +25,8 @@ export default function MainProfile() {
 
   const { data, isLoading: loading, error } = UseUserPostsStream(profileId);
 
+  console.log(data);
+
   const {
     error: isError,
     isLoading: loadingFollow,
@@ -123,9 +125,9 @@ export default function MainProfile() {
                   : "Follow"}
               </button>
             )}
-            {user?.uid != profileId && (
+            {/* {user?.uid != profileId && (
               <button class="message">Subscribe</button>
-            )}
+            )} */}
 
             <section class="bio">
               <div class="bio-header">
@@ -168,7 +170,8 @@ export default function MainProfile() {
                 <section class="data-item">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
-                      return acc + item?.totalLikes?.length;
+                      console.log(acc, item?.totalLikes);
+                      return acc + (item?.totalLikes || 0);
                     }, 0) || 0}
                   </h3>
                   <small class="title font-semibold">Likes</small>
@@ -176,7 +179,7 @@ export default function MainProfile() {
                 <section class="data-item hover:cursor-pointer">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
-                      return acc + item?.totalComments?.length;
+                      return acc + (item?.totalComments || 0);
                     }, 0) || 0}
                   </h3>
                   <small class="title font-semibold">Comments</small>
@@ -184,7 +187,7 @@ export default function MainProfile() {
                 <section class="data-item hover:cursor-pointer">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
-                      return acc + (item?.totalAmplified?.length || 0);
+                      return acc + (item?.totalAmplified || 0);
                     }, 0) || 0}
                   </h3>
                   <small class="title font-semibold">Amplified</small>
