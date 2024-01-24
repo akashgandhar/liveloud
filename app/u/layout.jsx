@@ -24,6 +24,7 @@ import PostProvider from "@/contexts/posts/context";
 import ChatContextProvider from "@/contexts/chatContext";
 import FollowProvider from "@/contexts/follow/context";
 import PremiumProvider from "@/contexts/premium/context";
+import { UseUnReadNotificationStream } from "@/lib/notifications/firebase_read";
 
 export default function Layout({ children }) {
   const path = usePathname();
@@ -48,6 +49,8 @@ export default function Layout({ children }) {
   }
 
   const { navBar, setNavOpen, user } = useAuth();
+
+  const { data } = UseUnReadNotificationStream(user);
 
   return (
     <div
@@ -96,6 +99,9 @@ export default function Layout({ children }) {
                     text="Notification"
                     active={activeComponent === "notification"}
                     link="/u/notifications"
+                    alert={
+                      data?.length > 0 && activeComponent !== "notification"
+                    }
                   />
                   {/* <SidebarItem
                     icon={<Crown color="#009ED9" />}

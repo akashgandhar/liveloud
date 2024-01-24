@@ -7,6 +7,7 @@ import { GetAllPosts } from "@/lib/posts/firebase_read";
 import {
   AmplifyPost,
   CommentPost,
+  DeletePost,
   LikePost,
   SavePost,
   SharePost,
@@ -119,6 +120,26 @@ export default function PostProvider({ children }) {
     }
   };
 
+
+  const handleDeletePost = async (postId) => {
+    setIsLoading(true);
+    try {
+      const deleted = await DeletePost(user, postId);
+
+      if (deleted != true) {
+        alert("An error occured");
+        setIsLoading(false);
+        return;
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+      setIsLoading(false);
+      return;
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -135,6 +156,7 @@ export default function PostProvider({ children }) {
         isSaveLoading,
         isShareLoading,
         isAmplifyLoading,
+        handleDeletePost
       }}
     >
       {children}

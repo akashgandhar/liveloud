@@ -13,6 +13,8 @@ export default function AuthenticationPage() {
     userData,
     emailPasswordResetSend,
     error,
+    isLogin,
+    setIsLogin,
   } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -22,17 +24,17 @@ export default function AuthenticationPage() {
       <section class="h-screen ">
         <div class="container h-full px-6 py-24">
           <div class="g-6 flex h-full relative flex-wrap items-center justify-center lg:justify-between">
-              <div class="mb-12 hidden  md:block md:mb-0 md:w-8/12 lg:w-6/12">
-                <img
-                  src="/logobig.png"
-                  class="w-full bg-blend-multiply"
-                  alt="Phone image"
-                />
+            <div class="mb-12 hidden  md:block md:mb-0 md:w-8/12 lg:w-6/12">
+              <img
+                src="/logobig.png"
+                class="w-full bg-blend-multiply"
+                alt="Phone image"
+              />
             </div>
 
             <div class="md:w-8/12 lg:ml-6 lg:w-5/12 bg-gray-100 rounded-md ">
               <h1 class="text-4xl font-bold mb-8 text-center text-primary">
-                Sign in to Live Loud
+                Sign {isLogin ? "in" : "up"} to Live Loud
               </h1>
               {/* {error} */}
               <form
@@ -46,16 +48,19 @@ export default function AuthenticationPage() {
                   setIsLoading(false);
                 }}
               >
-                <div class="relative mb-6" data-te-input-wrapper-init>
-                  <Input
-                    type="text"
-                    className="dark:border-white dark:text-white"
-                    // class="peer block min-h-[auto] w-full rounded border dark:text-black dark:placeholder:text-black dark:shadow dark:bg-white bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                    id="exampleFormControlInput3"
-                    placeholder="Name"
-                    onChange={(e) => handleChange("name", e.target.value)}
-                  />
-                </div>
+                {!isLogin && (
+                  <div class="relative mb-6" data-te-input-wrapper-init>
+                    <Input
+                      disabled={isLogin}
+                      type="text"
+                      className="dark:border-white dark:text-white"
+                      // class="peer block min-h-[auto] w-full rounded border dark:text-black dark:placeholder:text-black dark:shadow dark:bg-white bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                      id="exampleFormControlInput3"
+                      placeholder="Name"
+                      onChange={(e) => handleChange("name", e.target.value)}
+                    />
+                  </div>
+                )}
 
                 <div class="relative mb-6" data-te-input-wrapper-init>
                   <Input
@@ -83,7 +88,7 @@ export default function AuthenticationPage() {
                   <button
                     onClick={(e) => {
                       e.preventDefault();
-                      emailPasswordResetSend(userData?.email)
+                      emailPasswordResetSend(userData?.email);
                     }}
                     class="text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
                   >
@@ -96,7 +101,7 @@ export default function AuthenticationPage() {
                   className="w-full font-bold"
                   type="submit"
                 >
-                  {isLoading ? "Loading" : "Sign In"}
+                  {isLoading ? "Loading" : isLogin ? "Sign In" : "Sign Up"}
                 </Button>
 
                 <div class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -135,6 +140,17 @@ export default function AuthenticationPage() {
                   Wallet Connect
                 </Button>
               </form>
+              <p className="py-2">
+                {isLogin
+                  ? "Don't have a account? "
+                  : "Already have an account? "}
+                <span
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="hover:underline text-blue-500 cursor-pointer"
+                >
+                  {isLogin ? "SignUp" : "SignIn"}
+                </span>
+              </p>
             </div>
           </div>
         </div>

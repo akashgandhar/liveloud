@@ -28,6 +28,8 @@ export default function AuthProvider({ children }) {
   const [error, setError] = useState(null);
   const [navOpen, setNavOpen] = useState(false);
 
+  const [isLogin, setIsLogin] = useState(false);
+
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -100,6 +102,18 @@ export default function AuthProvider({ children }) {
         setError(errorMessage);
 
         if (errorCode === "auth/email-already-in-use") {
+          if (!isLogin) {
+            Swal.fire({
+              title: "Error!",
+              text: "Email already in use",
+              icon: "error",
+            });
+            return {
+              status: false,
+              message: "Email already in use",
+              code: errorCode,
+            };
+          }
           signInUserWithEmailAndPassword(email, password);
           return;
         }
@@ -215,6 +229,8 @@ export default function AuthProvider({ children }) {
         error,
         setNavOpen,
         navOpen,
+        isLogin,
+        setIsLogin,
       }}
     >
       {children}

@@ -1,4 +1,3 @@
-
 import { Titillium_Web } from "next/font/google";
 import "./globals.css";
 import ThemeProvider, { ThemeContext, useTheme } from "@/contexts/themeContext";
@@ -6,7 +5,7 @@ import ThemeWrapper from "./components/ThemeWrapper";
 import AuthProvider, { useAuth } from "@/contexts/auth/context";
 import { useRouter } from "next/navigation";
 import Loader from "./components/Loader";
-
+import VarificationBarrier from "./components/VarificationBarrier";
 
 const FONT = Titillium_Web({
   style: "normal",
@@ -26,8 +25,8 @@ export default function RootLayout({ children }) {
       <ThemeWrapper>
         <body className={`bg-gray-100 dark:bg-gray-800 ${FONT.className}`}>
           <AuthProvider>
-            <Loader/>
-            {children}
+            <Loader />
+            <VarificationBarrier>{children}</VarificationBarrier>
           </AuthProvider>
         </body>
       </ThemeWrapper>

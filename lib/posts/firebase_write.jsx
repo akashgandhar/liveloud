@@ -43,7 +43,7 @@ export const CreateNewPost = async ({ user, post }) => {
       console.log("Document written with ID: ", docRef.id);
       await updateDoc(doc(db, "posts", docRef.id), { postId: docRef.id });
     });
-    
+
     await addDoc(collection(db, `users/${user.uid}/posts`), {
       postId: finalData.postId,
       createdAt: new Date(),
@@ -233,6 +233,25 @@ export const CommentPost = async (user, postId, ownerId, comment) => {
       createdAt: new Date(),
       ownerId: ownerId,
     });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const DeletePost = async (user, postId) => {
+  const postRef = doc(db, "posts", postId);
+  const postDoc = await getDoc(postRef);
+  const post = postDoc.data();
+
+  if (post.owner !== user.uid) {
+    return false;
+  }
+
+  try {
+    const docRef = doc(db, "posts", postId);
+    await deleteDoc(docRef);
     return true;
   } catch (error) {
     console.log(error);

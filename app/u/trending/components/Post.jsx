@@ -88,7 +88,7 @@ export default function Post({ post }) {
           </h2>
 
           {/* //todo popover */}
-          <PostOptions>
+          <PostOptions postId={post?.postId} ownerId={post?.owner}>
             <MoreHorizontal className="text-xl cursor-pointer " />
           </PostOptions>
         </div>
