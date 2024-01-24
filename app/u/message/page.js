@@ -8,6 +8,9 @@ import Add from "./components/rightComponents/add";
 import CardWithSearchBar from "./components/rightComponents/searchbar";
 import Message from "./components/main/message/Message";
 export default function Page() {
+  if(true){
+    return<div>Comming Soon</div>
+  }
   return (
     <div className="flex pl-20 pr-2 w-screen min-h-screen justify-center h-screen overflow-hidden">
       <div className="flex w-full h-full justify-center">

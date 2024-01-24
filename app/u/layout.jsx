@@ -97,18 +97,18 @@ export default function Layout({ children }) {
                     active={activeComponent === "notification"}
                     link="/u/notifications"
                   />
-                  <SidebarItem
+                  {/* <SidebarItem
                     icon={<Crown color="#009ED9" />}
                     text="Subscription"
                     active={activeComponent === "subscription"}
                     link="#"
-                  />
-                  <SidebarItem
+                  /> */}
+                  {/* <SidebarItem
                     icon={<Mail color="#009ED9" />}
                     text="Message"
                     active={activeComponent === "message"}
                     link="/u/message"
-                  />
+                  /> */}
                   <SidebarItem
                     icon={<Bookmark color="#009ED9" />}
                     text="Bookmark"

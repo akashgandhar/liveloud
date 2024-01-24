@@ -21,7 +21,11 @@ export default function SingleComment({ comment }) {
         <div>
           <div class="bg-gray-100 w-auto rounded-xl px-2 pb-2">
             <div class="font-medium">
-              <Link href="#" class="hover:underline text-sm">
+              <Link
+                href={`
+        /u/${comment?.uid || "#"}`}
+                class="hover:underline text-sm"
+              >
                 <strong>{comment?.name || "Unknown"}</strong>
               </Link>
             </div>

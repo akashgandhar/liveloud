@@ -56,6 +56,22 @@ export default function MainProfile() {
 
   // console.log(userData);
 
+  if (!profile && !IsProfileLoading) {
+    return (
+      <div className="w-screen h-screen items-center justify-center flex">
+        No Profile Found ! Please Check URL {isProfileError}
+      </div>
+    );
+  }
+
+  if (IsProfileLoading) {
+    return (
+      <div className="w-screen h-screen items-center justify-center flex">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     // <div class="container">
     <div className="w-screen flex flex-col">

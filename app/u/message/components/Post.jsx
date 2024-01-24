@@ -68,7 +68,7 @@ export default function Post({ post }) {
   return (
     <div className="flex border dark:text-black rounded-lg ml-0 mr-2 min-w-fit  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
       <div className="mt-3 w-12 h-12 text-lg flex-none">
-        <Link href={`/u/${user?.uid}`}>
+        <Link href={`/u/${data?.uid}`}>
           <img
             src={data?.photoURL}
             className="flex-none w-12 h-12 object-cover rounded-full cursor-pointer"
@@ -80,9 +80,9 @@ export default function Post({ post }) {
       <div className="w-full px-4 py-3">
         <div className="w-full flex justify-between relative">
           <h2 className="font-semibold cursor-pointer">
-            <Link href={`/u/${user?.uid}`}>{data?.name}</Link>
+            <Link href={`/u/${data?.uid}`}>{data?.name}</Link>
             <span className="text-slate-500 font-normal pl-1.5">
-              <Link href={`/u/${user?.uid}`}>@{data?.handle}</Link>
+              <Link href={`/u/${data?.uid}`}>@{data?.handle}</Link>
             </span>
           </h2>
 
