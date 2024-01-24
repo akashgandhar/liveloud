@@ -123,7 +123,7 @@ export default function Post({ post }) {
           <div title="Like" className="flex justify-center items-center gap-2">
             <button
               disabled={isLikeLoading}
-              onClick={() => handleLikePost(post?.postId)}
+              onClick={() => handleLikePost(post?.postId, post?.owner)}
             >
               <Heart
                 fill={
@@ -147,7 +147,7 @@ export default function Post({ post }) {
             title="Comment"
             className="flex justify-center items-center gap-2"
           >
-            <CommentDiologBox postId={post?.postId}>
+            <CommentDiologBox postId={post?.postId} postOwner={post?.owner}>
               <MessageSquare className="text-xl cursor-pointer hover:text-blue-500" />
             </CommentDiologBox>
             <span className="text-sm  font-semibold">
@@ -160,7 +160,7 @@ export default function Post({ post }) {
           >
             <button
               disabled={isAmplifyLoading}
-              onClick={() => handleAmplifyPost(post?.postId)}
+              onClick={() => handleAmplifyPost(post?.postId, post?.owner)}
             >
               <Volume2
                 stroke={
@@ -187,7 +187,7 @@ export default function Post({ post }) {
                   text: post?.content,
                   url: url,
                 });
-                handleSharePost(post?.postId);
+                handleSharePost(post?.postId, post?.owner);
               }}
             >
               <Share2
@@ -206,7 +206,7 @@ export default function Post({ post }) {
           <div title="Share" className="flex justify-center items-center gap-2">
             <button
               disabled={isSaveLoading}
-              onClick={() => handleSavePost(post?.postId)}
+              onClick={() => handleSavePost(post?.postId, post?.owner)}
             >
               <Bookmark
                 stroke={

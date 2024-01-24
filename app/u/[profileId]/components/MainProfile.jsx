@@ -168,7 +168,7 @@ export default function MainProfile() {
                 <section class="data-item">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
-                      return acc + item?.likes?.length;
+                      return acc + item?.totalLikes?.length;
                     }, 0) || 0}
                   </h3>
                   <small class="title font-semibold">Likes</small>
@@ -176,7 +176,7 @@ export default function MainProfile() {
                 <section class="data-item hover:cursor-pointer">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
-                      return acc + item?.comments?.length;
+                      return acc + item?.totalComments?.length;
                     }, 0) || 0}
                   </h3>
                   <small class="title font-semibold">Comments</small>
@@ -184,10 +184,10 @@ export default function MainProfile() {
                 <section class="data-item hover:cursor-pointer">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
-                      return acc + (item?.saved?.length || 0);
+                      return acc + (item?.totalAmplified?.length || 0);
                     }, 0) || 0}
                   </h3>
-                  <small class="title font-semibold">Saved</small>
+                  <small class="title font-semibold">Amplified</small>
                 </section>
               </div>
             </div>

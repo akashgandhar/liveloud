@@ -29,18 +29,18 @@ export default function PostProvider({ children }) {
   const [isShareLoading, setIsShareLoading] = useState(false);
   const [isAmplifyLoading, setIsAmplifyLoading] = useState(false);
 
-  const handleLikePost = async (postId) => {
+  const handleLikePost = async (postId, ownerId) => {
     setIsLikeLoading(true);
-    const liked = await LikePost(user, postId);
+    const liked = await LikePost(user, postId, ownerId);
     if (liked != true) {
       alert("An error occured");
       setIsLikeLoading(false);
     }
     setIsLikeLoading(false);
   };
-  const handleSavePost = async (postId) => {
+  const handleSavePost = async (postId, ownerId) => {
     setIsSaveLoading(true);
-    const saved = await SavePost(user, postId);
+    const saved = await SavePost(user, postId, ownerId);
     if (saved != true) {
       alert("An error occured");
       setIsSaveLoading(false);
@@ -50,9 +50,9 @@ export default function PostProvider({ children }) {
     setIsSaveLoading(false);
   };
 
-  const handleSharePost = async (postId) => {
+  const handleSharePost = async (postId, ownerId) => {
     setIsShareLoading(true);
-    const shared = await SharePost(user, postId);
+    const shared = await SharePost(user, postId, ownerId);
     if (shared != true) {
       alert("An error occured");
       setIsShareLoading(false);
@@ -61,9 +61,9 @@ export default function PostProvider({ children }) {
     setIsShareLoading(false);
   };
 
-  const handleAmplifyPost = async (postId) => {
+  const handleAmplifyPost = async (postId, ownerId) => {
     setIsAmplifyLoading(true);
-    const amplified = await AmplifyPost(user, postId);
+    const amplified = await AmplifyPost(user, postId, ownerId);
     if (amplified != true) {
       alert("An error occured");
       setIsAmplifyLoading(false);
@@ -91,7 +91,7 @@ export default function PostProvider({ children }) {
     setNewComment(e.target.value);
   };
 
-  const handleCommentSubmit = async (e, postId) => {
+  const handleCommentSubmit = async (e, postId, ownerId) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -102,7 +102,7 @@ export default function PostProvider({ children }) {
     }
 
     try {
-      const commented = await CommentPost(user, postId, newComment);
+      const commented = await CommentPost(user, postId, ownerId, newComment);
 
       if (commented != true) {
         alert("An error occured");
@@ -135,7 +135,6 @@ export default function PostProvider({ children }) {
         isSaveLoading,
         isShareLoading,
         isAmplifyLoading,
-        
       }}
     >
       {children}

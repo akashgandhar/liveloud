@@ -72,9 +72,9 @@ export default function RecommendedProfiles() {
             ))}
         </div>
       </CardContent>
-      <CardFooter className="text-[#009ED9] text-sm font-semibold cursor-pointer mt-auto mb-0">
+      {/* <CardFooter className="text-[#009ED9] text-sm font-semibold cursor-pointer mt-auto mb-0">
         <p>Show More</p>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }

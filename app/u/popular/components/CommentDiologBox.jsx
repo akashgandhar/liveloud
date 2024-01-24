@@ -22,7 +22,7 @@ import {
 } from "@/lib/posts/firebase_read";
 import { useState } from "react";
 
-export function CommentDiologBox({ children, postId }) {
+export function CommentDiologBox({ children, postId, postOwner }) {
   const { newComment, handleCommentChange, handleCommentSubmit } = usePost();
 
   const { data, error, isLoading } = UsePostByIdtStream(postId);
@@ -81,7 +81,7 @@ export function CommentDiologBox({ children, postId }) {
               />
               <Button
                 onClick={(e) => {
-                  handleCommentSubmit(e, postId);
+                  handleCommentSubmit(e, postId, postOwner);
                   setComment("");
                 }}
               >

@@ -43,6 +43,11 @@ export const CreateNewPost = async ({ user, post }) => {
       console.log("Document written with ID: ", docRef.id);
       await updateDoc(doc(db, "posts", docRef.id), { postId: docRef.id });
     });
+    
+    await addDoc(collection(db, `users/${user.uid}/posts`), {
+      postId: finalData.postId,
+      createdAt: new Date(),
+    });
     return true;
   } catch (e) {
     console.log("err", e);
@@ -85,7 +90,7 @@ export async function uploadFilesToStorage(user, mediaArray) {
   return resultArray;
 }
 
-export const LikePost = async (user, postId) => {
+export const LikePost = async (user, postId, ownerId) => {
   try {
     const docRef = query(
       collection(db, `posts/${postId}/likes`),
@@ -104,16 +109,18 @@ export const LikePost = async (user, postId) => {
           name: user.displayName,
           photoURL: user.photoURL,
           createdAt: new Date(),
+          ownerId: ownerId,
         });
       }
     });
+
     return true;
   } catch (error) {
     console.log(error);
     return false;
   }
 };
-export const SavePost = async (user, postId) => {
+export const SavePost = async (user, postId, ownerId) => {
   try {
     const docRef = query(
       collection(db, `posts/${postId}/saved`),
@@ -132,6 +139,7 @@ export const SavePost = async (user, postId) => {
           name: user.displayName,
           photoURL: user.photoURL,
           createdAt: new Date(),
+          ownerId: ownerId,
         });
       }
     });
@@ -162,7 +170,7 @@ export const SavePost = async (user, postId) => {
   }
 };
 
-export const SharePost = async (user, postId) => {
+export const SharePost = async (user, postId, ownerId) => {
   try {
     const docRef = query(
       collection(db, `posts/${postId}/shared`),
@@ -176,6 +184,7 @@ export const SharePost = async (user, postId) => {
           name: user.displayName,
           photoURL: user.photoURL,
           createdAt: new Date(),
+          ownerId: ownerId,
         });
       }
     });
@@ -185,7 +194,7 @@ export const SharePost = async (user, postId) => {
   }
 };
 
-export const AmplifyPost = async (user, postId) => {
+export const AmplifyPost = async (user, postId, ownerId) => {
   try {
     const docRef = query(
       collection(db, `posts/${postId}/amplified`),
@@ -204,6 +213,7 @@ export const AmplifyPost = async (user, postId) => {
           name: user.displayName,
           photoURL: user.photoURL,
           createdAt: new Date(),
+          ownerId: ownerId,
         });
       }
     });
@@ -213,7 +223,7 @@ export const AmplifyPost = async (user, postId) => {
   }
 };
 
-export const CommentPost = async (user, postId, comment) => {
+export const CommentPost = async (user, postId, ownerId, comment) => {
   try {
     addDoc(collection(db, `posts/${postId}/comments`), {
       uid: user.uid,
@@ -221,6 +231,7 @@ export const CommentPost = async (user, postId, comment) => {
       photoURL: user.photoURL,
       comment: comment,
       createdAt: new Date(),
+      ownerId: ownerId,
     });
     return true;
   } catch (error) {

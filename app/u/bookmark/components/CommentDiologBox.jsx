@@ -16,19 +16,24 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import SingleComment from "./SingleComment";
 import { usePost } from "@/contexts/posts/context";
-import { UsePostByIdtStream } from "@/lib/posts/firebase_read";
+import {
+  UsePostByIdtStream,
+  UsePostCommentsStream,
+} from "@/lib/posts/firebase_read";
 import { useState } from "react";
 
-export function CommentDiologBox({ children, postId }) {
+export function CommentDiologBox({ children, postId, postOwner }) {
   const { newComment, handleCommentChange, handleCommentSubmit } = usePost();
 
   const { data, error, isLoading } = UsePostByIdtStream(postId);
 
   const [comment, setComment] = useState("");
 
-
-
-
+  const {
+    data: postComments,
+    isLoading: postCommentsLoading,
+    error: postCommentsError,
+  } = UsePostCommentsStream(postId);
 
   // console.log("postiD", postId);
   return (
@@ -41,7 +46,7 @@ export function CommentDiologBox({ children, postId }) {
               <p class="font-semibold text-gray-600">Comments on the Post:</p>
             </div>
             <div class="top-0 mt-2 max-h-52 space-y-2 overflow-y-auto border-t pt-2">
-              {data?.comments
+              {postComments
                 ?.sort((a, b) => {
                   return b?.createdAt?.seconds - a?.createdAt?.seconds;
                 })
@@ -76,7 +81,7 @@ export function CommentDiologBox({ children, postId }) {
               />
               <Button
                 onClick={(e) => {
-                  handleCommentSubmit(e, postId);
+                  handleCommentSubmit(e, postId, postOwner);
                   setComment("");
                 }}
               >
