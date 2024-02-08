@@ -31,12 +31,14 @@ export const CreateNewPost = async ({ user, post }) => {
     totalShared: 0,
   };
 
-  await uploadFilesToStorage(user, post?.media).then((result) => {
-    finalData = {
-      ...finalData,
-      media: result,
-    };
-  });
+  if (post?.media.length > 0) {
+    await uploadFilesToStorage(user, post?.media).then((result) => {
+      finalData = {
+        ...finalData,
+        media: result,
+      };
+    });
+  }
 
   const postRef = collection(db, "posts");
 
@@ -45,11 +47,12 @@ export const CreateNewPost = async ({ user, post }) => {
   try {
     await addDoc(postRef, finalData).then(async (docRef) => {
       console.log("Document written with ID: ", docRef.id);
+      finalData = { ...finalData, postId: docRef.id };
       await updateDoc(doc(db, "posts", docRef.id), { postId: docRef.id });
     });
 
     await addDoc(collection(db, `users/${user.uid}/posts`), {
-      postId: finalData.postId,
+      postId: finalData?.postId,
       createdAt: new Date(),
     });
     return true;

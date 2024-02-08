@@ -18,6 +18,8 @@ export default function NewPostProvider({ children }) {
   const { user } = useAuth();
   const [isDone, setIsDone] = useState(false);
 
+  const [popUpState, setPopUpState] = useState(false);
+
   const [postData, setPostData] = useState({
     content: "",
     media: [],
@@ -114,9 +116,6 @@ export default function NewPostProvider({ children }) {
     }));
   };
 
-
-  
-
   const createNewPost = async () => {
     setIsLoading(true);
     setIsDone(false);
@@ -143,6 +142,7 @@ export default function NewPostProvider({ children }) {
       setIsLoading(false);
     } catch (error) {
       alert("1", error.message);
+      console.log("error", error.message);
       setError(error);
       setIsLoading(false);
     }
@@ -159,6 +159,8 @@ export default function NewPostProvider({ children }) {
         createNewPost,
         handleMediaChange,
         handleDeSelectMedia,
+        popUpState,
+        setPopUpState,
       }}
     >
       {children}

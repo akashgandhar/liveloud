@@ -93,7 +93,13 @@ export function CreatePostDiolog({ children }) {
             <label className="flex m-2">
               <Popover>
                 <PopoverTrigger>
-                  <GalleryThumbnails className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+                <img
+                  src="/gif2.svg"  
+                  alt="GIF"
+                  width={24}
+                  height={24}
+                  className="cursor-pointer item-center"/>
+                                                                            
                 </PopoverTrigger>
                 <PopoverContent className="w-fit">
                   <GifPicker
@@ -119,12 +125,16 @@ export function CreatePostDiolog({ children }) {
               e.preventDefault();
               // console.log(postData);
               createNewPost();
+              document.getElementById("closeBtn").click();
             }}
             className="p-2.5 rounded-xl shadow-md bg-[#009ED9] text-white border border-white hover:text-[#009ED9] hover:bg-white hover:border-[#009ED9] hover:shadow-lg transition duration-150 ease-in-out disabled:cursor-not-allowed"
           >
             {isLoading ? "Loading..." : "Post"}
           </Button>
         </DialogFooter>
+        <DialogClose asChild>
+          <button id="closeBtn" className="hidden" ></button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );

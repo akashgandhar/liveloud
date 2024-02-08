@@ -41,12 +41,16 @@ export default function PostProvider({ children }) {
   };
   const handleSavePost = async (postId, ownerId) => {
     setIsSaveLoading(true);
-    const saved = await SavePost(user, postId, ownerId);
-    if (saved != true) {
-      alert("An error occured");
-      setIsSaveLoading(false);
-      return;
+
+    if(!ownerId) {
+      console.log("chek ",ownerId);
     }
+    const saved = await SavePost(user, postId, ownerId);
+    // if (saved != true) {
+    //   alert("An error occured");
+    //   setIsSaveLoading(false);
+    //   return;
+    // }
 
     setIsSaveLoading(false);
   };
