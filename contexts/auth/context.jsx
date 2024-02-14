@@ -77,6 +77,28 @@ export default function AuthProvider({ children }) {
   };
 
   const signUpUserWithEmailAndPassword = async (email, password) => {
+    if (!isLogin) {
+      if (!userData?.name) {
+        setError("Please enter name");
+        Swal.fire({
+          title: "Error!",
+          text: "Please enter name",
+          icon: "error",
+        });
+        return;
+      }
+    }
+
+    if (!email || !password) {
+      setError("Please enter email and password");
+      Swal.fire({
+        title: "Error!",
+        text: "Please enter email and password",
+        icon: "error",
+      });
+      return;
+    }
+
     const data = await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         await SendReferRequest(

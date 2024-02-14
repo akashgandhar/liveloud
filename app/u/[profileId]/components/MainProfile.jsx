@@ -40,7 +40,7 @@ export default function MainProfile() {
     error: isProfileError,
   } = UseUserStream(profileId);
 
-  const banner = profile?.banner || "/images/banner.jpg";
+  const banner = profile?.banner || "/placeholder-banner.png";
 
   const {
     data: userFollowers,
@@ -176,7 +176,7 @@ export default function MainProfile() {
                   </h3>
                   <small class="title font-semibold">Likes</small>
                 </section>
-                <section class="data-item hover:cursor-pointer">
+                <section class="data-item ">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
                       return acc + (item?.totalComments || 0);
@@ -184,7 +184,7 @@ export default function MainProfile() {
                   </h3>
                   <small class="title font-semibold">Comments</small>
                 </section>
-                <section class="data-item hover:cursor-pointer">
+                <section class="data-item ">
                   <h3 class="value font-bold">
                     {data?.reduce((acc, item) => {
                       return acc + (item?.totalAmplified || 0);

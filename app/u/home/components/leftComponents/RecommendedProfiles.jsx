@@ -25,7 +25,7 @@ export default function RecommendedProfiles() {
       <CardHeader>
         <CardTitle className="text-2xl font-extrabold">Who To Follow</CardTitle>
       </CardHeader>
-      <CardContent className="overflow-hidden">
+      <CardContent className="overflow-auto py-5">
         <div class="items-center justify-center  gap-2 flex flex-col">
           {isLoading && <p>Loading...</p>}
           {error && <p className="text-red-500">An error has occurred</p>}

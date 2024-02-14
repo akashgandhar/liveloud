@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+em-emoji-picker {
+
+  height: 300px;
+  z-index: 100;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

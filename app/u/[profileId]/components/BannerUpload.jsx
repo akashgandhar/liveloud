@@ -56,7 +56,7 @@ export function BannerUpload() {
           <Pen size={20}  />
           </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] max-h-full overflow-auto">
+      <DialogContent className="sm:max-w-[425px] w-screen max-h-full overflow-auto">
         <DialogHeader>
           <DialogTitle>Edit Banner</DialogTitle>
           <DialogDescription>
@@ -72,9 +72,9 @@ export function BannerUpload() {
             </p>
           </div>
         </section>
-        <section className=" flex items-center justify-center max-w-full">
+        <section className=" flex items-center  w-full max-w-screen justify-center ">
           <img
-            className="object-cover object-center max-w-full aspect-[5/1] border w-full min-h-[150px]"
+            className="object-cover object-center max-w-full  border w-full min-h-[150px] max-h-16 sm:max-h-20"
             alt="Profile"
             src={userData?.banner || image}
           />

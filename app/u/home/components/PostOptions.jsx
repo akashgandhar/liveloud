@@ -23,9 +23,9 @@ export function PostOptions({ children, postId, ownerId }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit">
-        {/* <DropdownMenuItem className="cursor-pointer gap-2 hover:font-bold">
-        <HeartCrack size={20} /> Not Intrested
-        </DropdownMenuItem> */}
+        <DropdownMenuItem className="cursor-pointer gap-2 hover:font-bold">
+          <Flag size={20} /> Report
+        </DropdownMenuItem>
         {/* <DropdownMenuItem className="cursor-pointer gap-2 hover:font-bold "> <Flag size={20} /> Report</DropdownMenuItem> */}
         {ownerId == user?.uid && (
           <DropdownMenuItem

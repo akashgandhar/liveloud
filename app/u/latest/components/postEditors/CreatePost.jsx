@@ -27,6 +27,7 @@ import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { useTheme } from "@/contexts/themeContext";
 import GifPicker from "gif-picker-react";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 export function CreatePostDiolog({ children }) {
   const { theme } = useTheme();
@@ -41,7 +42,7 @@ export function CreatePostDiolog({ children }) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-xl p-2">
+      <DialogContent className="sm:max-w-xl max-h-screen overflow-auto p-2">
         <DialogHeader>
           <DialogTitle>Create Post</DialogTitle>
           <DialogDescription>
@@ -74,43 +75,49 @@ export function CreatePostDiolog({ children }) {
             </label>
             {/* emoji icon */}
             <label className="flex m-2">
-              <Popover>
-                <PopoverTrigger>
+              <Dialog>
+                <DialogTrigger>
                   <Smile className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
-                </PopoverTrigger>
-                <PopoverContent className="w-fit">
-                  <Picker
-                    data={data}
-                    theme={theme}
-                    onEmojiSelect={(e) => {
-                      handleChange("content", postData?.content + e.native);
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
+                </DialogTrigger>
+                <DialogContent className="w-fit max-h-screen overflow-auto">
+                  <DialogClose>
+                    <Picker
+                      data={data}
+                      theme={theme}
+                      onEmojiSelect={(e) => {
+                        handleChange("content", postData?.content + e.native);
+                      }}
+                    />
+                  </DialogClose>
+                </DialogContent>
+              </Dialog>
             </label>
             {/* gif icon */}
             <label className="flex m-2">
-              <Popover>
-                <PopoverTrigger>
-                <img
-                  src="/gif2.svg"  
-                  alt="GIF"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer item-center"/>
-                                                                            
-                </PopoverTrigger>
-                <PopoverContent className="w-fit">
+              <Dialog>
+                <DialogTrigger>
+                  <img
+                    src="/gif2.svg"
+                    alt="GIF"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer item-center"
+                  />
+                </DialogTrigger>
+                <DialogContent className="w-fit">
                   <GifPicker
                     onGifClick={(e) => {
                       // console.log(e);
                       handleMediaChange(e);
+                      document.getElementById("closeBtnGif").click();
                     }}
                     tenorApiKey={"AIzaSyA6u39Z0ZKdnqk1SXfbrxm066ICUjQ4eKI"}
                   />
-                </PopoverContent>
-              </Popover>
+                </DialogContent>
+                <DialogClose>
+                  <button id="closeBtnGif" className="hidden"></button>
+                </DialogClose>
+              </Dialog>
             </label>
             {/* poll icon */}
             {/* <label className="flex m-2">
@@ -133,7 +140,7 @@ export function CreatePostDiolog({ children }) {
           </Button>
         </DialogFooter>
         <DialogClose asChild>
-          <button id="closeBtn" className="hidden" ></button>
+          <button id="closeBtn" className="hidden"></button>
         </DialogClose>
       </DialogContent>
     </Dialog>

@@ -43,7 +43,7 @@ export function CryptoWallet() {
         </div>
       </CardContent>
       <CardFooter className="flex flex-wrap gap-2 justify-between">
-        <Button variant="outline">Deposit</Button>
+        <Button variant="outline">Top-Up</Button>
         <Button variant="outline">Transfer</Button>
         <Button>Withdraw</Button>
       </CardFooter>
