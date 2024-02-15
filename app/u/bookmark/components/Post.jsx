@@ -203,7 +203,7 @@ export default function Post({ post }) {
               {postShared?.length || 0}
             </span>
           </div>
-          <div title="Share" className="flex justify-center items-center gap-2">
+          <div title="BookMark" className="flex justify-center items-center gap-2">
             <button
               disabled={isSaveLoading}
               onClick={() => handleSavePost(post?.postId, post?.owner)}
