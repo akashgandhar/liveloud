@@ -21,27 +21,27 @@ import {
 
 export function CryptoWallet() {
   return (
-    <Card className="w-full bg-sky-500">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>
           <div className="w-full flex flex-col-reverse sm:flex-row gap-2 justify-between sm:items-center items-start">
-            <h1 className="text-xl font-bold text-white">CRYPTO WALLET</h1>
-            <p className="text-white">
+            <h1 className="text-xl font-bold text-sky-500">CRYPTO WALLET</h1>
+            <p className="text-gray-600">
               <img
-                src="/pngwing.png"
-                className="w-8 h-8 mr-1 invert inline-block"
+                src="/pnglogo.png"
+                className="w-8 h-8 mr-1 inline-block"
                 alt="coin"
               />
             </p>
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="text-white">
+      <CardContent>
         <div className="w-full justify-center items-start flex flex-col ">
           <h1 className="text-xs font-semibold uppercase">balance</h1>
           <p className="text-xl font-black ">0 ETH</p>
         </div>
-      </CardContent>
+      </CardContent>    
       <CardFooter className="flex flex-wrap gap-2 justify-between">
         <Button variant="outline">Top-Up</Button>
         <Button variant="outline">Transfer</Button>

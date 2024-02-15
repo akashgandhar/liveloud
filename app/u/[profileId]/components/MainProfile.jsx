@@ -209,7 +209,7 @@ export default function MainProfile() {
                   src={
                     data?.sort((a, b) => {
                       return b?.createdAt?.seconds - a?.createdAt?.seconds;
-                    })[0]?.media[0]?.url || "/images/last-post.jpg"
+                    })[0]?.media[0]?.url || "/placeholder-banner.png"
                   }
                   className="h-full w-full"
                 />

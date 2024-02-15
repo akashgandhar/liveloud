@@ -88,7 +88,6 @@ export default function NewPostProvider({ children }) {
         !selectedMedia.type.startsWith("image/")
       ) {
         alert("File type not supported");
-        // console.log(selectedMedia.type);
         return;
       }
 
@@ -125,19 +124,8 @@ export default function NewPostProvider({ children }) {
       return;
     }
     try {
-      // console.log("postData", postData);
-
-      if (!confirm("Are you sure you want to post?")) {
-        setIsLoading(false);
-        return;
-      }
-
       await CreateNewPost({ user, post: postData });
-
-      alert("Post created successfully");
       setPostData({ content: "" });
-      // setPostData(null);
-
       setIsDone(true);
       setIsLoading(false);
     } catch (error) {
