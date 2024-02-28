@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../auth/context";
 import { SentPaymentRequestForSubscription } from "@/lib/premium/firebase_write";
-import { UseUserStream } from "@/lib/users/firebase_read";
+import { UseUserPostsStream, UseUserStream } from "@/lib/users/firebase_read";
 
 const PremiumContext = createContext();
 
@@ -17,11 +17,11 @@ export default function PremiumProvider({ children }) {
 
   const [selectedPackage, setSelectedPackage] = useState(null);
 
+  const { data, isLoading: loading } = UseUserStream(user?.uid);
 
-  
+  console.log("data",data);
 
-
-  const payToSubscribe = async () => {
+  const payToSubscribe = async (xpReq) => {
     setIsLoading(true);
 
     if (!user) {
@@ -32,6 +32,12 @@ export default function PremiumProvider({ children }) {
     if (!selectedPackage) {
       setIsLoading(false);
       setError("Please select a package");
+      return;
+    }
+
+    if (data?.xp < xpReq) {
+      setIsLoading(false);
+      alert("You don't have enough XP");
       return;
     }
 

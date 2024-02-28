@@ -26,6 +26,11 @@ export default function NewPostProvider({ children }) {
   });
 
   const handleChange = (key, value) => {
+    if(key === "content"){
+      if(value.length > 600){
+        return;
+      }
+    }
     setPostData({
       ...postData,
       [key]: value,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Heart } from "lucide-react";
+import { ThumbsUp  } from "lucide-react";
 import { MessageSquare } from "lucide-react";
 import { Share2, Bookmark } from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
@@ -125,15 +125,15 @@ export default function Post({ post }) {
               disabled={isLikeLoading}
               onClick={() => handleLikePost(post?.postId, post?.owner)}
             >
-              <Heart
+              <ThumbsUp 
                 fill={
                   postLikes?.map((like) => like?.uid)?.includes(user?.uid)
-                    ? "#FF0000"
+                    ? "#009ED9"
                     : "#fff"
                 }
                 stroke={
                   postLikes?.map((like) => like?.uid)?.includes(user?.uid)
-                    ? "#FF0000"
+                    ? "#009ED9"
                     : "#000"
                 }
                 className="text-xl cursor-pointer hover:text-red-500 "

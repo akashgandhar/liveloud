@@ -27,6 +27,7 @@ import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { useTheme } from "@/contexts/themeContext";
 import GifPicker from "gif-picker-react";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 export function CreatePostDiolog({ children }) {
   const { theme } = useTheme();
@@ -41,7 +42,7 @@ export function CreatePostDiolog({ children }) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-xl p-2">
+      <DialogContent className="sm:max-w-xl max-h-screen overflow-auto p-2">
         <DialogHeader>
           <DialogTitle>Create Post</DialogTitle>
           <DialogDescription>
@@ -57,6 +58,9 @@ export function CreatePostDiolog({ children }) {
             placeholder="Whats Happening?!"
             className="resize-none text-2xl mt-3 pb-3 w-full h-fit max-h-56  outline-none border-none  py-2"
           />
+          <div className="w-full text-sm text-gray-500 flex justify-end items-center">
+            {postData?.content?.length || 0} / 600
+          </div>
           {postData?.media?.length > 0 && (
             <MediaCarousel postMedia={postData?.media} />
           )}
@@ -74,43 +78,51 @@ export function CreatePostDiolog({ children }) {
             </label>
             {/* emoji icon */}
             <label className="flex m-2">
-              <Popover>
-                <PopoverTrigger>
+              <Dialog>
+                <DialogTrigger>
                   <Smile className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
-                </PopoverTrigger>
-                <PopoverContent className="w-fit">
+                </DialogTrigger>
+                <DialogContent className="w-fit py-8 max-h-screen overflow-auto">
                   <Picker
                     data={data}
                     theme={theme}
                     onEmojiSelect={(e) => {
                       handleChange("content", postData?.content + e.native);
+                      document.getElementById("closeBtnImogi").click();
                     }}
                   />
-                </PopoverContent>
-              </Popover>
+                  <DialogClose>
+                    <button id="closeBtnImogi" className="hidden"></button>
+                  </DialogClose>
+                </DialogContent>
+              </Dialog>
             </label>
             {/* gif icon */}
             <label className="flex m-2">
-              <Popover>
-                <PopoverTrigger>
-                <img
-                  src="/gif2.svg"  
-                  alt="GIF"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer item-center"/>
-                                                                            
-                </PopoverTrigger>
-                <PopoverContent className="w-fit">
+              <Dialog>
+                <DialogTrigger>
+                  <img
+                    src="/gif2.svg"
+                    alt="GIF"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer item-center"
+                  />
+                </DialogTrigger>
+                <DialogContent className="w-fit py-8">
                   <GifPicker
                     onGifClick={(e) => {
                       // console.log(e);
                       handleMediaChange(e);
+                      document.getElementById("closeBtnGif").click();
                     }}
                     tenorApiKey={"AIzaSyA6u39Z0ZKdnqk1SXfbrxm066ICUjQ4eKI"}
                   />
-                </PopoverContent>
-              </Popover>
+                </DialogContent>
+                <DialogClose>
+                  <button id="closeBtnGif" className="hidden"></button>
+                </DialogClose>
+              </Dialog>
             </label>
             {/* poll icon */}
             {/* <label className="flex m-2">
@@ -125,12 +137,16 @@ export function CreatePostDiolog({ children }) {
               e.preventDefault();
               // console.log(postData);
               createNewPost();
+              document.getElementById("closeBtn").click();
             }}
             className="p-2.5 rounded-xl shadow-md bg-[#009ED9] text-white border border-white hover:text-[#009ED9] hover:bg-white hover:border-[#009ED9] hover:shadow-lg transition duration-150 ease-in-out disabled:cursor-not-allowed"
           >
             {isLoading ? "Loading..." : "Post"}
           </Button>
         </DialogFooter>
+        <DialogClose asChild>
+          <button id="closeBtn" className="hidden"></button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );

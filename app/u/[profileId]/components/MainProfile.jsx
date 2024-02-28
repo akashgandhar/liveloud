@@ -221,7 +221,7 @@ export default function MainProfile() {
                   })[0]
                   ?.content.slice(0, 20)}
               </h3>
-              <button class="post-CTA">View</button>
+              {/* <button class="post-CTA">View</button> */}
             </div>
           </div>
         </div>

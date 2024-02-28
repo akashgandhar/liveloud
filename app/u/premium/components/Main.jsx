@@ -134,7 +134,9 @@ export default function Main() {
             {!activeSubscription && (
               <button
                 disabled={isLoading || subLoading}
-                onClick={() => payToSubscribe()}
+                onClick={() =>
+                  payToSubscribe(selectedPackage === "monthly" ? 2000 : 20000)
+                }
                 class="cursor-pointer rounded-md border bg-[#009ED9] px-4 py-2 text-white hover:border-[#009ED9] hover:bg-white hover:text-[#009ED9]"
               >
                 {isLoading ? "Loading..." : "Subscribe Now"}

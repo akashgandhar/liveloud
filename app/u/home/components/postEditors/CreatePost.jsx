@@ -58,6 +58,9 @@ export function CreatePostDiolog({ children }) {
             placeholder="Whats Happening?!"
             className="resize-none text-2xl mt-3 pb-3 w-full h-fit max-h-56  outline-none border-none  py-2"
           />
+          <div className="w-full text-sm text-gray-500 flex justify-end items-center">
+            {postData?.content?.length || 0} / 600
+          </div>
           {postData?.media?.length > 0 && (
             <MediaCarousel postMedia={postData?.media} />
           )}
@@ -79,15 +82,17 @@ export function CreatePostDiolog({ children }) {
                 <DialogTrigger>
                   <Smile className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
                 </DialogTrigger>
-                <DialogContent className="w-fit max-h-screen overflow-auto">
+                <DialogContent className="w-fit py-8 max-h-screen overflow-auto">
+                  <Picker
+                    data={data}
+                    theme={theme}
+                    onEmojiSelect={(e) => {
+                      handleChange("content", postData?.content + e.native);
+                      document.getElementById("closeBtnImogi").click();
+                    }}
+                  />
                   <DialogClose>
-                    <Picker
-                      data={data}
-                      theme={theme}
-                      onEmojiSelect={(e) => {
-                        handleChange("content", postData?.content + e.native);
-                      }}
-                    />
+                    <button id="closeBtnImogi" className="hidden"></button>
                   </DialogClose>
                 </DialogContent>
               </Dialog>
@@ -104,7 +109,7 @@ export function CreatePostDiolog({ children }) {
                     className="cursor-pointer item-center"
                   />
                 </DialogTrigger>
-                <DialogContent className="w-fit">
+                <DialogContent className="w-fit py-8">
                   <GifPicker
                     onGifClick={(e) => {
                       // console.log(e);
