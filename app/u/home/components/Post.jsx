@@ -126,11 +126,11 @@ export default function Post({ post }) {
               onClick={() => handleLikePost(post?.postId, post?.owner)}
             >
               <ThumbsUp 
-                fill={
-                  postLikes?.map((like) => like?.uid)?.includes(user?.uid)
-                    ? "#009ED9"
-                    : "#fff"
-                }
+                // fill={
+                //   postLikes?.map((like) => like?.uid)?.includes(user?.uid)
+                //     ? "#009ED9"
+                //     : "#fff"
+                // }
                 stroke={
                   postLikes?.map((like) => like?.uid)?.includes(user?.uid)
                     ? "#009ED9"
