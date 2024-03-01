@@ -1,5 +1,5 @@
 import React from "react";
-import { ThumbsUp  } from "lucide-react";
+import { ThumbsUp, ThumbsDown  } from "lucide-react";
 import { MessageSquare } from "lucide-react";
 import { Share2, Bookmark } from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
@@ -142,6 +142,24 @@ export default function Post({ post }) {
             <span className="text-sm  font-semibold">
               {postLikes?.length || 0}
             </span>
+            <button
+              disabled={isLikeLoading}
+              onClick={() => handleLikePost(post?.postId, post?.owner)}
+            >
+              <ThumbsDown 
+                // fill={
+                //   postLikes?.map((like) => like?.uid)?.includes(user?.uid)
+                //     ? "#009ED9"
+                //     : "#fff"
+                // }
+                stroke={
+                  postLikes?.map((like) => like?.uid)?.includes(user?.uid)
+                    ? "#009ED9"
+                    : "#000"
+                }
+                className="text-xl cursor-pointer hover:text-red-500 "
+              />
+            </button>
           </div>
           <div
             title="Comment"
