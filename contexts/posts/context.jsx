@@ -9,6 +9,7 @@ import {
   CommentPost,
   DeletePost,
   LikePost,
+  DisLikePost,
   SavePost,
   SharePost,
 } from "@/lib/posts/firebase_write";
@@ -26,6 +27,7 @@ export default function PostProvider({ children }) {
   const [allPosts, setAllPosts] = useState([]);
 
   const [isLikeLoading, setIsLikeLoading] = useState(false);
+  const [isDisLikeLoading, setIsDisLikeLoading] = useState(false);
   const [isSaveLoading, setIsSaveLoading] = useState(false);
   const [isShareLoading, setIsShareLoading] = useState(false);
   const [isAmplifyLoading, setIsAmplifyLoading] = useState(false);
@@ -38,6 +40,16 @@ export default function PostProvider({ children }) {
       setIsLikeLoading(false);
     }
     setIsLikeLoading(false);
+  };
+
+  const handleDisLikePost = async (postId, ownerId) => {
+    setIsDisLikeLoading(true);
+    const disliked = await DisLikePost(user, postId, ownerId);
+    if (disliked != true) {
+      alert("An error occured");
+      setIsDisLikeLoading(false);
+    }
+    setIsDisLikeLoading(false);
   };
   const handleSavePost = async (postId, ownerId) => {
     setIsSaveLoading(true);
@@ -150,6 +162,7 @@ export default function PostProvider({ children }) {
         error,
         isLoading,
         handleLikePost,
+        handleDisLikePost,
         handleSharePost,
         handleAmplifyPost,
         handleShare,
@@ -157,6 +170,7 @@ export default function PostProvider({ children }) {
         handleCommentSubmit,
         handleSavePost,
         isLikeLoading,
+        isDisLikeLoading,
         isSaveLoading,
         isShareLoading,
         isAmplifyLoading,

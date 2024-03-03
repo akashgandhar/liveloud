@@ -19,6 +19,7 @@ export const CreateNewPost = async ({ user, post }) => {
     ...post,
     owner: user.uid,
     likes: [],
+    dislikes: [],
     comments: [],
     amplified: [],
     shared: [],
@@ -127,6 +128,38 @@ export const LikePost = async (user, postId, ownerId) => {
     return false;
   }
 };
+
+export const DisLikePost = async (user, postId, ownerId) => {
+  try {
+    const docRef = query(
+      collection(db, `posts/${postId}/dislikes`),
+      where("uid", "==", user.uid)
+    );
+
+    await getDocs(docRef).then((querySnapshot) => {
+      if (querySnapshot.size > 0) {
+        querySnapshot.forEach((docd) => {
+          console.log(docd.id, " => ", docd.data());
+          deleteDoc(doc(db, `posts/${postId}/dislikes`, docd.id));
+        });
+      } else {
+        addDoc(collection(db, `posts/${postId}/dislikes`), {
+          uid: user.uid,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+          ownerId: ownerId,
+        });
+      }
+    });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const SavePost = async (user, postId, ownerId) => {
   try {
     const docRef = query(

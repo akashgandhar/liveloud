@@ -138,6 +138,33 @@ export const UsePostLikesStream = (postId) => {
   return { data, error, isLoading };
 };
 
+export const UsePostDisLikesStream = (postId) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const { data, error } = useSWRSubscription(
+    [`posts/${postId}/dislikes`],
+    ([path], { next }) => {
+      const ref = collection(db, path);
+      const unsubscribe = onSnapshot(
+        ref,
+        (snap) => {
+          setIsLoading(false);
+          next(
+            null,
+            snap.docs.map((snap) => snap.data())
+          );
+        },
+        (error) => {
+          next(error.message);
+          console.log(error.message);
+          setIsLoading(false);
+        }
+      );
+      return () => unsubscribe();
+    }
+  );
+  return { data, error, isLoading };
+};
+
 export const UsePostSavedStream = (postId) => {
   const [isLoading, setIsLoading] = useState(true);
   const { data, error } = useSWRSubscription(
