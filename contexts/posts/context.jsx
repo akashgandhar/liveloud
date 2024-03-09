@@ -12,6 +12,7 @@ import {
   DisLikePost,
   SavePost,
   SharePost,
+  ReportPost,
 } from "@/lib/posts/firebase_write";
 import { set } from "firebase/database";
 
@@ -31,6 +32,41 @@ export default function PostProvider({ children }) {
   const [isSaveLoading, setIsSaveLoading] = useState(false);
   const [isShareLoading, setIsShareLoading] = useState(false);
   const [isAmplifyLoading, setIsAmplifyLoading] = useState(false);
+
+  const [reportReason, setReportReason] = useState("");
+
+  const handleReportReasonChange = async(value) => {
+    setReportReason(value);
+  };
+
+  const handleReportSubmit = async (e, postId) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const ownerId = user?.uid;
+
+    if (!reportReason || reportReason?.trim() === "") {
+      alert("Report reason cannot be empty");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const reported = await ReportPost(user, postId, ownerId, reportReason);
+
+      if (reported != true) {
+        alert("An error occured");
+        setIsLoading(false);
+        return;
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+      setIsLoading(false);
+      return;
+    }
+  };
 
   const handleLikePost = async (postId, ownerId) => {
     setIsLikeLoading(true);
@@ -54,8 +90,8 @@ export default function PostProvider({ children }) {
   const handleSavePost = async (postId, ownerId) => {
     setIsSaveLoading(true);
 
-    if(!ownerId) {
-      console.log("chek ",ownerId);
+    if (!ownerId) {
+      console.log("chek ", ownerId);
     }
     const saved = await SavePost(user, postId, ownerId);
     // if (saved != true) {
@@ -136,7 +172,6 @@ export default function PostProvider({ children }) {
     }
   };
 
-
   const handleDeletePost = async (postId) => {
     setIsLoading(true);
     try {
@@ -174,7 +209,10 @@ export default function PostProvider({ children }) {
         isSaveLoading,
         isShareLoading,
         isAmplifyLoading,
-        handleDeletePost
+        handleDeletePost,
+        handleReportReasonChange,
+        handleReportSubmit,
+        reportReason,
       }}
     >
       {children}

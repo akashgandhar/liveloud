@@ -1,7 +1,5 @@
 "use client";
 
-import { CopyIcon } from "@radix-ui/react-icons";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,18 +14,22 @@ import {
 
 import { Textarea } from "@/components/ui/textarea";
 import { MediaCarousel } from "./MediaCarousel";
-import { Smile, BarChartBig, GalleryThumbnails, ImagePlus } from "lucide-react";
+import { Smile, ImagePlus } from "lucide-react";
 import { useNewPost } from "@/contexts/newPost/context";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { useTheme } from "@/contexts/themeContext";
 import GifPicker from "gif-picker-react";
-import { PopoverClose } from "@radix-ui/react-popover";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
+import { Select } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 export function CreatePostDiolog({ children }) {
   const { theme } = useTheme();
@@ -58,14 +60,43 @@ export function CreatePostDiolog({ children }) {
             placeholder="Whats Happening?!"
             className="resize-none text-2xl mt-3 pb-3 w-full h-fit max-h-56  outline-none border-none  py-2"
           />
-          <div className="w-full text-sm text-gray-500 flex justify-end items-center">
+
+          <div className="w-full gap-2 text-sm text-gray-500 flex justify-between items-center">
+            <select
+              onChange={(e) => handleChange("visibility", e.target.value)}
+              className="
+              w-1/3
+              p-2
+              rounded-lg
+              border
+              border-gray-300
+              focus:ring-2
+              focus:ring-[#009ED9]
+              focus:border-transparent
+              outline-none
+              transition
+              duration-150
+              ease-in-out
+              
+            "
+              value={postData?.visibility}
+            >
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+              <option value="followers">My Followers Only</option>
+            </select>
+            <Input
+              className="h-10"
+              placeholder="#HASHTAG"
+              onChange={(e) => handleChange("tags", e.target.value)}
+              value={postData?.tags}
+            />
             {postData?.content?.length || 0} / 600
           </div>
           {postData?.media?.length > 0 && (
             <MediaCarousel postMedia={postData?.media} />
           )}
         </div>
-
         <DialogFooter className="sm:justify-between">
           <div className="flex justify-start gap-4">
             <label className="flex m-2">
@@ -83,14 +114,16 @@ export function CreatePostDiolog({ children }) {
                   <Smile className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
                 </DialogTrigger>
                 <DialogContent className="w-fit py-8 max-h-screen overflow-auto">
+                  <Picker
+                    data={data}
+                    theme={theme}
+                    onEmojiSelect={(e) => {
+                      handleChange("content", postData?.content + e.native);
+                      document.getElementById("closeBtnImogi").click();
+                    }}
+                  />
                   <DialogClose>
-                    <Picker
-                      data={data}
-                      theme={theme}
-                      onEmojiSelect={(e) => {
-                        handleChange("content", postData?.content + e.native);
-                      }}
-                    />
+                    <button id="closeBtnImogi" className="hidden"></button>
                   </DialogClose>
                 </DialogContent>
               </Dialog>
@@ -124,9 +157,9 @@ export function CreatePostDiolog({ children }) {
             </label>
             {/* poll icon */}
             {/* <label className="flex m-2">
-              <input className="hidden" type="file" />
-              <BarChartBig className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
-            </label> */}
+      <input className="hidden" type="file" />
+      <BarChartBig className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+    </label> */}
           </div>
 
           <Button

@@ -298,3 +298,20 @@ export const DeletePost = async (user, postId) => {
     return false;
   }
 };
+
+export const ReportPost = async (user, postId, ownerId, report) => {
+  try {
+    addDoc(collection(db, `posts/${postId}/reports`), {
+      uid: user.uid,
+      name: user.displayName,
+      photoURL: user.photoURL,
+      report: report,
+      createdAt: new Date(),
+      reporterId: ownerId,
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

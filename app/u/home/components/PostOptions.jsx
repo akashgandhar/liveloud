@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { usePost } from "@/contexts/posts/context";
 import { useAuth } from "@/contexts/auth/context";
+import { ReportDiologBox } from "./ReportDiolog";
 
 export function PostOptions({ children, postId, ownerId }) {
   const { handleDeletePost } = usePost();
@@ -23,9 +24,11 @@ export function PostOptions({ children, postId, ownerId }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit">
-        <DropdownMenuItem className="cursor-pointer gap-2 hover:font-bold">
-          <Flag size={20} /> Report
-        </DropdownMenuItem>
+        <ReportDiologBox post={postId}>
+          <div className="cursor-pointer flex items-center gap-2 hover:bg-gray-100 p-1 font-bold">
+            <Flag size={20} /> Report
+          </div>
+        </ReportDiologBox>
         {/* <DropdownMenuItem className="cursor-pointer gap-2 hover:font-bold "> <Flag size={20} /> Report</DropdownMenuItem> */}
         {ownerId == user?.uid && (
           <DropdownMenuItem

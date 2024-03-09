@@ -22,6 +22,7 @@ import { PostOptions } from "./PostOptions";
 import { CommentDiologBox } from "./CommentDiologBox";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Flag, HeartCrack, UserX, Trash2 } from "lucide-react";
 
 export default function Post({ post }) {
   const { data, isLoading, error } = UsePostUsertStream(post?.owner);
@@ -95,13 +96,31 @@ export default function Post({ post }) {
           </h2>
 
           {/* //todo popover */}
+          
           <PostOptions postId={post?.postId} ownerId={post?.owner}>
             <MoreHorizontal className="text-xl cursor-pointer " />
           </PostOptions>
         </div>
 
         <p className="py-3 cursor-pointer max-w-lg break-words">
-          {post?.content}
+          {post?.content}{" "}
+          {post?.tags
+            ?.slice(1)
+            ?.split("#")
+            ?.map((tag, index) => (
+              <h1
+                className="
+          text-blue-500
+          cursor-pointer
+          hover:underline
+          w-fit
+          
+          "
+                key={index}
+              >
+                #{tag}
+              </h1>
+            ))}
         </p>
         {post?.media?.length > 0 && (
           <div

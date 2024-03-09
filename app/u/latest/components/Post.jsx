@@ -1,5 +1,5 @@
 import React from "react";
-import { ThumbsUp, ThumbsDown  } from "lucide-react";
+import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { MessageSquare } from "lucide-react";
 import { Share2, Bookmark } from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
@@ -9,6 +9,7 @@ import {
   UsePostAmplifiedStream,
   UsePostCommentsStream,
   UsePostLikesStream,
+  UsePostDisLikesStream,
   UsePostSavedStream,
   UsePostSharedStream,
   UsePostUsertStream,
@@ -27,6 +28,7 @@ export default function Post({ post }) {
   const { user } = useAuth();
   const {
     handleLikePost,
+    handleDisLikePost,
     handleSharePost,
     handleAmplifyPost,
     handleShare,
@@ -44,6 +46,11 @@ export default function Post({ post }) {
     isLoading: postLikesLoading,
     error: postLikesError,
   } = UsePostLikesStream(post?.postId);
+  const {
+    data: postDisLikes,
+    isLoading: postDisLikesLoading,
+    error: postDisLikesError,
+  } = UsePostDisLikesStream(post?.postId);
   const {
     data: postComments,
     isLoading: postCommentsLoading,
@@ -94,7 +101,24 @@ export default function Post({ post }) {
         </div>
 
         <p className="py-3 cursor-pointer max-w-lg break-words">
-          {post?.content}
+          {post?.content}{" "}
+          {post?.tags
+            ?.slice(1)
+            ?.split("#")
+            ?.map((tag, index) => (
+              <h1
+                className="
+          text-blue-500
+          cursor-pointer
+          hover:underline
+          w-fit
+          
+          "
+                key={index}
+              >
+                #{tag}
+              </h1>
+            ))}
         </p>
         {post?.media?.length > 0 && (
           <div
@@ -125,12 +149,12 @@ export default function Post({ post }) {
               disabled={isLikeLoading}
               onClick={() => handleLikePost(post?.postId, post?.owner)}
             >
-              <ThumbsUp 
-                // fill={
-                //   postLikes?.map((like) => like?.uid)?.includes(user?.uid)
-                //     ? "#009ED9"
-                //     : "#fff"
-                // }
+              <ThumbsUp
+                fill={
+                  postLikes?.map((like) => like?.uid)?.includes(user?.uid)
+                    ? "#009ED9"
+                    : "#fff"
+                }
                 stroke={
                   postLikes?.map((like) => like?.uid)?.includes(user?.uid)
                     ? "#009ED9"
@@ -142,24 +166,36 @@ export default function Post({ post }) {
             <span className="text-sm  font-semibold">
               {postLikes?.length || 0}
             </span>
+          </div>
+          <div
+            title="DisLike"
+            className="flex justify-center items-center gap-2"
+          >
             <button
               disabled={isLikeLoading}
-              onClick={() => handleLikePost(post?.postId, post?.owner)}
+              onClick={() => handleDisLikePost(post?.postId, post?.owner)}
             >
-              <ThumbsDown 
-                // fill={
-                //   postLikes?.map((like) => like?.uid)?.includes(user?.uid)
-                //     ? "#009ED9"
-                //     : "#fff"
-                // }
+              <ThumbsDown
+                fill={
+                  postDisLikes
+                    ?.map((dislike) => dislike?.uid)
+                    ?.includes(user?.uid)
+                    ? "#009ED9"
+                    : "#fff"
+                }
                 stroke={
-                  postLikes?.map((like) => like?.uid)?.includes(user?.uid)
+                  postDisLikes
+                    ?.map((dislike) => dislike?.uid)
+                    ?.includes(user?.uid)
                     ? "#009ED9"
                     : "#000"
                 }
                 className="text-xl cursor-pointer hover:text-red-500 "
               />
             </button>
+            <span className="text-sm  font-semibold">
+              {postDisLikes?.length || 0}
+            </span>
           </div>
           <div
             title="Comment"
@@ -221,7 +257,10 @@ export default function Post({ post }) {
               {postShared?.length || 0}
             </span>
           </div>
-          <div title="BookMark" className="flex justify-center items-center gap-2">
+          <div
+            title="BookMark"
+            className="flex justify-center items-center gap-2"
+          >
             <button
               disabled={isSaveLoading}
               onClick={() => handleSavePost(post?.postId, post?.owner)}
