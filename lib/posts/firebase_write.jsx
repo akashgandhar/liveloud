@@ -13,9 +13,10 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { UsePostByIdtStream } from "./firebase_read";
 
 export const CreateNewPost = async ({ user, post }) => {
-  console.log("post data ",post);
+  console.log("post data ", post);
   var finalData = {
     ...post,
     owner: user.uid,
@@ -66,7 +67,7 @@ export const CreateNewPost = async ({ user, post }) => {
 
 export async function uploadFilesToStorage(user, mediaArray) {
   const resultArray = [];
-  
+
 
   for (const mediaObject of mediaArray) {
     const file = mediaObject.file;
@@ -91,7 +92,7 @@ export async function uploadFilesToStorage(user, mediaArray) {
           return getDownloadURL(storageRef);
         })
         .then(async (downloadUrl) => {
-          resultArray.push({ type: type, url: downloadUrl,fileName:mediaObject?.name });
+          resultArray.push({ type: type, url: downloadUrl, fileName: mediaObject?.name });
         });
     } catch (error) {
       console.error(`Error uploading file ${file.name}: ${error.message}`);
@@ -319,3 +320,42 @@ export const ReportPost = async (user, postId, ownerId, report) => {
     return false;
   }
 };
+
+
+export const RepostPost = async (postId, user) => {
+
+
+  var postData = {};
+  const postRef = doc(db, `posts/${postId}`)
+
+
+  const snapShot = await getDoc(postRef);
+
+  if (snapShot.exists) {
+    postData = snapShot.data()
+  }
+
+  const prevOwner = postData?.owner;
+
+  var newPostData = { ...postData, owner: user?.uid, repostedFrom: prevOwner }
+
+
+  await addDoc(collection(db, 'posts'), newPostData).then(async (docRef) => {
+    console.log("Document written with ID: ", docRef.id);
+    newPostData = { ...newPostData, postId: docRef.id };
+    await updateDoc(doc(db, "posts", docRef.id), { postId: docRef.id });
+  });
+
+  await addDoc(collection(db, `posts/${postId}/reposted`), {
+    createdAt: new Date(),
+    uid: user?.uid
+  })
+
+
+  await addDoc(collection(db, `users/${user.uid}/posts`), {
+    postId: newPostData?.postId,
+    createdAt: new Date(),
+  });
+
+
+}

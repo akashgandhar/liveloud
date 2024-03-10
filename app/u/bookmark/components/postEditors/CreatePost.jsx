@@ -14,7 +14,7 @@ import {
 
 import { Textarea } from "@/components/ui/textarea";
 import { MediaCarousel } from "./MediaCarousel";
-import { Smile, ImagePlus } from "lucide-react";
+import { Smile,Plus, ImagePlus,FilePlus2 } from "lucide-react";
 import { useNewPost } from "@/contexts/newPost/context";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
@@ -105,7 +105,7 @@ export function CreatePostDiolog({ children }) {
                 className="hidden"
                 type="file"
               />
-              <ImagePlus className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
+              <Plus className="text-2xl mt-1 text-[#009ED9] cursor-pointer" />
             </label>
             {/* emoji icon */}
             <label className="flex m-2">
@@ -155,6 +155,24 @@ export function CreatePostDiolog({ children }) {
                 </DialogClose>
               </Dialog>
             </label>
+            {/* doc icon */}
+            {/* <label className="flex m-2">
+              <Dialog>
+                <DialogTrigger>
+                <FilePlus2 className="text-2xl mt-1 text-[#009ED9] cursor-pointer"/>
+                </DialogTrigger>
+                <DialogContent className="w-fit py-8">
+                <input
+                onChange={(e) => handleMediaChange(e)}
+                className="hidden"
+                type="file"
+              />
+                </DialogContent>
+                <DialogClose>
+                  <button id="closeBtnGif" className="hidden"></button>
+                </DialogClose>
+              </Dialog>
+            </label> */}
             {/* poll icon */}
             {/* <label className="flex m-2">
       <input className="hidden" type="file" />

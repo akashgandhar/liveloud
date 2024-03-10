@@ -8,6 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Link from "next/link";
 
 export function PostMediaSlider({ postMedia }) {
   // console.log("postMedia", postMedia);
@@ -24,10 +25,11 @@ export function PostMediaSlider({ postMedia }) {
       <CarouselContent>
         {postMedia &&
           postMedia.map((media, index) => (
+
             <CarouselItem key={index}>
               <div className="p-1">
                 <Card>
-                  <CardContent className="flex aspect-square items-center justify-center p-1">
+                  <CardContent className="flex aspect-square items-center justify-center p-1 ">
                     {media?.type === "video" && (
                       <video
                         src={media.url}
@@ -46,6 +48,18 @@ export function PostMediaSlider({ postMedia }) {
                         src={media?.url}
                         className="h-full w-full object-cover rounded-lg"
                       />
+                    )}
+                    {media?.type === "doc" && (
+
+                      <div
+                        className="h-full w-96 aspect-square object-cover rounded-lg flex justify-center items-center flex-col gap-2">
+                        {media?.fileName}
+                        <Link target="_blank" href={media?.url}>
+                          <button className="bg-blue-300 p-2 rounded-lg font-bold">
+                            Download
+                          </button></Link>
+
+                      </div>
                     )}
                   </CardContent>
                 </Card>

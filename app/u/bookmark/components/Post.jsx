@@ -13,6 +13,7 @@ import {
   UsePostSavedStream,
   UsePostSharedStream,
   UsePostUsertStream,
+  UsePostRepostStream,
 } from "@/lib/posts/firebase_read";
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
@@ -22,9 +23,12 @@ import { PostOptions } from "./PostOptions";
 import { CommentDiologBox } from "./CommentDiologBox";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Flag, HeartCrack, UserX, Trash2 } from "lucide-react";
+import { RepostPost } from "@/lib/posts/firebase_write";
 
 export default function Post({ post }) {
   const { data, isLoading, error } = UsePostUsertStream(post?.owner);
+  const { data: RepostUserData, isLoading: repostDataLoading, error: repostError } = UsePostUsertStream(post?.repostedFrom);
   const { user } = useAuth();
   const {
     handleLikePost,
@@ -72,6 +76,11 @@ export default function Post({ post }) {
     isLoading: postSharedLoading,
     error: postSharedError,
   } = UsePostSharedStream(post?.postId);
+  const {
+    data: postReposts,
+    isLoading: postRepostsLoading,
+    error: postRepostsError,
+  } = UsePostRepostStream(post?.postId);
 
   return (
     <div className="flex border dark:text-black rounded-lg ml-0 mr-2 min-w-fit  shadow-lg sm:mx-3 pl-2 pr-1 sm:pr-0 sm:px-5 bg-white py-3 hover:bg-gray-100">
@@ -95,11 +104,12 @@ export default function Post({ post }) {
           </h2>
 
           {/* //todo popover */}
+
           <PostOptions postId={post?.postId} ownerId={post?.owner}>
             <MoreHorizontal className="text-xl cursor-pointer " />
           </PostOptions>
         </div>
-
+        {post?.repostedFrom && <Link href={`/u/${RepostUserData?.uid}`}> <h1 className="text-xs">This Post is Amplified from <span className="hover:underline text-blue-400 hover:cursor-pointer">{RepostUserData?.name}</span> </h1></Link>}
         <p className="py-3 cursor-pointer max-w-lg break-words">
           {post?.content}{" "}
           {post?.tags
@@ -130,7 +140,7 @@ export default function Post({ post }) {
             <div
               // src="/bg.jpg"
               className="max-w-[90%]  rounded-md my-2 mx-auto"
-              // alt="avatar"
+            // alt="avatar"
             >
               <PostMediaSlider postMedia={post?.media} />
             </div>
@@ -213,12 +223,19 @@ export default function Post({ post }) {
             className="flex justify-center items-center gap-2"
           >
             <button
-              disabled={isAmplifyLoading}
-              onClick={() => handleAmplifyPost(post?.postId, post?.owner)}
+              disabled={postRepostsLoading}
+              onClick={() => {
+                if (postReposts?.filter((repost) => {
+                  repost?.uid === user?.uid
+                })?.length > 0 || post?.owner === user?.uid) {
+                  return;
+                }
+                RepostPost(post?.postId, user)
+              }}
             >
               <Volume2
                 stroke={
-                  postAmplified
+                  postReposts
                     ?.map((amplify) => amplify?.uid)
                     ?.includes(user?.uid)
                     ? "#009ED9"
@@ -228,7 +245,7 @@ export default function Post({ post }) {
               />
             </button>
             <span className="text-sm  font-semibold">
-              {postAmplified?.length || 0}
+              {postReposts?.length || 0}
             </span>
           </div>
           <div title="Share" className="flex justify-center items-center gap-2">
