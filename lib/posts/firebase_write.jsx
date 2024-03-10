@@ -15,6 +15,7 @@ import { db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export const CreateNewPost = async ({ user, post }) => {
+  console.log("post data ",post);
   var finalData = {
     ...post,
     owner: user.uid,
@@ -65,10 +66,13 @@ export const CreateNewPost = async ({ user, post }) => {
 
 export async function uploadFilesToStorage(user, mediaArray) {
   const resultArray = [];
+  
 
   for (const mediaObject of mediaArray) {
     const file = mediaObject.file;
     const type = mediaObject.type;
+
+    console.log(mediaObject);
 
     if (type == "gif") {
       resultArray.push({ type: type, url: file.url });
@@ -87,7 +91,7 @@ export async function uploadFilesToStorage(user, mediaArray) {
           return getDownloadURL(storageRef);
         })
         .then(async (downloadUrl) => {
-          resultArray.push({ type: type, url: downloadUrl });
+          resultArray.push({ type: type, url: downloadUrl,fileName:mediaObject?.name });
         });
     } catch (error) {
       console.error(`Error uploading file ${file.name}: ${error.message}`);
