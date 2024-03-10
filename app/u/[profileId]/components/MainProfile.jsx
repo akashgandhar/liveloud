@@ -66,13 +66,13 @@ export default function MainProfile() {
     );
   }
 
-  if (IsProfileLoading) {
-    return (
-      <div className="w-screen h-screen items-center justify-center flex">
-        Loading...
-      </div>
-    );
-  }
+  // if (IsProfileLoading) {
+  //   return (
+  //     <div className="w-screen h-screen items-center justify-center flex">
+  //       Loading...
+  //     </div>
+  //   );
+  // }
 
   return (
     // <div class="container">

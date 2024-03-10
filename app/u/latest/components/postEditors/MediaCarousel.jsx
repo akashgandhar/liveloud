@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useNewPost } from "@/contexts/newPost/context";
+import Link from "next/link";
 
 export function MediaCarousel({ postMedia }) {
   // console.log(postMedia);
@@ -45,6 +46,7 @@ export function MediaCarousel({ postMedia }) {
                   <div className="p-1">
                     <Card>
                       <CardContent className="flex aspect-square items-center justify-center p-1">
+                        
                         {media?.type == "video" ? (
                           <video
                             src={URL.createObjectURL(media.file)}
@@ -56,12 +58,22 @@ export function MediaCarousel({ postMedia }) {
                             src={media?.file?.url}
                             className="h-full w-full object-cover rounded-lg"
                           />
-                        ) : (
+                        ) : media?.type === "image" ? (
                           <img
                             src={URL.createObjectURL(media.file)}
                             className="h-full w-full object-cover rounded-lg"
                           />
-                        )}
+                        ) :
+                          <div
+                            className="h-full w-full object-cover rounded-lg flex justify-center items-center flex-col gap-2">
+                              {media?.file?.name}
+                              <Link target="_blank" href={URL.createObjectURL(media.file) || "https"}>
+                              <button className="bg-blue-300 p-2 rounded-lg font-bold">
+                                Download
+                              </button></Link>
+                              
+                          </div>
+                        }
                       </CardContent>
                     </Card>
                   </div>
