@@ -26,8 +26,8 @@ export default function NewPostProvider({ children }) {
   });
 
   const handleChange = (key, value) => {
-    if(key === "content"){
-      if(value.length > 600){
+    if (key === "content") {
+      if (value.length > 600) {
         return;
       }
     }
@@ -63,6 +63,7 @@ export default function NewPostProvider({ children }) {
       selectedMedia = {
         file: event,
         type: "gif",
+        name:"gif"
       };
 
       setPostData((prevState) => ({
@@ -71,6 +72,8 @@ export default function NewPostProvider({ children }) {
       }));
     } else {
       selectedMedia = event.target.files[0];
+
+      // console.log(selectedMedia);
 
       if (!selectedMedia) return;
       if (
@@ -88,22 +91,27 @@ export default function NewPostProvider({ children }) {
         return;
       }
 
-      if (
-        !selectedMedia.type.startsWith("video/") &&
-        !selectedMedia.type.startsWith("image/")
-      ) {
-        alert("File type not supported");
-        return;
-      }
+      // if (
+      // !selectedMedia.type.startsWith("video/") &&
+      // !selectedMedia.type.startsWith("image/") && 
+      // ) {
+      //   alert("File type not supported");
+      //   return;
+      // }
+
+      console.log(selectedMedia);
 
       if (selectedMedia) {
         const mediaType = selectedMedia.type.startsWith("image/")
           ? "image"
-          : "video";
+          : selectedMedia.type.startsWith("video/") ? "video" : "doc";
         const mediaItem = {
           file: selectedMedia,
           type: mediaType,
+          name: selectedMedia?.name || "Attached File"
         };
+
+        // console.log("fffff",mediaItem);
 
         setPostData((prevState) => ({
           ...prevState,
