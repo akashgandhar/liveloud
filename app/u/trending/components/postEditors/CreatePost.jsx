@@ -83,7 +83,7 @@ export function CreatePostDiolog({ children }) {
             >
               <option value="public">Public</option>
               <option value="private">Private</option>
-              <option value="followers">My Followers Only</option>
+              <option value="followers">Verified accounts</option>
             </select>
             <Input
               className="h-10"
